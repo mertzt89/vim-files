@@ -110,11 +110,24 @@ end
 
 function module.register_plugins()
     -- File tree
-    plugman.use({'kyazdani42/nvim-web-devicons'})
-    plugman.use({'kyazdani42/nvim-tree.lua', config = function()
+    --plugman.use({'kyazdani42/nvim-web-devicons'})
+    --plugman.use({'kyazdani42/nvim-tree.lua', config = function()
+    --    local keybind = require'lib.keybind'
+    --    keybind.bind_command(keybind.mode.NORMAL, "<F6>", ":LuaTreeToggle<CR>", { noremap = true, silent = true })
+    --end})
+    plugman.use({'lambdalisue/fern.vim', config = function()
         local keybind = require'lib.keybind'
-        keybind.bind_command(keybind.mode.NORMAL, "<F6>", ":LuaTreeToggle<CR>", { noremap = true, silent = true })
+        local plugman = require'lib.plugman'
+
+        keybind.bind_command(keybind.mode.NORMAL, "<F6>", ":Fern . -drawer -toggle<CR>", { noremap = true, silent = true })
+
+        if plugman.has_plugin('fern-renderer-nerdfont.vim') then
+            vim.g['fern#renderer'] = "nerdfont"
+        end
     end})
+    plugman.use({'lambdalisue/fern-renderer-nerdfont.vim', requires = {
+                {'lambdalisue/nerdfont.vim'}
+        }})
 
     -- Multiple cursors
     plugman.use({'terryma/vim-multiple-cursors'})
