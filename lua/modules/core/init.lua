@@ -158,6 +158,9 @@ function module.register_plugins()
     -- Git integration
     plugman.use({'tpope/vim-fugitive'})
 
+    -- Sneak (easy motion alternative)
+    plugman.use({'justinmk/vim-sneak'})
+
     -- Fuzzy grepping, file finding, etc..
     register_telescope()
 end
