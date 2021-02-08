@@ -223,6 +223,11 @@ function module.init()
     keybind.bind_command(keybind.mode.NORMAL, "th", ":tabprevious<CR>", { noremap = true, silent = true })
     keybind.bind_command(keybind.mode.NORMAL, "tl", ":tabnext<CR>", { noremap = true, silent = true })
 
+    -- Remove trailing whitespace
+    autocmd.bind("BufWritePre *", function()
+        vim.cmd(":%s/\\s\\+$//e")
+    end)
+
     if file.is_readable("./.project.lua") then
         dofile("./.project.lua")
     end
