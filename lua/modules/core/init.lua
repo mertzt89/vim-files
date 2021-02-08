@@ -155,6 +155,8 @@ function module.register_plugins()
     -- Extra filetypes/syntax definitions
     plugman.use({'sheerun/vim-polyglot'})
 
+    plugman.use({'tpope/vim-fugitive'})
+
     -- Fuzzy grepping, file finding, etc..
     register_telescope()
 end
