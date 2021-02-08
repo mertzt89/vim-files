@@ -40,7 +40,7 @@ function _G.grep_operator(t, ...)
     vim.fn.setreg("@", regsave)
     print(query)
     
-    require'telescope.builtin'.grep_string({string=query})
+    require'telescope.builtin'.grep_string({search=query})
 end
 
 local function register_telescope()
@@ -56,7 +56,7 @@ local function register_telescope()
 
             require'telescope'.setup {
                 defaults = {
-                    file_sorter = require'telescope.sorters'.get_fzy_sorter,
+                    file_sorter = require'telescope.sorters'.get_fuzzy_file,
                     mappings = {
                         i = {
                             ["<C-j>"] = actions.move_selection_next,
@@ -102,8 +102,8 @@ local function register_telescope()
                     }
                 }
             } -- end telescope setup
-        keybind.bind_command(keybind.mode.NORMAL, "<C-p>", ":Telescope find_files<CR>", { noremap = true, silent = true })
-        keybind.bind_command(keybind.mode.NORMAL, "<F3>", ":Telescope buffers<CR>", { noremap = true, silent = true })
+        keybind.bind_command(keybind.mode.NORMAL, "<C-p>", ":Telescope find_files find_command=rg,--files,-L,--no-ignore-vcs,--hidden<CR>", { noremap = true, silent = true })
+        keybind.bind_command(keybind.mode.NORMAL, "<F3>", ":Telescope buffers show_all_buffers=true<CR>", { noremap = true, silent = true })
         end
     })
 end
