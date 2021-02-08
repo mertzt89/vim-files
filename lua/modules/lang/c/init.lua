@@ -32,9 +32,10 @@ function module.init()
         }
       })
 
-  -- Ignore cargo output
+  -- Ignore common build output directories
   file.add_to_wildignore(".build")
   file.add_to_wildignore("build")
+  file.add_to_wildignore("*.o")
 
   build.make_builder()
     :with_filetype("c")
