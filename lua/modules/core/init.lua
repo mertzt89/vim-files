@@ -45,9 +45,9 @@ end
 
 local function register_telescope()
     -- Telescope
-    plugman.use({'nvim-telescope/telescope.nvim', 
+    plugman.use({'nvim-telescope/telescope.nvim',
         requires = {
-            {'nvim-lua/popup.nvim'}, 
+            {'nvim-lua/popup.nvim'},
             {'nvim-lua/plenary.nvim'}
         },
         config = function()
@@ -155,6 +155,7 @@ function module.register_plugins()
     -- Extra filetypes/syntax definitions
     plugman.use({'sheerun/vim-polyglot'})
 
+    -- Git integration
     plugman.use({'tpope/vim-fugitive'})
 
     -- Fuzzy grepping, file finding, etc..
@@ -195,11 +196,11 @@ function module.init()
 
     -- Highlight search
     vim.o.hlsearch = true
-    
+
     -- Incremental search
     vim.o.incsearch = true
     vim.o.inccommand = "split"
-    
+
     -- Enable mouse support
     vim.o.mouse = "ar"
 

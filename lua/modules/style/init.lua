@@ -15,14 +15,14 @@ function module.register_plugins()
     plugman.use({'morhetz/gruvbox'})
 
     -- Airline
-    plugman.use({'bling/vim-airline', config = function() 
-        vim.g.airline_theme = 'dark' 
+    plugman.use({'bling/vim-airline', config = function()
+        vim.g.airline_theme = 'dark'
         vim.g.airline_powerline_fonts = 1
     end})
 
     -- Hightlight word under cursor
-    plugman.use({'RRethy/vim-illuminate', config = function() 
-        vim.g.Illuminate_delay = 75 
+    plugman.use({'RRethy/vim-illuminate', config = function()
+        vim.g.Illuminate_delay = 75
     end})
 end
 
@@ -42,10 +42,10 @@ function module.init()
 
     -- Visibile whitespace
     set_default_win_opt("list", true)
-    set_default_win_opt("listchars", "tab:>-,space:·") 
+    set_default_win_opt("listchars", "tab:>-,space:·")
 
     -- No soft wrapping
-    set_default_win_opt("wrap", false) 
+    set_default_win_opt("wrap", false)
 
     vim.g.gruvbox_contrast_dark = 'hard'
     vim.g.gruvbox_contrast_light = 'hard'
