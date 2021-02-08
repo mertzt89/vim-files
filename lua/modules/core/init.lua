@@ -39,8 +39,8 @@ function _G.grep_operator(t, ...)
 
     vim.fn.setreg("@", regsave)
     print(query)
-    
-    require'telescope.builtin'.grep_string({search=query})
+
+    require'telescope.builtin'.grep_string({find_command="rg,--no-ignore-vcs,--hidden",search=query})
 end
 
 local function register_telescope()
