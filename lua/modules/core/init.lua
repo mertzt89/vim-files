@@ -40,7 +40,7 @@ function _G.grep_operator(t, ...)
     vim.fn.setreg("@", regsave)
     print(query)
 
-    require'telescope.builtin'.grep_string({find_command="rg,--no-ignore-vcs,--hidden",search=query})
+    require'telescope.builtin'.grep_string({find_command="rg,--no-ignore,--hidden,--no-heading,--vimgrep",search=query})
 end
 
 local function register_telescope()
@@ -56,48 +56,71 @@ local function register_telescope()
 
             require'telescope'.setup {
                 defaults = {
+                    vimgrep_arguments = {
+                        'rg',
+                        '--color=never',
+                        '--no-heading',
+                        '--with-filename',
+                        '--line-number',
+                        '--column',
+                        '--smart-case',
+                        '--no-ignore-vcs',
+                    },
                     file_sorter = require'telescope.sorters'.get_fuzzy_file,
                     mappings = {
                         i = {
-                            ["<C-j>"] = actions.move_selection_next,
-                            ["<C-n>"] = actions.move_selection_next,
-                            ["<Down>"] = actions.move_selection_next,
+                        ["<C-n>"] = actions.move_selection_next,
+                        ["<C-j>"] = actions.move_selection_next,
+                        ["<C-p>"] = actions.move_selection_previous,
+                        ["<C-k>"] = actions.move_selection_previous,
 
-                            ["<C-k>"] = actions.move_selection_previous,
-                            ["<C-p>"] = actions.move_selection_previous,
-                            ["<Up>"] = actions.move_selection_previous,
+                        ["<C-c>"] = actions.close,
 
-                            ["<C-c>"] = actions.close,
+                        ["<Down>"] = actions.move_selection_next,
+                        ["<Up>"] = actions.move_selection_previous,
 
-                            ["<CR>"] = actions.goto_file_selection_edit + actions.center,
-                            ["<C-x>"] = actions.goto_file_selection_split,
-                            ["<C-v>"] = actions.goto_file_selection_vsplit,
-                            ["<C-t>"] = actions.goto_file_selection_tabedit,
+                        ["<CR>"] = actions.select_default + actions.center,
+                        ["<C-x>"] = actions.select_horizontal,
+                        ["<C-v>"] = actions.select_vertical,
+                        ["<C-t>"] = actions.select_tab,
 
-                            ["<C-u>"] = actions.preview_scrolling_up,
-                            ["<C-d>"] = actions.preview_scrolling_down,
+                        ["<C-u>"] = actions.preview_scrolling_up,
+                        ["<C-d>"] = actions.preview_scrolling_down,
+
+                        ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                        ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                        ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                        ["<C-l>"] = actions.complete_tag
                         },
 
                         n = {
-                            ["<esc>"] = actions.close,
-                            ["q"] = actions.close,
-                            ["<CR>"] = actions.goto_file_selection_edit + actions.center,
-                            ["<C-x>"] = actions.goto_file_selection_split,
-                            ["<C-v>"] = actions.goto_file_selection_vsplit,
-                            ["<C-t>"] = actions.goto_file_selection_tabedit,
+                        ["<esc>"] = actions.close,
+                        ["q"] = actions.close,
+                        ["<CR>"] = actions.select_default + actions.center,
+                        ["<C-x>"] = actions.select_horizontal,
+                        ["<C-v>"] = actions.select_vertical,
+                        ["<C-t>"] = actions.select_tab,
 
-                            ["j"] = actions.move_selection_next,
-                            ["<C-j>"] = actions.move_selection_next,
-                            ["<C-n>"] = actions.move_selection_next,
-                            ["<Down>"] = actions.move_selection_next,
+                        ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                        ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                        ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 
-                            ["k"] = actions.move_selection_previous,
-                            ["<C-k>"] = actions.move_selection_previous,
-                            ["<C-p>"] = actions.move_selection_previous,
-                            ["<Up>"] = actions.move_selection_previous,
+                        -- TODO: This would be weird if we switch the ordering.
+                        ["j"] = actions.move_selection_next,
+                        ["<C-j>"] = actions.move_selection_next,
+                        ["k"] = actions.move_selection_previous,
+                        ["<C-k>"] = actions.move_selection_previous,
+                        ["H"] = actions.move_to_top,
+                        ["M"] = actions.move_to_middle,
+                        ["L"] = actions.move_to_bottom,
 
-                            ["<C-u>"] = actions.preview_scrolling_up,
-                            ["<C-d>"] = actions.preview_scrolling_down,
+                        ["<Down>"] = actions.move_selection_next,
+                        ["<Up>"] = actions.move_selection_previous,
+
+                        ["<C-u>"] = actions.preview_scrolling_up,
+                        ["<C-d>"] = actions.preview_scrolling_down,
                         },
                     }
                 }
