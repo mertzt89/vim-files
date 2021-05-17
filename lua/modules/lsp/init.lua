@@ -10,7 +10,38 @@ local module = {}
 --- Returns plugins required for this module
 function module.register_plugins()
   plugman.use({"neovim/nvim-lspconfig"})
-  plugman.use({"haorenW1025/completion-nvim"})
+  plugman.use({"hrsh7th/nvim-compe", config = function()
+    require'compe'.setup {
+        enabled = true;
+        autocomplete = true;
+        debug = false;
+        min_length = 1;
+        preselect = 'enable';
+        throttle_time = 80;
+        source_timeout = 200;
+        incomplete_delay = 400;
+        max_abbr_width = 100;
+        max_kind_width = 100;
+        max_menu_width = 100;
+        documentation = true;
+
+        source = {
+            path = true;
+            buffer = true;
+            calc = true;
+            nvim_lsp = true;
+            nvim_lua = true;
+            vsnip = true;
+        };
+    }
+  end})
+  plugman.use({
+    "folke/lsp-trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+      }
+  end })
 end
 
 local function user_stop_all_clients()
@@ -153,10 +184,10 @@ module.filetype_servers = {}
 -- @param server An LSP server definition (in the format expected by `nvim_lsp`)
 -- @param config The config for the server (in the format expected by `nvim_lsp`)
 function module.register_server(server, config)
-  local completion = require("completion") -- From completion-nvim
+  --local completion = require("completion") -- From completion-nvim
 
   config = config or {}
-  config.on_attach = completion.on_attach
+  --config.on_attach = completion.on_attach
   config = vim.tbl_extend("keep", config, server.document_config.default_config)
 
   server.setup(config)
