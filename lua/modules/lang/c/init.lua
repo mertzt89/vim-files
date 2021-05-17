@@ -15,7 +15,8 @@ function module.init()
   local lspconfig = require("lspconfig")
 
   lsp.register_server(lspconfig.ccls, {
-      initializationOptions =  {
+      root_dir = lspconfig.util.root_pattern("compile_commands.json"),
+      init_options =  {
         cache = {
           directory = "/tmp/ccls-cache"
         }
