@@ -24,6 +24,18 @@ function module.register_plugins()
     plugman.use({'RRethy/vim-illuminate', config = function()
         vim.g.Illuminate_delay = 75
     end})
+
+    -- Tresitter
+    plugman.use({'nvim-treesitter/nvim-treesitter', config = function()
+        require'nvim-treesitter.configs'.setup {
+            ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+            ignore_install = {}, -- List of parsers to ignore installing
+            highlight = {
+                enable = true,              -- false will disable the whole extension
+                disable = {},  -- list of language that will be disabled
+            },
+        }
+    end, run = ':TSUpdate'})
 end
 
 -- The startup window doesn't seem to pick up on vim.o changes >.<
