@@ -54,6 +54,13 @@ function module.init()
     if not pcall(vim.api.nvim_command, "colorscheme gruvbox") then
         vim.api.nvim_command("colorscheme elflord")
     end
+
+    --autocmd.bind_colorscheme(function()
+    --    vim.cmd("highlight LspDiagnosticsDefaultError ctermfg=167 ctermbg=none guifg=#CC6666 guibg=none")
+    --    vim.cmd("highlight LspDiagnosticsDefaultWarning ctermfg=167 ctermbg=none guifg=#CCA666 guibg=none")
+    --    vim.cmd("highlight LspDiagnosticsDefaultInformation ctermfg=167 ctermbg=none guifg=#66A9CC guibg=none")
+    --    vim.cmd("highlight LspDiagnosticsDefaultHint ctermfg=167 ctermbg=none guifg=#85CC66 guibg=none")
+    --end)
 end
 
 return module
