@@ -1,5 +1,4 @@
 --- Autocommand support
-
 local signal = require("lib.signal")
 local Signal = signal.Signal
 
@@ -24,7 +23,9 @@ function autocmd.bind(trigger, func)
     cmd_signal = Signal()
     autocmd._bound_signals[trigger] = cmd_signal
 
-    local cmd = "autocmd " .. trigger .. " lua require('lib.autocmd')._bound_signals['" .. trigger .."']:emit()"
+    local cmd = "autocmd " .. trigger ..
+                  " lua require('lib.autocmd')._bound_signals['" .. trigger ..
+                  "']:emit()"
     vim.api.nvim_command("augroup c_autocmd")
     vim.api.nvim_command(cmd)
     vim.api.nvim_command("augroup END")
@@ -44,9 +45,7 @@ function autocmd.bind_filetype(filetypes, func)
 
     -- HACK?: Workaround for the FileType autocmd not being fired on launch for some reason...
     autocmd.bind_vim_enter(function()
-      if vim.bo.ft == filetypes then
-        func()
-      end
+      if vim.bo.ft == filetypes then func() end
     end)
   elseif type(filetypes) == "table" then
     trigger = "FileType " .. table.concat(filetypes, ",")
@@ -70,65 +69,47 @@ end
 --- Register a callback for when Vim launches
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_vim_enter(func)
-  autocmd.bind("VimEnter *", func)
-end
+function autocmd.bind_vim_enter(func) autocmd.bind("VimEnter *", func) end
 
 --- Register a callback for colorscheme changes
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_colorscheme(func)
-  autocmd.bind("Colorscheme *", func)
-end
+function autocmd.bind_colorscheme(func) autocmd.bind("Colorscheme *", func) end
 
 --- Register a callback for when completion is done
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_complete_done(func)
-  autocmd.bind("CompleteDone *", func)
-end
+function autocmd.bind_complete_done(func) autocmd.bind("CompleteDone *", func) end
 
 --- Register a callback for when no key is pressed for `updatetime` in normal mode
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_cursor_hold(func)
-  autocmd.bind("CursorHold *", func)
-end
+function autocmd.bind_cursor_hold(func) autocmd.bind("CursorHold *", func) end
 
 --- Register a callback for a window is about to be closed with :quit/:wq/:qall
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_quit_pre(func)
-  autocmd.bind("QuitPre *", func)
-end
+function autocmd.bind_quit_pre(func) autocmd.bind("QuitPre *", func) end
 
 --- Register a callback for after window has been closed
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_win_closed(func)
-  autocmd.bind("WinClosed *", func)
-end
+function autocmd.bind_win_closed(func) autocmd.bind("WinClosed *", func) end
 
 --- Register a callback for when entering a window
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_win_enter(func)
-  autocmd.bind("WinEnter *", func)
-end
+function autocmd.bind_win_enter(func) autocmd.bind("WinEnter *", func) end
 
 --- Register a callback for when entering a buffer
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_buf_enter(func)
-  autocmd.bind("BufEnter *", func)
-end
+function autocmd.bind_buf_enter(func) autocmd.bind("BufEnter *", func) end
 
 --- Register a callback for after saving a buffer
 --
 -- @tparam function func The function to call when the autocommand fires
-function autocmd.bind_buf_write_post(func)
-  autocmd.bind("BufWritePost *", func)
-end
+function autocmd.bind_buf_write_post(func) autocmd.bind("BufWritePost *", func) end
 
 return autocmd
 

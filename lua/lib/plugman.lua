@@ -1,32 +1,34 @@
-local log = require'lib.log'
+local log = require 'lib.log'
 
 local plugman = {}
 local plugins = {}
 
 local function require_packer()
-    local execute = vim.api.nvim_command
-    local fn = vim.fn
+  local execute = vim.api.nvim_command
+  local fn = vim.fn
 
-    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = fn.stdpath('data') ..
+                         '/site/pack/packer/start/packer.nvim'
 
-    if fn.empty(fn.glob(install_path)) > 0 then
-        execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    end
+  if fn.empty(fn.glob(install_path)) > 0 then
+    execute('!git clone https://github.com/wbthomason/packer.nvim ' ..
+              install_path)
+  end
 
-    execute 'packadd packer.nvim'
-    return require'packer'
+  execute 'packadd packer.nvim'
+  return require 'packer'
 end
 local packer = require_packer()
 
 function plugman.use(plugin)
-    if plugin[1] == vim.NIL or plugin[1] == nil then
-        log.warning('Nil plugin name provided!')
-        return
-    end
+  if plugin[1] == vim.NIL or plugin[1] == nil then
+    log.warning('Nil plugin name provided!')
+    return
+  end
 
-    table.insert(plugins, plugin[1])
+  table.insert(plugins, plugin[1])
 
-    packer.use(plugin)
+  packer.use(plugin)
 end
 
 function plugman.has_plugin(plugin)
@@ -45,21 +47,16 @@ function plugman.has_plugin(plugin)
   return false
 end
 
-local function err_handler(err)
-    return {
-        err = err,
-        traceback = debug.traceback(),
-    }
-end
+local function err_handler(err) return
+  {err = err, traceback = debug.traceback()} end
 
 function plugman.init()
-    packer.init({auto_reload_compiled = false})
-    packer.reset()
+  packer.init({auto_reload_compiled = false})
+  packer.reset()
 
-    packer.use{'wbthomason/packer.nvim'}
+  packer.use {'wbthomason/packer.nvim'}
 end
 
-function plugman.done()
-end
+function plugman.done() end
 
 return plugman

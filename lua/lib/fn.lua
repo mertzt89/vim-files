@@ -1,5 +1,4 @@
 --- Function management
-
 local fn = {}
 
 fn._bound_funcs = {}

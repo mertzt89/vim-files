@@ -1,5 +1,4 @@
 --- Lua module
-
 local autocmd = require("lib.autocmd")
 
 local module = {}
@@ -11,8 +10,7 @@ local function on_filetype_lua()
 end
 
 --- Returns plugins required for this module
-function module.register_plugins()
-end
+function module.register_plugins() end
 
 --- Configures vim and plugins for this module
 function module.init()
@@ -20,7 +18,7 @@ function module.init()
   local lspconfig = require("lspconfig")
 
   -- TODO: Make this configurable per-project
-  --lsp.register_server(
+  -- lsp.register_server(
   --  lspconfig.sumneko_lua,
   --  {
   --    settings = {
@@ -33,9 +31,9 @@ function module.init()
   --      },
   --    },
   --  }
-  --)
+  -- )
 
-  --autocmd.bind_filetype("lua", on_filetype_lua)
+  -- autocmd.bind_filetype("lua", on_filetype_lua)
 end
 
 return module

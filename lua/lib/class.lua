@@ -1,5 +1,4 @@
 --- A potentially over-engineered class system for Lua
-
 local function type_instance_of(a, b)
   if a == b then return true end
 
@@ -97,18 +96,17 @@ local class_property_flag = {}
 -- <br>
 -- This table is empty and only serves as a unique flag
 local NULL = {}
-setmetatable(
-  NULL,
-  {
-    -- __index = function(t, k)
-    --   error("Tried to read property '" .. tostring(k) .. "' from NULL")
-    -- end,
+setmetatable(NULL, {
+  -- __index = function(t, k)
+  --   error("Tried to read property '" .. tostring(k) .. "' from NULL")
+  -- end,
 
-    __newindex = function(t, k, v)
-      error("Tried to write '" .. tostring(v) .. "' to property '" .. tostring(k) .. "' from NULL")
-    end,
-  }
-)
+  __newindex = function(t, k, v)
+    error(
+      "Tried to write '" .. tostring(v) .. "' to property '" .. tostring(k) ..
+        "' from NULL")
+  end
+})
 
 --- Define custom getter and setter methods for a property, which do not need to be called explicitly
 --
@@ -153,11 +151,7 @@ local function property(args)
     error("property requires a 'set' function", 2)
   end
 
-  return {
-    get = args.get,
-    set = args.set,
-    [class_property_flag] = true,
-  }
+  return {get = args.get, set = args.set, [class_property_flag] = true}
 end
 
 --- Check if an object's type is other or derived from other
@@ -175,9 +169,7 @@ end
 -- local inst = D()
 -- print(inst:__instance_of(A)) -- true
 -- print(class.instance_of(inst, A)) -- true
-local function instance_of(a, b)
-  return a:__instance_of(b)
-end
+local function instance_of(a, b) return a:__instance_of(b) end
 
 --- Create a new class inherited from other classes
 --
@@ -191,7 +183,9 @@ local function new_inherited_class(extends, strict)
     if not strict then
       for _, v in pairs(extends) do
         if v.__strict then
-          error("Tried to create a non-strict class with a parent class that is strict", 2)
+          error(
+            "Tried to create a non-strict class with a parent class that is strict",
+            2)
         end
       end
     end
@@ -218,9 +212,7 @@ local function new_inherited_class(extends, strict)
     end
 
     -- Remove properties from the class table as we rely on the __index and __newindex metamethods
-    for k, _ in pairs(properties) do
-      members[k] = nil
-    end
+    for k, _ in pairs(properties) do members[k] = nil end
 
     -- Inheritance locator is a function for __index, to locate a value for a given key
     local inheritance_locator
@@ -270,13 +262,17 @@ local function new_inherited_class(extends, strict)
         if prop then return prop.get(t) end
 
         local member = members[k]
-        if member == nil then error("Tried to read from undeclared member '" .. tostring(k) .. "'") end
+        if member == nil then
+          error("Tried to read from undeclared member '" .. tostring(k) .. "'")
+        end
         return member
       end
     elseif strict then
       instance_index = function(_, k)
         local member = members[k]
-        if member == nil then error("Tried to read from undeclared member '" .. tostring(k) .. "'") end
+        if member == nil then
+          error("Tried to read from undeclared member '" .. tostring(k) .. "'")
+        end
         return member
       end
     end
@@ -295,24 +291,30 @@ local function new_inherited_class(extends, strict)
         local prop = properties[k]
         if prop then return prop.set(t, v) end
 
-        if t[k] == nil then error("Tried to assign to undeclared member '" .. k .. "'") end
+        if t[k] == nil then
+          error("Tried to assign to undeclared member '" .. k .. "'")
+        end
         rawset(t, k, v)
       end
     elseif strict then
       instance_newindex = function(t, k, v)
-        if t[k] == nil then error("Tried to assign to undeclared member '" .. k .. "'") end
+        if t[k] == nil then
+          error("Tried to assign to undeclared member '" .. k .. "'")
+        end
         rawset(t, k, v)
       end
     end
 
     local obj_metatable = {
       __index = instance_index,
-      __newindex = instance_newindex,
+      __newindex = instance_newindex
     }
 
     for _, v in pairs(extends) do
       if v.__members.__mt then
-        for mt_k, mt_v in pairs(v.__members.__mt) do obj_metatable[mt_k] = mt_v end
+        for mt_k, mt_v in pairs(v.__members.__mt) do
+          obj_metatable[mt_k] = mt_v
+        end
       end
     end
 
@@ -333,9 +335,7 @@ local function new_inherited_class(extends, strict)
       local args = {...}
       table.remove(args, 1)
 
-      local t = {
-        __type = type_value,
-      }
+      local t = {__type = type_value}
       setmetatable(t, obj_metatable)
       members.__init(t, unpack(args))
 
@@ -350,7 +350,7 @@ local function new_inherited_class(extends, strict)
     setmetatable(type_value, {
       [class_flag] = true,
       __index = type_value.__members, -- For easy super calls
-      __call = type_value.__new,
+      __call = type_value.__new
     })
 
     return type_value
@@ -439,9 +439,7 @@ end
 --     Named.__init(self, name)
 --   end,
 -- }
-local function strict(...)
-  return new_class({...}, true)
-end
+local function strict(...) return new_class({...}, true) end
 
 --- @export
 local class = {
@@ -449,7 +447,7 @@ local class = {
   BaseType = BaseType,
   property = property,
   instance_of = instance_of,
-  NULL = NULL,
+  NULL = NULL
 }
 
 setmetatable(class, {
@@ -591,7 +589,7 @@ setmetatable(class, {
     local args = {...}
     table.remove(args, 1)
     return new_class(args, false)
-  end,
+  end
 })
 
 return class

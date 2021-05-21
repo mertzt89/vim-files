@@ -1,56 +1,39 @@
 --- Keybind management
-
 local keybind = {}
 
 keybind.mode = {}
 
 --- Normal mode
-keybind.mode.NORMAL = {
-  map_prefix = "n",
-}
+keybind.mode.NORMAL = {map_prefix = "n"}
 
 --- Visual mode
-keybind.mode.VISUAL = {
-  map_prefix = "x",
-}
+keybind.mode.VISUAL = {map_prefix = "x"}
 
 --- Select mode
-keybind.mode.SELECT = {
-  map_prefix = "s",
-}
+keybind.mode.SELECT = {map_prefix = "s"}
 
 --- Not a real mode, just for the vmap/vnoremap commands
-keybind.mode.VISUAL_SELECT = {
-  map_prefix = "v",
-}
+keybind.mode.VISUAL_SELECT = {map_prefix = "v"}
 
 --- Insert mode
-keybind.mode.INSERT = {
-  map_prefix = "i",
-}
+keybind.mode.INSERT = {map_prefix = "i"}
 
 --- Command mode
-keybind.mode.COMMAND = {
-  map_prefix = "c",
-}
+keybind.mode.COMMAND = {map_prefix = "c"}
 
 --- Operator pending mode
-keybind.mode.OPERATOR_PENDING = {
-  map_prefix = "o",
-}
+keybind.mode.OPERATOR_PENDING = {map_prefix = "o"}
 
 --- Terminal mode
-keybind.mode.TERMINAL = {
-  map_prefix = "t",
-}
+keybind.mode.TERMINAL = {map_prefix = "t"}
 
 keybind._leader_info = {}
 
---function keybind.register_plugins()
+-- function keybind.register_plugins()
 --  plug.add_plugin("liuchengxu/vim-which-key")
---end
+-- end
 
---function keybind.post_init()
+-- function keybind.post_init()
 --  local leader = vim.api.nvim_get_var("mapleader")
 --  local local_leader = vim.api.nvim_get_var("maplocalleader")
 --
@@ -73,16 +56,14 @@ keybind._leader_info = {}
 --    col = -2,
 --    width = -1,
 --  }
---end
+-- end
 
 --- Split a key sequence string like "fed" into { "f", "e", "d" }
 local function split_keys(keys)
   local keys_split = {}
 
   -- TODO: Support <C-f> and <tab> and etc. style syntax
-  for c in string.gmatch(keys, ".") do
-    table.insert(keys_split, c)
-  end
+  for c in string.gmatch(keys, ".") do table.insert(keys_split, c) end
 
   return keys_split
 end
@@ -126,9 +107,7 @@ function keybind.bind_command(mode, keys, command, options, name)
 
   vim.api.nvim_set_keymap(mode.map_prefix, keys, command, options)
 
-  if name ~= nil then
-    add_info(keys, name)
-  end
+  if name ~= nil then add_info(keys, name) end
 end
 
 --- Map a key sequence to a Vim command
@@ -143,9 +122,7 @@ function keybind.buf_bind_command(mode, keys, command, options, name)
 
   vim.api.nvim_buf_set_keymap(0, mode.map_prefix, keys, command, options)
 
-  if name ~= nil then
-    add_info(keys, name)
-  end
+  if name ~= nil then add_info(keys, name) end
 end
 
 keybind._bound_funcs = {}
@@ -177,17 +154,14 @@ function keybind.bind_function(mode, keys, func, options, name)
 
   keybind._bound_funcs[func_name] = func
 
-  local lua_command = ":lua require('lib.keybind')._bound_funcs['" .. func_name_escaped .. "']()<CR>"
+  local lua_command = ":lua require('lib.keybind')._bound_funcs['" ..
+                        func_name_escaped .. "']()<CR>"
   -- Prefix with <C-o> if this is an insert-mode mapping
-  if mode.map_prefix == "i" then
-    lua_command = "<C-o>" .. lua_command
-  end
+  if mode.map_prefix == "i" then lua_command = "<C-o>" .. lua_command end
 
   vim.api.nvim_set_keymap(mode.map_prefix, keys, lua_command, options)
 
-  if name ~= nil then
-    add_info(keys, name)
-  end
+  if name ~= nil then add_info(keys, name) end
 end
 
 --- Set a key group name

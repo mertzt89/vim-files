@@ -1,5 +1,4 @@
 --- Command management
-
 local command = {}
 
 command._bound_funcs = {}
@@ -28,7 +27,8 @@ function command.make_command(cmd, func, num_args)
 
   command._bound_funcs[func_name] = func
 
-  local lua_command = "lua require('lib.command')._bound_funcs['" .. func_name_escaped .. "']('<args>')"
+  local lua_command = "lua require('lib.command')._bound_funcs['" ..
+                        func_name_escaped .. "']('<args>')"
   vim.cmd("command! -nargs=" .. num_args .. " " .. cmd .. " " .. lua_command)
 end
 

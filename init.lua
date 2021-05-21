@@ -1,8 +1,7 @@
 --
 -- init.lua
 --
-
-local module = require'lib.module'
+local module = require 'lib.module'
 
 module.add("modules.build")
 module.add("modules.core")

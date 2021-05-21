@@ -1,5 +1,4 @@
 --- Signals
-
 local class = require("lib.class")
 
 local signal = {}
@@ -38,9 +37,7 @@ signal.Signal = class.strict {
     return results
   end,
 
-  connect = function(self, slot)
-    table.insert(self._connections, slot)
-  end,
+  connect = function(self, slot) table.insert(self._connections, slot) end,
 
   connect_weak = function(self, slot)
     table.insert(self._connections_weak, slot)
@@ -54,18 +51,14 @@ signal.Signal = class.strict {
     -- Iterate backwards because we remove stuff from the table while iterating
     for i = #self._connections, 1, -1 do
       local obj = self._connections[i]
-      if obj == slot then
-        table.remove(self._connections, i)
-      end
+      if obj == slot then table.remove(self._connections, i) end
     end
 
     for i = #self._connections_weak, 1, -1 do
       local obj = self._connections_weak[i]
-      if obj == slot then
-        table.remove(self._connections_weak, i)
-      end
+      if obj == slot then table.remove(self._connections_weak, i) end
     end
-  end,
+  end
 }
 
 return signal
