@@ -49,6 +49,13 @@ function module.register_plugins()
             },
         }
     end, run = ':TSUpdate'})
+
+    ---- Todo Comments (highlight todo/hack/note/etc.)
+    plugman.use({'folke/todo-comments.nvim',
+            requires = 'nvim-lua/plenary.nvim',
+            config = function()
+                require'todo-comments'.setup{}
+    end})
 end
 
 -- The startup window doesn't seem to pick up on vim.o changes >.<
