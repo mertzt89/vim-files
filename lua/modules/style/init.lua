@@ -8,9 +8,6 @@ local plugman = require'lib.plugman'
 local module = {}
 
 function module.register_plugins()
-    -- Packer can manage itself as an optional plugin
-    plugman.use({'wbthomason/packer.nvim', opt = true})
-
     -- Gruvbox colorscheme
     plugman.use({'morhetz/gruvbox'})
 

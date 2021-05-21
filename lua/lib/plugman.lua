@@ -7,7 +7,7 @@ local function require_packer()
     local execute = vim.api.nvim_command
     local fn = vim.fn
 
-    local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
     if fn.empty(fn.glob(install_path)) > 0 then
         execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
@@ -27,7 +27,7 @@ function plugman.use(plugin)
     table.insert(plugins, plugin[1])
 
     packer.use(plugin)
-end 
+end
 
 function plugman.has_plugin(plugin)
   plugin = "/" .. plugin
@@ -53,12 +53,13 @@ local function err_handler(err)
 end
 
 function plugman.init()
-    packer.init()
+    packer.init({auto_reload_compiled = false})
     packer.reset()
+
+    packer.use{'wbthomason/packer.nvim'}
 end
 
 function plugman.done()
-    packer.compile()
 end
 
 return plugman
