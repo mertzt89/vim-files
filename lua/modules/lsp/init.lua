@@ -69,8 +69,8 @@ local function user_attach_client()
   end
 end
 
---- Get the LSP status line part for vim-airline
-function module._get_airline_part()
+--- Get the LSP status line part
+function module.status_line_part()
   local clients = vim.lsp.buf_get_clients()
   local client_names = {}
   for _, v in pairs(clients) do
@@ -153,21 +153,6 @@ function module.init()
   -- autocmd.bind_cursor_hold(function()
     -- vim.cmd("lua vim.lsp.buf.hover()")
   -- end)
-
-  -- Show in vim-airline the attached LSP client
-  if plugman.has_plugin("vim-airline") then
-    vim.api.nvim_exec(
-      [[
-      function! CLspGetAirlinePart()
-        return luaeval("require('modules.lsp')._get_airline_part()")
-      endfunction
-      ]],
-      false
-      )
-    vim.fn["airline#parts#define_function"]("c_lsp", "CLspGetAirlinePart")
-    vim.fn["airline#parts#define_accent"]("c_lsp", "yellow")
-    vim.g.airline_section_y = vim.fn["airline#section#create_right"]{"c_lsp", "ffenc"}
-  end
 end
 
 --- Maps filetypes to their server definitions

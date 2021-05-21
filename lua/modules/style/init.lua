@@ -14,11 +14,22 @@ function module.register_plugins()
     -- Gruvbox colorscheme
     plugman.use({'morhetz/gruvbox'})
 
-    -- Airline
-    plugman.use({'bling/vim-airline', config = function()
-        vim.g.airline_theme = 'dark'
-        vim.g.airline_powerline_fonts = 1
-    end})
+    -- Lualine
+  plugman.use { 'hoob3rt/lualine.nvim', config = function()
+	  require'lualine'.setup{
+		options = {
+			theme = 'gruvbox',
+        },
+        sections = {
+            lualine_a = {'mode'},
+            lualine_b = {'branch'},
+            lualine_c = {'filename'},
+            lualine_x = {{require'modules.lsp'.status_line_part}, 'encoding', 'fileformat', 'filetype'},
+            lualine_y = {'progress'},
+            lualine_z = {'location'}
+        }
+	}
+  end}
 
     -- Hightlight word under cursor
     plugman.use({'RRethy/vim-illuminate', config = function()
