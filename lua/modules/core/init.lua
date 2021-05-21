@@ -132,12 +132,6 @@ local function register_telescope()
 end
 
 function module.register_plugins()
-    -- File tree
-    --plugman.use({'kyazdani42/nvim-web-devicons'})
-    --plugman.use({'kyazdani42/nvim-tree.lua', config = function()
-    --    local keybind = require'lib.keybind'
-    --    keybind.bind_command(keybind.mode.NORMAL, "<F6>", ":LuaTreeToggle<CR>", { noremap = true, silent = true })
-    --end})
     plugman.use({'lambdalisue/fern.vim', config = function()
         local keybind = require'lib.keybind'
         local plugman = require'lib.plugman'
