@@ -8,14 +8,19 @@ local plugman = require'lib.plugman'
 local module = {}
 
 function module.register_plugins()
-    -- Gruvbox colorscheme
-    plugman.use({'morhetz/gruvbox'})
+    -- Tokyo Night colorscheme
+    plugman.use({'folke/tokyonight.nvim', config = function()
+        vim.g.tokyonight_style = 'night'
+        if not pcall(vim.api.nvim_command, "colorscheme tokyonight") then
+            vim.api.nvim_command("colorscheme elflord")
+        end
+      end})
 
     -- Lualine
   plugman.use { 'hoob3rt/lualine.nvim', config = function()
 	  require'lualine'.setup{
 		options = {
-			theme = 'gruvbox',
+			theme = 'tokyonight',
         },
         sections = {
             lualine_a = {'mode'},
@@ -66,14 +71,6 @@ function module.init()
 
     -- No soft wrapping
     set_default_win_opt("wrap", false)
-
-    vim.g.gruvbox_contrast_dark = 'hard'
-    vim.g.gruvbox_contrast_light = 'hard'
-
-    -- Use Gruvbox if its installed, if not fallback to elflord
-    if not pcall(vim.api.nvim_command, "colorscheme gruvbox") then
-        vim.api.nvim_command("colorscheme elflord")
-    end
 
     --autocmd.bind_colorscheme(function()
     --    vim.cmd("highlight LspDiagnosticsDefaultError ctermfg=167 ctermbg=none guifg=#CC6666 guibg=none")
