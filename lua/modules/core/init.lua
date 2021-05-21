@@ -251,8 +251,8 @@ function module.init()
         vim.cmd(":%s/\\s\\+$//e")
     end)
 
-    if file.is_readable("./.project.lua") then
-        dofile("./.project.lua")
+    if file.is_readable("./.nvim.lua") then
+        dofile("./.nvim.lua")
     end
 end
 
