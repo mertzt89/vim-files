@@ -29,10 +29,10 @@ function module.register_plugins()
     plugman.use({'nvim-treesitter/nvim-treesitter', config = function()
         require'nvim-treesitter.configs'.setup {
             ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-            ignore_install = {}, -- List of parsers to ignore installing
+            ignore_install = {"comment"}, -- List of parsers to ignore installing
             highlight = {
                 enable = true,              -- false will disable the whole extension
-                disable = {},  -- list of language that will be disabled
+                disable = {"comment"},  -- list of language that will be disabled
             },
         }
     end, run = ':TSUpdate'})
