@@ -1,6 +1,6 @@
 local log = require 'lib.log'
 
-local plugman = {}
+local plug = {}
 local plugins = {}
 
 local function require_packer()
@@ -20,7 +20,7 @@ local function require_packer()
 end
 local packer = require_packer()
 
-function plugman.use(plugin)
+function plug.use(plugin)
   if plugin[1] == vim.NIL or plugin[1] == nil then
     log.warning('Nil plugin name provided!')
     return
@@ -31,7 +31,7 @@ function plugman.use(plugin)
   packer.use(plugin)
 end
 
-function plugman.has_plugin(plugin)
+function plug.has_plugin(plugin)
   plugin = "/" .. plugin
 
   for _, v in pairs(plugins) do
@@ -50,13 +50,13 @@ end
 local function err_handler(err) return
   {err = err, traceback = debug.traceback()} end
 
-function plugman.init()
+function plug.init()
   packer.init({auto_reload_compiled = false})
   packer.reset()
 
   packer.use {'wbthomason/packer.nvim'}
 end
 
-function plugman.done() end
+function plug.done() end
 
-return plugman
+return plug

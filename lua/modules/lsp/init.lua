@@ -2,14 +2,14 @@
 local keybind = require("lib.keybind")
 local edit_mode = keybind.mode
 local autocmd = require("lib.autocmd")
-local plugman = require("lib.plugman")
+local plug = require("lib.plug")
 
 local module = {}
 
 --- Returns plugins required for this module
 function module.register_plugins()
-  plugman.use({"neovim/nvim-lspconfig"})
-  plugman.use({
+  plug.use({"neovim/nvim-lspconfig"})
+  plug.use({
     "hrsh7th/nvim-compe",
     config = function()
       require'compe'.setup {
@@ -37,7 +37,7 @@ function module.register_plugins()
       }
     end
   })
-  plugman.use({
+  plug.use({
     "folke/lsp-trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
     config = function() require("trouble").setup {} end
@@ -108,7 +108,7 @@ function module.init()
   -- vim.api.nvim_set_var("completion_trigger_on_delete", 1)
 
   -- TODO: Fix this?
-  if plugman.has_plugin("snippets.nvim") then
+  if plug.has_plugin("snippets.nvim") then
     vim.g.completion_enable_snippet = "snippets.nvim"
   end
 

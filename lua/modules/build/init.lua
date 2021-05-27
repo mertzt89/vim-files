@@ -1,6 +1,6 @@
 --- Build module
 
-local plugman = require("lib.plugman")
+local plug = require("lib.plug")
 local autocmd = require("lib.autocmd")
 local file = require("lib.file")
 
@@ -8,7 +8,7 @@ local module = {}
 
 --- Returns plugins required for this module
 function module.register_plugins()
-  plugman.use({"tpope/vim-dispatch", config = function() 
+  plug.use({"tpope/vim-dispatch", config = function() 
     local keybind = require("lib.keybind")
 
     -- Don't create default key bindings

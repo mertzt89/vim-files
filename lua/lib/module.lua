@@ -1,7 +1,7 @@
 -- module.lua
 -- Configuration Modules
 local log = require 'lib.log'
-local plugman = require 'lib.plugman'
+local plug = require 'lib.plug'
 
 local module = {}
 module.modules = {}
@@ -38,9 +38,9 @@ function module.call_for_each(f, optional)
 end
 
 function module.finish_add()
-  plugman.init()
+  plug.init()
   module.call_for_each("register_plugins", true)
-  plugman.done()
+  plug.done()
   module.call_for_each("init", false)
 end
 

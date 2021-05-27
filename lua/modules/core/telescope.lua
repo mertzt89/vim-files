@@ -1,4 +1,4 @@
-local plugman = require 'lib.plugman'
+local plug = require 'lib.plug'
 
 local M = {}
 
@@ -30,7 +30,7 @@ end
 
 function M.register_telescope()
   -- Telescope
-  plugman.use({
+  plug.use({
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
     config = function()

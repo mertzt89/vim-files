@@ -6,7 +6,7 @@ local command = require 'lib.command'
 local file = require 'lib.file'
 local keybind = require 'lib.keybind'
 local log = require 'lib.log'
-local plugman = require 'lib.plugman'
+local plug = require 'lib.plug'
 
 local module = {}
 
@@ -17,31 +17,31 @@ local function set_default_buf_opt(name, value)
 end
 
 function module.register_plugins()
-  plugman.use({
+  plug.use({
     'lambdalisue/fern.vim',
     config = function()
       local keybind = require 'lib.keybind'
-      local plugman = require 'lib.plugman'
+      local plug = require 'lib.plug'
 
       keybind.bind_command(keybind.mode.NORMAL, "<F6>",
                            ":Fern . -drawer -toggle<CR>",
                            {noremap = true, silent = true})
 
-      if plugman.has_plugin('fern-renderer-nerdfont.vim') then
+      if plug.has_plugin('fern-renderer-nerdfont.vim') then
         vim.g['fern#renderer'] = "nerdfont"
       end
     end
   })
-  plugman.use({
+  plug.use({
     'lambdalisue/fern-renderer-nerdfont.vim',
     requires = {{'lambdalisue/nerdfont.vim'}}
   })
 
   -- Multiple cursors
-  plugman.use({'terryma/vim-multiple-cursors'})
+  plug.use({'terryma/vim-multiple-cursors'})
 
   -- Snippets
-  plugman.use({
+  plug.use({
     'norcalli/snippets.nvim',
     config = function()
       local keybind = require 'lib.keybind'
@@ -59,10 +59,10 @@ function module.register_plugins()
   })
 
   -- Git signs
-  plugman.use({'mhinz/vim-signify'})
+  plug.use({'mhinz/vim-signify'})
 
   -- Tag bar
-  plugman.use({
+  plug.use({
     'majutsushi/tagbar',
     config = function()
       local keybind = require 'lib.keybind'
@@ -72,16 +72,16 @@ function module.register_plugins()
   })
 
   -- Extra filetypes/syntax definitions
-  plugman.use({'sheerun/vim-polyglot'})
+  plug.use({'sheerun/vim-polyglot'})
 
   -- Git integration
-  plugman.use({'tpope/vim-fugitive'})
+  plug.use({'tpope/vim-fugitive'})
 
   -- Sneak (easy motion alternative)
-  plugman.use({'justinmk/vim-sneak'})
+  plug.use({'justinmk/vim-sneak'})
 
   -- Fuzzy grepping, file finding, etc..
-  local t = require'modules.core.telescope'
+  local t = require 'modules.core.telescope'
   t.register_telescope()
 end
 

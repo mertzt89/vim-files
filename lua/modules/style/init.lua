@@ -2,13 +2,13 @@
 -- Init for Style
 local autocmd = require 'lib.autocmd'
 local log = require 'lib.log'
-local plugman = require 'lib.plugman'
+local plug = require 'lib.plug'
 
 local module = {}
 
 function module.register_plugins()
   -- Tokyo Night colorscheme
-  plugman.use({
+  plug.use({
     'folke/tokyonight.nvim',
     config = function()
       vim.g.tokyonight_style = 'night'
@@ -19,7 +19,7 @@ function module.register_plugins()
   })
 
   -- Lualine
-  plugman.use {
+  plug.use {
     'hoob3rt/lualine.nvim',
     config = function()
       require'lualine'.setup {
@@ -40,13 +40,13 @@ function module.register_plugins()
   }
 
   -- Hightlight word under cursor
-  plugman.use({
+  plug.use({
     'RRethy/vim-illuminate',
     config = function() vim.g.Illuminate_delay = 75 end
   })
 
   -- Tresitter
-  plugman.use({
+  plug.use({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -62,7 +62,7 @@ function module.register_plugins()
   })
 
   ---- Todo Comments (highlight todo/hack/note/etc.)
-  plugman.use({
+  plug.use({
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function() require'todo-comments'.setup {} end
