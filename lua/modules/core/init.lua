@@ -83,6 +83,11 @@ function module.register_plugins()
   -- Fuzzy grepping, file finding, etc..
   local t = require 'modules.core.telescope'
   t.register_telescope()
+
+  -- Quickfix reflector
+  --  Allows the quickfix window to be modifiable and changes
+  --  are saved to the respective files.
+  plug.use {'stefandtw/quickfix-reflector.vim'}
 end
 
 function module.init()
