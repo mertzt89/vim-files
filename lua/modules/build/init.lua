@@ -1,5 +1,4 @@
 --- Build module
-
 local plug = require("lib.plug")
 local autocmd = require("lib.autocmd")
 local file = require("lib.file")
@@ -8,47 +7,39 @@ local module = {}
 
 --- Returns plugins required for this module
 function module.register_plugins()
-  plug.use({"tpope/vim-dispatch", config = function() 
-    local keybind = require("lib.keybind")
+  plug.use({
+    "tpope/vim-dispatch",
+    config = function()
+      local keybind = require("lib.keybind")
 
-    -- Don't create default key bindings
-    vim.g.dispatch_no_maps = 1
-    keybind.bind_command(keybind.mode.NORMAL, "<leader>pc", ":Dispatch<CR>", { noremap = true }, "Compile")
-    keybind.bind_function(
-        keybind.mode.NORMAL,
-        "<leader>pr",
-        function()
+      -- Don't create default key bindings
+      vim.g.dispatch_no_maps = 1
+      keybind.bind_command(keybind.mode.NORMAL, "<leader>pc", ":Dispatch<CR>",
+                           {noremap = true}, "Compile")
+      keybind.bind_function(keybind.mode.NORMAL, "<leader>pr", function()
         local run_cmd = vim.b.c_dispatch_run
         if run_cmd ~= nil then
-            vim.cmd("Dispatch " .. run_cmd)
+          vim.cmd("Dispatch " .. run_cmd)
         else
-            print("No run command configured! (Buffer variable 'c_dispatch_run' missng)")
+          print(
+            "No run command configured! (Buffer variable 'c_dispatch_run' missng)")
         end
-        end,
-        { noremap = true },
-        "Run"
-    )
-    keybind.bind_function(
-        keybind.mode.NORMAL,
-        "<leader>pt",
-        function()
+      end, {noremap = true}, "Run")
+      keybind.bind_function(keybind.mode.NORMAL, "<leader>pt", function()
         local test_cmd = vim.b.c_dispatch_test
         if test_cmd ~= nil then
-            vim.cmd("Dispatch " .. test_cmd)
+          vim.cmd("Dispatch " .. test_cmd)
         else
-            print("No test command configured! (Buffer variable 'c_dispatch_test' missng)")
+          print(
+            "No test command configured! (Buffer variable 'c_dispatch_test' missng)")
         end
-        end,
-        { noremap = true },
-        "Test"
-    )
+      end, {noremap = true}, "Test")
 
-  end})
+    end
+  })
 end
 
-function module.init()
-
-end
+function module.init() end
 
 local Builder = {
   with_filetype = function(self, filetype)
@@ -100,7 +91,7 @@ local Builder = {
         vim.api.nvim_buf_set_var(0, "c_dispatch_run", self.run_command)
       end
     end)
-  end,
+  end
 }
 
 function module.make_builder()
@@ -108,9 +99,9 @@ function module.make_builder()
     filetypes = {},
     build_command = nil,
     run_command = nil,
-    prerequisite_files = {},
+    prerequisite_files = {}
   }
-  setmetatable(builder, { __index = Builder })
+  setmetatable(builder, {__index = Builder})
 
   return builder
 end

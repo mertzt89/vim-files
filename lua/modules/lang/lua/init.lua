@@ -1,5 +1,4 @@
 --- Lua module
-
 local module = {}
 
 --- Returns plugins required for this module
