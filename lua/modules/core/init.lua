@@ -88,6 +88,10 @@ function module.register_plugins()
   --  Allows the quickfix window to be modifiable and changes
   --  are saved to the respective files.
   plug.use {'stefandtw/quickfix-reflector.vim'}
+
+  -- ISwap
+  --  Interactively swap elements using tree-sitter
+  plug.use {'mizlan/iswap.nvim'}
 end
 
 function module.init()
