@@ -12,7 +12,7 @@ local function output_log(hl, ...)
   local str = table.concat(str_entries, " ")
 
   vim.api.nvim_command("echohl " .. hl)
-  vim.api.nvim_command("echo '" .. str .. "'")
+  vim.api.nvim_command("echom '" .. str .. "'")
   vim.api.nvim_command("echohl None")
 end
 
