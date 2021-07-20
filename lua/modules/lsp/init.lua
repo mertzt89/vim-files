@@ -104,9 +104,6 @@ end
 
 --- Configures vim and plugins for this module
 function module.init()
-  -- vim.api.nvim_set_var("completion_enable_in_comment", 1)
-  -- vim.api.nvim_set_var("completion_trigger_on_delete", 1)
-
   -- TODO: Fix this?
   if plug.has_plugin("snippets.nvim") then
     vim.g.completion_enable_snippet = "snippets.nvim"
@@ -120,17 +117,32 @@ function module.init()
                         "Attach LSP client to buffer")
 
   -- Tabbing
-  -- keybind.bind_command(edit_mode.INSERT, "<tab>", "pumvisible() ? '<C-n>' : '<tab>'", { noremap = true, expr = true })
-  -- keybind.bind_command(edit_mode.INSERT, "<S-tab>", "pumvisible() ? '<C-p>' : '<S-tab>'", { noremap = true, expr = true })
-  --	imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-  --			\ "\<Plug>(completion_confirm_completion)"  :
-  --			\ "\<c-e>\<CR>" : "\<CR>"
-
-  -- autocmd.bind_complete_done(function()
-  --  if vim.fn.pumvisible() == 0 then
-  --    vim.cmd("pclose")
-  --  end
-  -- end)
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+--_G.tab_complete = function()
+--  if vim.fn.pumvisible() == 1 then
+--    return t "<C-n>"
+--  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+--    return t "<Plug>(vsnip-expand-or-jump)"
+--  elseif check_back_space() then
+--    return t "<Tab>"
+--  else
+--    return vim.fn['compe#complete']()
+--  end
+--end
+--_G.s_tab_complete = function()
+--  if vim.fn.pumvisible() == 1 then
+--    return t "<C-p>"
+--  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+--    return t "<Plug>(vsnip-jump-prev)"
+--  else
+--    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+--    return t "<S-Tab>"
+--  end
+--end
+--  keybind.bind_command(edit_mode.INSERT, "<tab>", "v:lua.tab_complete()", { noremap = true, expr = true })
+--  keybind.bind_command(edit_mode.INSERT, "<S-tab>", "v:lua.s_tab_complete()", { noremap = true, expr = true })
 
   vim.o.completeopt = "menuone,noinsert,noselect"
 
@@ -149,7 +161,6 @@ function module.init()
                                {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "K",
                                ":lua vim.lsp.buf.hover()<CR>", {noremap = true})
-      -- keybind.bind_command(edit_mode.NORMAL, "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>", { noremap = true })
     end
   end)
 

@@ -28,7 +28,7 @@ local function grep_operator(t, ...)
   })
 end
 
-function M.register_telescope()
+function M.register()
   -- Telescope
   plug.use({
     'nvim-telescope/telescope.nvim',

@@ -2,10 +2,7 @@
 -- init.lua
 --
 local autocmd = require 'lib.autocmd'
-local command = require 'lib.command'
 local file = require 'lib.file'
-local keybind = require 'lib.keybind'
-local log = require 'lib.log'
 local plug = require 'lib.plug'
 
 local module = {}
@@ -21,13 +18,12 @@ function module.register_plugins()
     'lambdalisue/fern.vim',
     config = function()
       local keybind = require 'lib.keybind'
-      local plug = require 'lib.plug'
 
       keybind.bind_command(keybind.mode.NORMAL, "<F6>",
                            ":Fern . -drawer -toggle<CR>",
                            {noremap = true, silent = true})
 
-      if plug.has_plugin('fern-renderer-nerdfont.vim') then
+      if require'lib.plug'.has_plugin('fern-renderer-nerdfont.vim') then
         vim.g['fern#renderer'] = "nerdfont"
       end
     end
@@ -81,8 +77,7 @@ function module.register_plugins()
   plug.use({'justinmk/vim-sneak'})
 
   -- Fuzzy grepping, file finding, etc..
-  local t = require 'modules.core.telescope'
-  t.register_telescope()
+  require'modules.core.telescope'.register()
 
   -- Quickfix reflector
   --  Allows the quickfix window to be modifiable and changes
@@ -95,6 +90,8 @@ function module.register_plugins()
 end
 
 function module.init()
+  local keybind = require 'lib.keybind'
+
   vim.g.mapleader = ","
 
   vim.cmd("filetype plugin on")

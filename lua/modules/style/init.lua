@@ -61,7 +61,7 @@ function module.register_plugins()
     run = ':TSUpdate'
   })
 
-  ---- Todo Comments (highlight todo/hack/note/etc.)
+  -- Todo Comments (highlight todo/hack/note/etc.)
   plug.use({
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
@@ -87,13 +87,6 @@ function module.init()
 
   -- No soft wrapping
   set_default_win_opt("wrap", false)
-
-  -- autocmd.bind_colorscheme(function()
-  --    vim.cmd("highlight LspDiagnosticsDefaultError ctermfg=167 ctermbg=none guifg=#CC6666 guibg=none")
-  --    vim.cmd("highlight LspDiagnosticsDefaultWarning ctermfg=167 ctermbg=none guifg=#CCA666 guibg=none")
-  --    vim.cmd("highlight LspDiagnosticsDefaultInformation ctermfg=167 ctermbg=none guifg=#66A9CC guibg=none")
-  --    vim.cmd("highlight LspDiagnosticsDefaultHint ctermfg=167 ctermbg=none guifg=#85CC66 guibg=none")
-  -- end)
 end
 
 return module
