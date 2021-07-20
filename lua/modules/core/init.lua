@@ -89,6 +89,11 @@ function module.register_plugins()
   -- ISwap
   --  Interactively swap elements using tree-sitter
   plug.use {'mizlan/iswap.nvim'}
+
+  -- Enhanced diffing
+  --  Adds additional diffing algorithms and the ability to
+  --  switch between them.
+  plug.use {'chrisbra/vim-diff-enhanced'}
 end
 
 function module.init()
