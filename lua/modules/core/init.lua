@@ -57,15 +57,17 @@ function module.register_plugins()
   -- Git signs
   plug.use({'mhinz/vim-signify'})
 
-  -- Tag bar
-  plug.use({
-    'majutsushi/tagbar',
+  -- Vista
+  -- File outline
+  plug.use {
+    'liuchengxu/vista.vim',
     config = function()
       local keybind = require 'lib.keybind'
-      keybind.bind_command(keybind.mode.NORMAL, "<F5>", "<cmd>TagbarToggle<CR>",
+      vim.g.vista_default_executive = "nvim_lsp"
+      keybind.bind_command(keybind.mode.NORMAL, "<F5>", "<cmd>Vista!!<CR>",
                            {noremap = true, silent = true})
     end
-  })
+  }
 
   -- Extra filetypes/syntax definitions
   plug.use({'sheerun/vim-polyglot'})
