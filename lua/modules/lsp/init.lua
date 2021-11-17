@@ -154,10 +154,10 @@ function module.init()
                                ":lua vim.lsp.buf.declaration()<CR>",
                                {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "gD",
-                               ":lua vim.lsp.buf.implementation()<CR>",
+                                ":lua require'telescope.builtin'.lsp_implementations{}<CR>", {noremap = true},
                                {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "<C-]>",
-                               ":lua vim.lsp.buf.definition()<CR>",
+                                ":lua require'telescope.builtin'.lsp_definitions{}<CR>", {noremap = true},
                                {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "K",
                                ":lua vim.lsp.buf.hover()<CR>", {noremap = true})
@@ -165,25 +165,14 @@ function module.init()
   end)
 
   keybind.bind_command(edit_mode.NORMAL, "<leader>lr",
-                       ":lua vim.lsp.buf.references()<CR>", {noremap = true},
+                       ":lua require'telescope.builtin'.lsp_references{}<CR>", {noremap = true},
                        "Find references")
   keybind.bind_command(edit_mode.NORMAL, "<leader>lR",
                        ":lua vim.lsp.buf.rename()<CR>", {noremap = true},
                        "Rename")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ld",
-                       ":lua vim.lsp.buf.document_symbol()<CR>",
+                       ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>", {noremap = true},
                        {noremap = true}, "Document symbol list")
-
-  keybind.set_group_name("<leader>j", "Jump")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>jd",
-                       ":lua vim.lsp.buf.declaration()<CR>", {noremap = true},
-                       "Jump to declaration")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>ji",
-                       ":lua vim.lsp.buf.implementation()<CR>",
-                       {noremap = true}, "Jump to implementation")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>jf",
-                       ":lua vim.lsp.buf.definition()<CR>", {noremap = true},
-                       "Jump to definition")
 
   -- Show docs when the cursor is held over something
   -- autocmd.bind_cursor_hold(function()
