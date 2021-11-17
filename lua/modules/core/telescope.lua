@@ -32,7 +32,11 @@ function M.register()
   -- Telescope
   plug.use({
     'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+    requires = {
+      {'nvim-lua/popup.nvim'},
+      {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+    },
     config = function()
       local actions = require 'telescope.actions'
       local keybind = require 'lib.keybind'
@@ -44,6 +48,15 @@ function M.register()
             '--line-number', '--column', '--smart-case', '--no-ignore-vcs'
           },
           file_sorter = require'telescope.sorters'.get_fuzzy_file,
+          extensions = {
+            fzf = {
+              fuzzy = true,                    -- false will only do exact matching
+              override_generic_sorter = true,  -- override the generic sorter
+              override_file_sorter = true,     -- override the file sorter
+              case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                               -- the default case_mode is "smart_case"
+            }
+          },
           mappings = {
             i = {
               ["<C-n>"] = actions.move_selection_next,
@@ -106,6 +119,11 @@ function M.register()
           }
         }
       } -- end telescope setup
+
+      -- To get fzf loaded and working with telescope, you need to call
+      -- load_extension, somewhere after setup function:
+      require('telescope').load_extension('fzf')
+
       keybind.bind_command(keybind.mode.NORMAL, "<C-p>",
                            ":Telescope find_files find_command=rg,--files,-L,--no-ignore-vcs,--hidden<CR>",
                            {noremap = true, silent = true})
