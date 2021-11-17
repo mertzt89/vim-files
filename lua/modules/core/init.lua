@@ -106,6 +106,10 @@ function module.register_plugins()
   --  Adds additional diffing algorithms and the ability to
   --  switch between them.
   plug.use {'chrisbra/vim-diff-enhanced'}
+
+  -- Visual Star Search
+  --  Allows using visual selection for search term when using '*' or '#'
+  plug.use {'nelstrom/vim-visual-star-search'}
 end
 
 function module.init()
