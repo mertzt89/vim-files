@@ -75,8 +75,20 @@ function module.register_plugins()
   -- Git integration
   plug.use({'tpope/vim-fugitive'})
 
-  -- Sneak (easy motion alternative)
-  plug.use({'justinmk/vim-sneak'})
+  -- Hop (like easymotion)
+  plug.use({
+    'phaazon/hop.nvim',
+    branch = 'v1', -- optional but strongly recommended
+    config = function()
+      local keybind = require 'lib.keybind'
+      -- you can configure Hop the way you like here; see :h hop-config
+      -- require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+
+      require'hop'.setup()
+
+      keybind.bind_command(keybind.mode.NORMAL, '<leader>,w', "<cmd>lua require'hop'.hint_words()<cr>", {})
+    end
+  })
 
   -- Fuzzy grepping, file finding, etc..
   require'modules.core.telescope'.register()
