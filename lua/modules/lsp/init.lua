@@ -76,25 +76,25 @@ function module.status_line_part()
   if #client_names > 0 then
     local sections = {"LSP:", table.concat(client_names, ", ")}
 
-    local error_count = vim.lsp.diagnostic.get_count("Error")
-    if error_count ~= nil and error_count > 0 then
-      table.insert(sections, "E: " .. error_count)
-    end
+    --local error_count = vim.lsp.diagnostic.get_count("Error")
+    --if error_count ~= nil and error_count > 0 then
+    --  table.insert(sections, "E: " .. error_count)
+    --end
 
-    local warn_count = vim.lsp.diagnostic.get_count("Warning")
-    if error_count ~= nil and warn_count > 0 then
-      table.insert(sections, "W: " .. warn_count)
-    end
+    --local warn_count = vim.lsp.diagnostic.get_count("Warning")
+    --if error_count ~= nil and warn_count > 0 then
+    --  table.insert(sections, "W: " .. warn_count)
+    --end
 
-    local info_count = vim.lsp.diagnostic.get_count("Information")
-    if error_count ~= nil and info_count > 0 then
-      table.insert(sections, "I: " .. info_count)
-    end
+    --local info_count = vim.lsp.diagnostic.get_count("Information")
+    --if error_count ~= nil and info_count > 0 then
+    --  table.insert(sections, "I: " .. info_count)
+    --end
 
-    local hint_count = vim.lsp.diagnostic.get_count("Hint")
-    if error_count ~= nil and hint_count > 0 then
-      table.insert(sections, "H: " .. hint_count)
-    end
+    --local hint_count = vim.lsp.diagnostic.get_count("Hint")
+    --if error_count ~= nil and hint_count > 0 then
+    --  table.insert(sections, "H: " .. hint_count)
+    --end
 
     return table.concat(sections, " ")
   else
