@@ -54,6 +54,14 @@ function module.register_plugins()
     end
   })
 
+  -- Block Commenting
+  plug.use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+  }
+
   -- Git signs
   plug.use({'mhinz/vim-signify'})
 
