@@ -45,22 +45,6 @@ function module.register_plugins()
     config = function() vim.g.Illuminate_delay = 75 end
   })
 
-  -- Tresitter
-  plug.use({
-    'nvim-treesitter/nvim-treesitter',
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-        ignore_install = {"comment"}, -- List of parsers to ignore installing
-        highlight = {
-          enable = true, -- false will disable the whole extension
-          disable = {"comment"} -- list of language that will be disabled
-        }
-      }
-    end,
-    run = ':TSUpdate'
-  })
-
   -- Todo Comments (highlight todo/hack/note/etc.)
   plug.use({
     'folke/todo-comments.nvim',
