@@ -23,7 +23,7 @@ local function grep_operator(t, ...)
   print(query)
 
   require'telescope.builtin'.grep_string({
-    find_command = "rg,--no-ignore,--hidden,--no-heading,--vimgrep",
+    find_command = "rg,--no-ignore-vcs,--hidden,--no-heading,--vimgrep",
     search = query
   })
 end
