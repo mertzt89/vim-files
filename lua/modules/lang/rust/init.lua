@@ -4,7 +4,7 @@ local file = require("lib.file")
 local module = {}
 
 --- Returns plugins required for this module
-function module.register_plugins() end
+function module.register_plugins(use) end
 
 --- Configures vim and plugins for this module
 function module.init()
@@ -12,11 +12,7 @@ function module.init()
   local build = require("modules.build")
   local lspconfig = require("lspconfig")
 
-  lsp.register_server(lspconfig.rust_analyzer, {
-    capabilities = {
-      textDocument = {completion = {completionItem = {snippetSupport = true}}}
-    }
-  })
+  lsp.register_server(lspconfig.rust_analyzer, {})
 
   -- Ignore cargo output
   file.add_to_wildignore("target")

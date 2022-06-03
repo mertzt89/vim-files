@@ -1,9 +1,9 @@
 local module = {}
 local plug = require("lib.plug")
 
-function module.register_plugins()
+function module.register_plugins(use)
   -- Tresitter
-  plug.use({
+  use({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -19,34 +19,19 @@ function module.register_plugins()
   })
 end
 
-function module.init()
-end
+function module.init() end
 
 function module.context(width, separator)
   separator = separator or ' -> '
 
-  if not plug.has_plugin("nvim-treesitter") then
-    return " "
-  end
+  if not plug.has_plugin("nvim-treesitter") then return " " end
   local type_patterns = {
-    "class",
-    "function",
-    "method",
-    "interface",
-    "type_spec",
-    "table",
-    "if_statement",
-    "for_statement",
-    "for_in_statement",
-    "call_expression",
-    "comment",
-    "switch_statement",
-    "case_statement"
+    "class", "function", "method", "interface", "type_spec", "table",
+    "if_statement", "for_statement", "for_in_statement", "call_expression",
+    "comment", "switch_statement", "case_statement"
   }
 
-  if vim.o.ft == "json" then
-    type_patterns = { "object", "pair" }
-  end
+  if vim.o.ft == "json" then type_patterns = {"object", "pair"} end
 
   local context = require("nvim-treesitter").statusline({
     indicator_size = width,

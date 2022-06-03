@@ -1,14 +1,10 @@
 -- init.lua
 -- Init for Style
-local autocmd = require 'lib.autocmd'
-local log = require 'lib.log'
-local plug = require 'lib.plug'
-
 local module = {}
 
-function module.register_plugins()
+function module.register_plugins(use)
   -- Tokyo Night colorscheme
-  plug.use({
+  use({
     'folke/tokyonight.nvim',
     config = function()
       vim.g.tokyonight_style = 'night'
@@ -19,7 +15,7 @@ function module.register_plugins()
   })
 
   -- Lualine
-  plug.use {
+  use {
     'hoob3rt/lualine.nvim',
     config = function()
       require'lualine'.setup {
@@ -40,37 +36,31 @@ function module.register_plugins()
   }
 
   -- Hightlight word under cursor
-  plug.use({
+  use({
     'RRethy/vim-illuminate',
     config = function() vim.g.Illuminate_delay = 75 end
   })
 
   -- Todo Comments (highlight todo/hack/note/etc.)
-  plug.use({
+  use({
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function() require'todo-comments'.setup {} end
   })
 end
 
--- The startup window doesn't seem to pick up on vim.o changes >.<
-local function set_default_win_opt(name, value)
-  vim.o[name] = value
-  autocmd.bind_vim_enter(function() vim.wo[name] = value end)
-end
-
 function module.init()
   vim.api.nvim_command("syntax on")
 
   -- Line numbers
-  set_default_win_opt("number", true)
+  vim.wo.number = true
 
   -- Visibile whitespace
-  set_default_win_opt("list", true)
-  set_default_win_opt("listchars", "tab:>-,space:·")
+  vim.o.listchars = "tab:>-,space:·"
+  vim.o.list = true
 
   -- No soft wrapping
-  set_default_win_opt("wrap", false)
+  vim.o.wrap = false
 end
 
 return module

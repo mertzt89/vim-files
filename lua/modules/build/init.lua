@@ -6,8 +6,8 @@ local file = require("lib.file")
 local module = {}
 
 --- Returns plugins required for this module
-function module.register_plugins()
-  plug.use({
+function module.register_plugins(use)
+  use({
     "tpope/vim-dispatch",
     config = function()
       local keybind = require("lib.keybind")

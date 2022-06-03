@@ -3,6 +3,8 @@
 --
 local module = require 'lib.module'
 
+module.begin()
+module.add("lib.plug")
 module.add("modules.build")
 module.add("modules.core")
 module.add("modules.lang.bitbake")

@@ -10,11 +10,14 @@ local module = {}
 -- The startup buffer doesn't seem to pick up on vim.o changes >.<
 local function set_default_buf_opt(name, value)
   vim.o[name] = value
-  autocmd.bind_vim_enter(function() vim.bo[name] = value end)
+  vim.api.nvim_create_autocmd("VimEnter", {
+    -- pattern = "*"
+    callback = function() vim.bo[name] = value end
+  })
 end
 
-function module.register_plugins()
-  plug.use({
+function module.register_plugins(use)
+  use({
     'lambdalisue/fern.vim',
     config = function()
       local keybind = require 'lib.keybind'
@@ -28,46 +31,43 @@ function module.register_plugins()
       end
     end
   })
-  plug.use({
+  use({
     'lambdalisue/fern-renderer-nerdfont.vim',
     requires = {{'lambdalisue/nerdfont.vim'}}
   })
 
   -- Multiple cursors
-  plug.use({'terryma/vim-multiple-cursors'})
+  use({'terryma/vim-multiple-cursors'})
 
   -- Snippets
-  plug.use({
-    'norcalli/snippets.nvim',
+  use({
+    'hrsh7th/vim-vsnip',
+    requires = {{'hrsh7th/vim-vsnip-integ'}},
     config = function()
       local keybind = require 'lib.keybind'
-      local snippets = require 'snippets'
 
-      _G.advance_snippet = snippets.advance_snippet
-      _G.expand_or_advance_snippet = snippets.expand_or_advance
+      -- Expand
       keybind.bind_command(keybind.mode.INSERT, "<C-j>",
-                           "pumvisible() ? '<C-n>' : v:lua.advance_snippet(-1) ? '' : '<C-j>'",
+                           "vsnip#expandable()  ? '<Plug>(vsnip-expand)'",
                            {noremap = true, expr = true})
-      keybind.bind_command(keybind.mode.INSERT, "<C-k>",
-                           "pumvisible() ? '<C-p>' : v:lua.expand_or_advance_snippet(1) ? '' : '<C-k>'",
+      keybind.bind_command(keybind.mode.SELECT, "<C-j>",
+                           "vsnip#expandable()  ? '<Plug>(vsnip-expand)'",
                            {noremap = true, expr = true})
     end
   })
 
   -- Block Commenting
-  plug.use {
+  use {
     'numToStr/Comment.nvim',
-    config = function()
-        require('Comment').setup()
-    end
+    config = function() require('Comment').setup() end
   }
 
   -- Git signs
-  plug.use({'mhinz/vim-signify'})
+  use({'mhinz/vim-signify'})
 
   -- Vista
   -- File outline
-  plug.use {
+  use {
     'liuchengxu/vista.vim',
     config = function()
       local keybind = require 'lib.keybind'
@@ -78,13 +78,13 @@ function module.register_plugins()
   }
 
   -- Extra filetypes/syntax definitions
-  plug.use({'sheerun/vim-polyglot'})
+  use({'sheerun/vim-polyglot'})
 
   -- Git integration
-  plug.use({'tpope/vim-fugitive'})
+  use({'tpope/vim-fugitive'})
 
   -- Hop (like easymotion)
-  plug.use({
+  use({
     'phaazon/hop.nvim',
     branch = 'v1', -- optional but strongly recommended
     config = function()
@@ -94,30 +94,31 @@ function module.register_plugins()
 
       require'hop'.setup()
 
-      keybind.bind_command(keybind.mode.NORMAL, '<leader>,w', "<cmd>lua require'hop'.hint_words()<cr>", {})
+      keybind.bind_command(keybind.mode.NORMAL, '<leader>,w',
+                           "<cmd>lua require'hop'.hint_words()<cr>", {})
     end
   })
 
   -- Fuzzy grepping, file finding, etc..
-  require'modules.core.telescope'.register()
+  require'modules.core.telescope'.register(use)
 
   -- Quickfix reflector
   --  Allows the quickfix window to be modifiable and changes
   --  are saved to the respective files.
-  plug.use {'stefandtw/quickfix-reflector.vim'}
+  use {'stefandtw/quickfix-reflector.vim'}
 
   -- ISwap
   --  Interactively swap elements using tree-sitter
-  plug.use {'mizlan/iswap.nvim'}
+  use {'mizlan/iswap.nvim'}
 
   -- Enhanced diffing
   --  Adds additional diffing algorithms and the ability to
   --  switch between them.
-  plug.use {'chrisbra/vim-diff-enhanced'}
+  use {'chrisbra/vim-diff-enhanced'}
 
   -- Visual Star Search
   --  Allows using visual selection for search term when using '*' or '#'
-  plug.use {'nelstrom/vim-visual-star-search'}
+  use {'nelstrom/vim-visual-star-search'}
 end
 
 function module.init()
@@ -145,7 +146,7 @@ function module.init()
   vim.o.wildmode = "list:longest"
 
   vim.o.virtualedit = "all"
-  vim.o.laststatus = 2
+  vim.o.laststatus = 3 -- last window
 
   -- No wrapping
   vim.o.wrap = false

@@ -1,7 +1,7 @@
 local log = require 'lib.log'
 
 local plug = {}
-local plugins = {}
+plug.plugins = {}
 
 local function require_packer()
   local execute = vim.api.nvim_command
@@ -26,36 +26,27 @@ function plug.use(plugin)
     return
   end
 
-  table.insert(plugins, plugin[1])
+  table.insert(plug.plugins, plugin[1])
 
   packer.use(plugin)
 end
 
 function plug.has_plugin(plugin)
-  plugin = "/" .. plugin
-
-  for _, v in pairs(plugins) do
-    if type(v) == "string" then
-      if vim.endswith(v, plugin) then return true end
-      if vim.endswith(v, plugin .. ".git") then return true end
-    elseif type(v) == "table" then
-      if vim.endswith(v[1], plugin) then return true end
-      if vim.endswith(v[1], plugin .. ".git") then return true end
-    end
+  if _G.packer_plugins ~= nil then
+    return _G.packer_plugins[plugin] ~= nil
+  else
+    return false
   end
-
-  return false
 end
+
+function plug.register_plugins(use) use {'wbthomason/packer.nvim'} end
+
+function plug.init() end
 
 local function err_handler(err) return
   {err = err, traceback = debug.traceback()} end
 
-function plug.init()
-  packer.init({auto_reload_compiled = false})
-  packer.reset()
-
-  packer.use {'wbthomason/packer.nvim'}
-end
+function plug.startup(func) packer.startup(func) end
 
 function plug.done() end
 

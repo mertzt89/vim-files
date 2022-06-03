@@ -4,7 +4,7 @@ local plug = require("lib.plug")
 local module = {}
 
 --- Returns plugins required for this module
-function module.register_plugins() plug.use({'kergoth/vim-bitbake'}) end
+function module.register_plugins(use) use({'kergoth/vim-bitbake'}) end
 
 --- Configures vim and plugins for this module
 function module.init() end

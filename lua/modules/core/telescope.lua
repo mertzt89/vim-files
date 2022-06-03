@@ -1,5 +1,3 @@
-local plug = require 'lib.plug'
-
 local M = {}
 
 local function grep_operator(t, ...)
@@ -28,14 +26,13 @@ local function grep_operator(t, ...)
   })
 end
 
-function M.register()
+function M.register(use)
   -- Telescope
-  plug.use({
+  use({
     'nvim-telescope/telescope.nvim',
     requires = {
-      {'nvim-lua/popup.nvim'},
-      {'nvim-lua/plenary.nvim'},
-      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+      {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
     },
     config = function()
       local actions = require 'telescope.actions'
@@ -43,6 +40,7 @@ function M.register()
 
       require'telescope'.setup {
         defaults = {
+          cache_picker = {num_pickers = 10},
           vimgrep_arguments = {
             'rg', '--color=never', '--no-heading', '--with-filename',
             '--line-number', '--column', '--smart-case', '--no-ignore-vcs'
@@ -50,11 +48,11 @@ function M.register()
           file_sorter = require'telescope.sorters'.get_fuzzy_file,
           extensions = {
             fzf = {
-              fuzzy = true,                    -- false will only do exact matching
-              override_generic_sorter = true,  -- override the generic sorter
-              override_file_sorter = true,     -- override the file sorter
-              case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                               -- the default case_mode is "smart_case"
+              fuzzy = true, -- false will only do exact matching
+              override_generic_sorter = true, -- override the generic sorter
+              override_file_sorter = true, -- override the file sorter
+              case_mode = "smart_case" -- or "ignore_case" or "respect_case"
+              -- the default case_mode is "smart_case"
             }
           },
           mappings = {
@@ -130,19 +128,22 @@ function M.register()
       keybind.bind_command(keybind.mode.NORMAL, "<F3>",
                            ":Telescope buffers show_all_buffers=true<CR>",
                            {noremap = true, silent = true})
-
+      keybind.bind_command(keybind.mode.NORMAL, "<leader>tu",
+                           ":echo 'hithere'<cr>",
+                           {noremap = false, silent = true})
 
       -- Grep operator
       keybind.bind_command(keybind.mode.NORMAL, "gs",
-                          ":set opfunc=v:lua.telescope_grep_op<CR>g@", {silent = true})
+                           ":set opfunc=v:lua.telescope_grep_op<CR>g@",
+                           {silent = true})
       keybind.bind_command(keybind.mode.VISUAL, "gs",
-                          ":<c-u>call v:lua.telescope_grep_op(visualmode())<CR>",
-                          {silent = true})
+                           ":<c-u>call v:lua.telescope_grep_op(visualmode())<CR>",
+                           {silent = true})
 
     end
   })
 
-  _G.telescope_grep_op = function(t, ...) grep_operator(t,...) end
+  _G.telescope_grep_op = function(t, ...) grep_operator(t, ...) end
 end
 
 return M

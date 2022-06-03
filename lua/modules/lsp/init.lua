@@ -7,9 +7,9 @@ local plug = require("lib.plug")
 local module = {}
 
 --- Returns plugins required for this module
-function module.register_plugins()
-  plug.use({"neovim/nvim-lspconfig"})
-  plug.use({
+function module.register_plugins(use)
+  use({"neovim/nvim-lspconfig"})
+  use({
     "hrsh7th/nvim-compe",
     config = function()
       require'compe'.setup {
@@ -37,7 +37,30 @@ function module.register_plugins()
       }
     end
   })
-  plug.use({
+
+  use {
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      require('null-ls').setup({
+        sources = {
+          -- require('null-ls').builtins.formatting.lua_format
+        }
+      })
+    end
+  }
+
+  use {
+    'ray-x/lsp_signature.nvim',
+    config = function() require("lsp_signature").setup() end
+  }
+
+  use({
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function() require("trouble").setup {} end
+  })
+
+  use({
     "folke/lsp-trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
     config = function() require("trouble").setup {} end
@@ -76,25 +99,25 @@ function module.status_line_part()
   if #client_names > 0 then
     local sections = {"LSP:", table.concat(client_names, ", ")}
 
-    --local error_count = vim.lsp.diagnostic.get_count("Error")
-    --if error_count ~= nil and error_count > 0 then
+    -- local error_count = vim.lsp.diagnostic.get_count("Error")
+    -- if error_count ~= nil and error_count > 0 then
     --  table.insert(sections, "E: " .. error_count)
-    --end
+    -- end
 
-    --local warn_count = vim.lsp.diagnostic.get_count("Warning")
-    --if error_count ~= nil and warn_count > 0 then
+    -- local warn_count = vim.lsp.diagnostic.get_count("Warning")
+    -- if error_count ~= nil and warn_count > 0 then
     --  table.insert(sections, "W: " .. warn_count)
-    --end
+    -- end
 
-    --local info_count = vim.lsp.diagnostic.get_count("Information")
-    --if error_count ~= nil and info_count > 0 then
+    -- local info_count = vim.lsp.diagnostic.get_count("Information")
+    -- if error_count ~= nil and info_count > 0 then
     --  table.insert(sections, "I: " .. info_count)
-    --end
+    -- end
 
-    --local hint_count = vim.lsp.diagnostic.get_count("Hint")
-    --if error_count ~= nil and hint_count > 0 then
+    -- local hint_count = vim.lsp.diagnostic.get_count("Hint")
+    -- if error_count ~= nil and hint_count > 0 then
     --  table.insert(sections, "H: " .. hint_count)
-    --end
+    -- end
 
     return table.concat(sections, " ")
   else
@@ -117,32 +140,32 @@ function module.init()
                         "Attach LSP client to buffer")
 
   -- Tabbing
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
---_G.tab_complete = function()
---  if vim.fn.pumvisible() == 1 then
---    return t "<C-n>"
---  elseif vim.fn.call("vsnip#available", {1}) == 1 then
---    return t "<Plug>(vsnip-expand-or-jump)"
---  elseif check_back_space() then
---    return t "<Tab>"
---  else
---    return vim.fn['compe#complete']()
---  end
---end
---_G.s_tab_complete = function()
---  if vim.fn.pumvisible() == 1 then
---    return t "<C-p>"
---  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
---    return t "<Plug>(vsnip-jump-prev)"
---  else
---    -- If <S-Tab> is not working in your terminal, change it to <C-h>
---    return t "<S-Tab>"
---  end
---end
---  keybind.bind_command(edit_mode.INSERT, "<tab>", "v:lua.tab_complete()", { noremap = true, expr = true })
---  keybind.bind_command(edit_mode.INSERT, "<S-tab>", "v:lua.s_tab_complete()", { noremap = true, expr = true })
+  -- Use (s-)tab to:
+  --- move to prev/next item in completion menuone
+  --- jump to prev/next snippet's placeholder
+  -- _G.tab_complete = function()
+  --  if vim.fn.pumvisible() == 1 then
+  --    return t "<C-n>"
+  --  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+  --    return t "<Plug>(vsnip-expand-or-jump)"
+  --  elseif check_back_space() then
+  --    return t "<Tab>"
+  --  else
+  --    return vim.fn['compe#complete']()
+  --  end
+  -- end
+  -- _G.s_tab_complete = function()
+  --  if vim.fn.pumvisible() == 1 then
+  --    return t "<C-p>"
+  --  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+  --    return t "<Plug>(vsnip-jump-prev)"
+  --  else
+  --    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+  --    return t "<S-Tab>"
+  --  end
+  -- end
+  --  keybind.bind_command(edit_mode.INSERT, "<tab>", "v:lua.tab_complete()", { noremap = true, expr = true })
+  --  keybind.bind_command(edit_mode.INSERT, "<S-tab>", "v:lua.s_tab_complete()", { noremap = true, expr = true })
 
   vim.o.completeopt = "menuone,noinsert,noselect"
 
@@ -154,25 +177,26 @@ function module.init()
                                ":lua vim.lsp.buf.declaration()<CR>",
                                {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "gD",
-                                ":lua require'telescope.builtin'.lsp_implementations{}<CR>", {noremap = true},
-                               {noremap = true})
+                               ":lua require'telescope.builtin'.lsp_implementations{}<CR>",
+                               {noremap = true}, {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "<C-]>",
-                                ":lua require'telescope.builtin'.lsp_definitions{}<CR>", {noremap = true},
-                               {noremap = true})
+                               ":lua require'telescope.builtin'.lsp_definitions{}<CR>",
+                               {noremap = true}, {noremap = true})
       keybind.buf_bind_command(edit_mode.NORMAL, "K",
                                ":lua vim.lsp.buf.hover()<CR>", {noremap = true})
     end
   end)
 
   keybind.bind_command(edit_mode.NORMAL, "<leader>lr",
-                       ":lua require'telescope.builtin'.lsp_references{}<CR>", {noremap = true},
-                       "Find references")
+                       ":lua require'telescope.builtin'.lsp_references{}<CR>",
+                       {noremap = true}, "Find references")
   keybind.bind_command(edit_mode.NORMAL, "<leader>lR",
                        ":lua vim.lsp.buf.rename()<CR>", {noremap = true},
                        "Rename")
   keybind.bind_command(edit_mode.NORMAL, "<leader>ld",
-                       ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>", {noremap = true},
-                       {noremap = true}, "Document symbol list")
+                       ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>",
+                       {noremap = true}, {noremap = true},
+                       "Document symbol list")
 
   -- Show docs when the cursor is held over something
   -- autocmd.bind_cursor_hold(function()

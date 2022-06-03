@@ -2,12 +2,15 @@
 local module = {}
 
 --- Returns plugins required for this module
-function module.register_plugins() end
+-- function module.register_plugins(use) end
 
 --- Configures vim and plugins for this module
 function module.init()
   local lsp = require("modules.lsp")
   local lspconfig = require("lspconfig")
+
+  require('null-ls.sources').register(require('null-ls').builtins.formatting
+                                        .lua_format)
 
   lsp.register_server(lspconfig.sumneko_lua, {
     cmd = {'lls'},
@@ -39,4 +42,3 @@ function module.init()
 end
 
 return module
-
