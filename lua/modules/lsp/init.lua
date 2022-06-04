@@ -1,7 +1,6 @@
 --- Language server protocol support, courtesy of Neovim
 local keybind = require("lib.keybind")
 local edit_mode = keybind.mode
-local autocmd = require("lib.autocmd")
 local plug = require("lib.plug")
 
 local module = {}

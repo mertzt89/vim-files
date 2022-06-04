@@ -2,7 +2,7 @@ local log = require 'lib.log'
 
 local plug = {}
 plug.plugins = {}
-
+local packer_bootstrap = nil
 local function require_packer()
   local execute = vim.api.nvim_command
   local fn = vim.fn
@@ -11,8 +11,10 @@ local function require_packer()
                          '/site/pack/packer/start/packer.nvim'
 
   if fn.empty(fn.glob(install_path)) > 0 then
-    execute('!git clone https://github.com/wbthomason/packer.nvim ' ..
-              install_path)
+    packer_bootstrap = fn.system({
+      'git', 'clone', '--depth', '1',
+      'https://github.com/wbthomason/packer.nvim', install_path
+    })
   end
 
   execute 'packadd packer.nvim'
@@ -46,7 +48,12 @@ function plug.init() end
 local function err_handler(err) return
   {err = err, traceback = debug.traceback()} end
 
-function plug.startup(func) packer.startup(func) end
+function plug.startup(func)
+  packer.startup(function(use)
+    func(use)
+    if packer_bootstrap then require('packer').sync() end
+  end)
+end
 
 function plug.done() end
 

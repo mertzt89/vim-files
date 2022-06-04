@@ -1,6 +1,4 @@
 --- Build module
-local plug = require("lib.plug")
-local autocmd = require("lib.autocmd")
 local file = require("lib.file")
 
 local module = {}
@@ -71,26 +69,29 @@ local Builder = {
     assert(self.build_command ~= nil)
     assert(#self.filetypes > 0)
 
-    autocmd.bind_filetype(self.filetypes, function()
-      -- Check prereq files exist
-      for _, f in pairs(self.prerequisite_files) do
-        if not file.is_readable(f) then return end
-      end
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = self.filetypes,
+      callback = function()
+        -- Check prereq files exist
+        for _, f in pairs(self.prerequisite_files) do
+          if not file.is_readable(f) then return end
+        end
 
-      -- Set the build command
-      -- "b:dispatch" used by vim-dispatch
-      vim.api.nvim_buf_set_var(0, "dispatch", self.build_command)
+        -- Set the build command
+        -- "b:dispatch" used by vim-dispatch
+        vim.api.nvim_buf_set_var(0, "dispatch", self.build_command)
 
-      if self.test_command ~= nil then
-        -- Set the test command
-        -- "b:c_dispatch_test" used in config, not a vim-dispatch thing
-        vim.api.nvim_buf_set_var(0, "c_dispatch_test", self.test_command)
-      end
+        if self.test_command ~= nil then
+          -- Set the test command
+          -- "b:c_dispatch_test" used in config, not a vim-dispatch thing
+          vim.api.nvim_buf_set_var(0, "c_dispatch_test", self.test_command)
+        end
 
-      if self.run_command ~= nil then
-        vim.api.nvim_buf_set_var(0, "c_dispatch_run", self.run_command)
+        if self.run_command ~= nil then
+          vim.api.nvim_buf_set_var(0, "c_dispatch_run", self.run_command)
+        end
       end
-    end)
+    })
   end
 }
 
@@ -107,4 +108,3 @@ function module.make_builder()
 end
 
 return module
-

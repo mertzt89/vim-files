@@ -1,9 +1,7 @@
 --
 -- init.lua
 --
-local autocmd = require 'lib.autocmd'
 local file = require 'lib.file'
-local plug = require 'lib.plug'
 
 local module = {}
 
@@ -40,8 +38,8 @@ function module.register_plugins(use)
   use({'terryma/vim-multiple-cursors'})
 
   -- vsnip
-  use{'hrsh7th/vim-vsnip'}
-  use{'hrsh7th/vim-vsnip-integ'}
+  use {'hrsh7th/vim-vsnip'}
+  use {'hrsh7th/vim-vsnip-integ'}
 
   -- Block Commenting
   use {
@@ -174,10 +172,11 @@ function module.init()
                        {noremap = true, silent = true})
 
   -- Remove trailing whitespace
-  autocmd.bind("BufWritePre *", function() vim.cmd(":%s/\\s\\+$//e") end)
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    callback = function() vim.cmd(":%s/\\s\\+$//e") end
+  })
 
   if file.is_readable("./.nvim.lua") then dofile("./.nvim.lua") end
 end
 
 return module
-

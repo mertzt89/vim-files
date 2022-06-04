@@ -1,7 +1,5 @@
 --- File management
--- @module c.file
-local autocmd = require("lib.autocmd")
-
+-- @module file
 local file = {}
 
 --- Set up auto-detection for filetypes by a name pattern (Eg: `*.cpp` -> `cpp`)
@@ -9,8 +7,10 @@ local file = {}
 -- @tparam string pattern The filename pattern
 -- @tparam string filetype The filetype identifier
 function file.set_filetype_for(pattern, filetype)
-  autocmd.bind("BufNewFile,BufRead " .. pattern,
-               function() vim.bo.filetype = filetype end)
+  vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+    pattern = pattern,
+    callback = function() vim.bo.filetype = filetype end
+  })
 end
 
 --- Add a pattern to the wildignore setting
