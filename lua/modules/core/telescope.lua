@@ -129,8 +129,11 @@ function M.register(use)
                            ":Telescope buffers show_all_buffers=true<CR>",
                            {noremap = true, silent = true})
       keybind.bind_command(keybind.mode.NORMAL, "<leader>tu",
-                           ":echo 'hithere'<cr>",
-                           {noremap = false, silent = true})
+                           ":lua require('telescope.builtin').resume()<cr>",
+                           {noremap = true, silent = true})
+      keybind.bind_command(keybind.mode.NORMAL, "<leader>th",
+                           ":lua require('telescope.builtin').pickers()<cr>",
+                           {noremap = true, silent = true})
 
       -- Grep operator
       keybind.bind_command(keybind.mode.NORMAL, "gs",
