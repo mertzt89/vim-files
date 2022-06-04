@@ -39,22 +39,9 @@ function module.register_plugins(use)
   -- Multiple cursors
   use({'terryma/vim-multiple-cursors'})
 
-  -- Snippets
-  use({
-    'hrsh7th/vim-vsnip',
-    requires = {{'hrsh7th/vim-vsnip-integ'}},
-    config = function()
-      local keybind = require 'lib.keybind'
-
-      -- Expand
-      keybind.bind_command(keybind.mode.INSERT, "<C-j>",
-                           "vsnip#expandable()  ? '<Plug>(vsnip-expand)'",
-                           {noremap = true, expr = true})
-      keybind.bind_command(keybind.mode.SELECT, "<C-j>",
-                           "vsnip#expandable()  ? '<Plug>(vsnip-expand)'",
-                           {noremap = true, expr = true})
-    end
-  })
+  -- vsnip
+  use{'hrsh7th/vim-vsnip'}
+  use{'hrsh7th/vim-vsnip-integ'}
 
   -- Block Commenting
   use {
