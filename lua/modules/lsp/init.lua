@@ -10,66 +10,58 @@ local module = {}
 function module.register_plugins(use)
   use({"neovim/nvim-lspconfig"})
   use({
-  'hrsh7th/nvim-cmp',
-  requires = {{'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-buffer'}, {'hrsh7th/cmp-path'}, {'hrsh7th/cmp-cmdline'}},
-  config = function()
+    'hrsh7th/nvim-cmp',
+    requires = {
+      {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-buffer'}, {'hrsh7th/cmp-path'},
+      {'hrsh7th/cmp-cmdline'}
+    },
+    config = function()
       -- Setup nvim-cmp.
-      local cmp = require'cmp'
+      local cmp = require 'cmp'
 
       cmp.setup({
         snippet = {
           -- REQUIRED - you must specify a snippet engine
           expand = function(args)
             vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-          end,
+          end
         },
         window = {
           completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered()
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ['<CR>'] = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'vsnip' }, -- For vsnip users.
-        }, {
-          { name = 'buffer' },
-        })
+          {name = 'nvim_lsp'}, {name = 'vsnip'} -- For vsnip users.
+        }, {{name = 'buffer'}})
       })
 
       -- Set configuration for specific filetype.
       cmp.setup.filetype('gitcommit', {
         sources = cmp.config.sources({
-          { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-        }, {
-          { name = 'buffer' },
-        })
+          {name = 'cmp_git'} -- You can specify the `cmp_git` source if you were installed it.
+        }, {{name = 'buffer'}})
       })
 
       -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
+        sources = {{name = 'buffer'}}
       })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        })
+        sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})
       })
 
-  end
+    end
   })
 
   use {
@@ -173,69 +165,38 @@ function module.init()
   keybind.bind_function(edit_mode.NORMAL, "<leader>la", user_attach_client, nil,
                         "Attach LSP client to buffer")
 
-  -- Tabbing
-  -- Use (s-)tab to:
-  --- move to prev/next item in completion menuone
-  --- jump to prev/next snippet's placeholder
-  -- _G.tab_complete = function()
-  --  if vim.fn.pumvisible() == 1 then
-  --    return t "<C-n>"
-  --  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-  --    return t "<Plug>(vsnip-expand-or-jump)"
-  --  elseif check_back_space() then
-  --    return t "<Tab>"
-  --  else
-  --    return vim.fn['compe#complete']()
-  --  end
-  -- end
-  -- _G.s_tab_complete = function()
-  --  if vim.fn.pumvisible() == 1 then
-  --    return t "<C-p>"
-  --  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-  --    return t "<Plug>(vsnip-jump-prev)"
-  --  else
-  --    -- If <S-Tab> is not working in your terminal, change it to <C-h>
-  --    return t "<S-Tab>"
-  --  end
-  -- end
-  --  keybind.bind_command(edit_mode.INSERT, "<tab>", "v:lua.tab_complete()", { noremap = true, expr = true })
-  --  keybind.bind_command(edit_mode.INSERT, "<S-tab>", "v:lua.s_tab_complete()", { noremap = true, expr = true })
-
   vim.o.completeopt = "menuone,noinsert,noselect"
+end
 
-  -- Jumping to places
-  autocmd.bind_filetype("*", function()
-    local server = module.filetype_servers[vim.bo.ft]
-    if server ~= nil then
-      keybind.buf_bind_command(edit_mode.NORMAL, "gd",
-                               ":lua vim.lsp.buf.declaration()<CR>",
-                               {noremap = true})
-      keybind.buf_bind_command(edit_mode.NORMAL, "gD",
-                               ":lua require'telescope.builtin'.lsp_implementations{}<CR>",
-                               {noremap = true}, {noremap = true})
-      keybind.buf_bind_command(edit_mode.NORMAL, "<C-]>",
-                               ":lua require'telescope.builtin'.lsp_definitions{}<CR>",
-                               {noremap = true}, {noremap = true})
-      keybind.buf_bind_command(edit_mode.NORMAL, "K",
-                               ":lua vim.lsp.buf.hover()<CR>", {noremap = true})
-    end
-  end)
+local bind_lsp_keys = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  keybind.bind_command(edit_mode.NORMAL, "<leader>lr",
-                       ":lua require'telescope.builtin'.lsp_references{}<CR>",
-                       {noremap = true}, "Find references")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>lR",
-                       ":lua vim.lsp.buf.rename()<CR>", {noremap = true},
-                       "Rename")
-  keybind.bind_command(edit_mode.NORMAL, "<leader>ld",
-                       ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>",
-                       {noremap = true}, {noremap = true},
-                       "Document symbol list")
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = {noremap = true, silent = true, buffer = bufnr}
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions,
+                 bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations,
+                 bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>D',
+                 require('telescope.builtin').lsp_type_definitions, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f',
+                 function() vim.lsp.buf.format({async = true}) end, bufopts)
 
-  -- Show docs when the cursor is held over something
-  -- autocmd.bind_cursor_hold(function()
-  -- vim.cmd("lua vim.lsp.buf.hover()")
-  -- end)
+  -- Default maps for workspace manipulation
+  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder,
+  --    bufopts)
+  -- vim.keymap.set('n', '<space>wl', function()
+  --    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, bufopts)
 end
 
 --- Maps filetypes to their server definitions
@@ -255,14 +216,24 @@ function module.register_server(server, config)
   -- local completion = require("completion") -- From completion-nvim
 
   config = config or {}
-  -- config.on_attach = completion.on_attach
+  local caller_on_attach = config.on_attach
+
+  local on_attach = function(client, bufnr)
+    bind_lsp_keys(client, bufnr)
+    if (caller_on_attach ~= nil) then caller_on_attach(client, bufnr) end
+  end
+
+  config.on_attach = on_attach
   config = vim.tbl_extend("keep", config, server.document_config.default_config)
-  config.capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  config.capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp
+                                                                      .protocol
+                                                                      .make_client_capabilities())
 
   server.setup(config)
 
-  for _, v in pairs(config.filetypes) do module.filetype_servers[v] = server end
+  for _, v in pairs(config.filetypes) do
+    module.filetype_servers[v] = {server = server, on_attach = caller_on_attach}
+  end
 end
 
 return module
-
