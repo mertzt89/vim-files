@@ -15,24 +15,22 @@ local function set_default_buf_opt(name, value)
 end
 
 function module.register_plugins(use)
-  use({
-    'lambdalisue/fern.vim',
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons' -- optional, for file icons
+    },
+    tag = 'nightly', -- optional, updated every week. (see issue #1193)
     config = function()
       local keybind = require 'lib.keybind'
 
-      keybind.bind_command(keybind.mode.NORMAL, "<F6>",
-                           ":Fern . -drawer -toggle<CR>",
-                           {noremap = true, silent = true})
+      require("nvim-tree").setup()
 
-      if require'lib.plug'.has_plugin('fern-renderer-nerdfont.vim') then
-        vim.g['fern#renderer'] = "nerdfont"
-      end
+      keybind.bind_command(keybind.mode.NORMAL, "<F6>",
+                           ":NvimTreeFindFileToggle<CR>",
+                           {noremap = true, silent = true})
     end
-  })
-  use({
-    'lambdalisue/fern-renderer-nerdfont.vim',
-    requires = {{'lambdalisue/nerdfont.vim'}}
-  })
+  }
 
   -- Multiple cursors
   use({'terryma/vim-multiple-cursors'})
