@@ -15,25 +15,25 @@ function module.register_plugins(use)
   })
 
   -- Lualine
-  use {
-    'hoob3rt/lualine.nvim',
-    config = function()
-      require'lualine'.setup {
-        options = {theme = 'tokyonight'},
-        sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'branch'},
-          lualine_c = {'filename'},
-          lualine_x = {
-            {require'modules.lsp'.status_line_part}, 'encoding', 'fileformat',
-            'filetype'
-          },
-          lualine_y = {'progress'},
-          lualine_z = {'location'}
-        }
-      }
-    end
-  }
+  -- use {
+  --   'hoob3rt/lualine.nvim',
+  --   config = function()
+  --     require'lualine'.setup {
+  --       options = {theme = 'tokyonight'},
+  --       sections = {
+  --         lualine_a = {'mode'},
+  --         lualine_b = {'branch'},
+  --         lualine_c = {'filename'},
+  --         lualine_x = {
+  --           {require'modules.lsp'.status_line_part}, 'encoding', 'fileformat',
+  --           'filetype'
+  --         },
+  --         lualine_y = {'progress'},
+  --         lualine_z = {'location'}
+  --       }
+  --     }
+  --   end
+  -- }
 
   -- Hightlight word under cursor
   use({

@@ -75,6 +75,51 @@ function module.register_plugins(use)
   }
 
   use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig",
+    config = function()
+      local navic = require('nvim-navic')
+      local config = require('tokyonight.config')
+      local colors = require('tokyonight.colors').setup(config)
+
+      vim.api.nvim_set_hl(0, "NavicIconsFile", {fg = colors.blue})
+      vim.api.nvim_set_hl(0, "NavicSeparator", {fg = colors.comment})
+      vim.api.nvim_set_hl(0, "NavicText", {fg = colors.fg})
+      vim.api.nvim_set_hl(0, "NavicIconsCommon", {fg = colors.blue})
+      vim.api.nvim_set_hl(0, "NavicIconsModule", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsNamespace", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsPackage", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsClass", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsMethod", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsProperty", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsField", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsConstructor",
+                          {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsEnum", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsInterface", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsFunction", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsVariable", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsConstant", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsString", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsNumber", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsBoolean", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsArray", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsObject", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsKey", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsNull", {link = "NavicIconsCommon"})
+      vim.api
+        .nvim_set_hl(0, "NavicIconsEnumMember", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsStruct", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsEvent", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsOperator", {link = "NavicIconsCommon"})
+      vim.api.nvim_set_hl(0, "NavicIconsTypeParameter",
+                          {link = "NavicIconsCommon"})
+
+      navic.setup {highlight = true}
+    end
+  }
+
+  use {
     'ray-x/lsp_signature.nvim',
     config = function() require("lsp_signature").setup() end
   }
@@ -218,7 +263,11 @@ function module.register_server(server, config)
   local caller_on_attach = config.on_attach
 
   local on_attach = function(client, bufnr)
+    local navic = require("nvim-navic")
+
     bind_lsp_keys(client, bufnr)
+    navic.attach(client, bufnr)
+
     if (caller_on_attach ~= nil) then caller_on_attach(client, bufnr) end
   end
 

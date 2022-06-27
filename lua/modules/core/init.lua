@@ -152,9 +152,6 @@ function module.init()
   -- Use the clipboard register when yanking/put'ing
   vim.o.clipboard = "unnamedplus"
 
-  -- Winbar
-  vim.o.winbar = "%{%v:lua.require'modules.core.winbar'.eval()%}"
-
   -- Window navigation key bindings
   keybind.bind_command(keybind.mode.NORMAL, "<leader>wh", "<C-w>h",
                        {noremap = true})
