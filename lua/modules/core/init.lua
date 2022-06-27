@@ -146,6 +146,12 @@ function module.register_plugins(use)
   -- Visual Star Search
   --  Allows using visual selection for search term when using '*' or '#'
   use {'nelstrom/vim-visual-star-search'}
+
+  -- Auto pairs
+  use {
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+  }
 end
 
 function module.init()
