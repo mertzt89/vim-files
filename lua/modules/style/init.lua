@@ -17,7 +17,10 @@ function module.register_plugins(use)
   -- Hightlight word under cursor
   use({
     'RRethy/vim-illuminate',
-    config = function() vim.g.Illuminate_delay = 75 end
+    config = function()
+      vim.g.Illuminate_delay = 75
+      vim.g.Illuminate_ftblacklist = {"NvimTree"}
+    end
   })
 
   -- Todo Comments (highlight todo/hack/note/etc.)
