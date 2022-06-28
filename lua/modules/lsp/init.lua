@@ -1,6 +1,4 @@
 --- Language server protocol support, courtesy of Neovim
-local keybind = require("lib.keybind")
-local edit_mode = keybind.mode
 local plug = require("lib.plug")
 
 local module = {}
@@ -202,45 +200,45 @@ function module.init()
     vim.g.completion_enable_snippet = "snippets.nvim"
   end
 
-  -- Bind leader keys
-  keybind.set_group_name("<leader>l", "LSP")
-  keybind.bind_function(edit_mode.NORMAL, "<leader>ls", user_stop_all_clients,
-                        nil, "Stop all LSP clients")
-  keybind.bind_function(edit_mode.NORMAL, "<leader>la", user_attach_client, nil,
-                        "Attach LSP client to buffer")
-
   vim.o.completeopt = "menuone,noinsert,noselect"
 end
 
 local bind_lsp_keys = function(client, bufnr)
+  local wk = require('which-key')
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = {noremap = true, silent = true, buffer = bufnr}
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions,
-                 bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations,
-                 bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>D',
-                 require('telescope.builtin').lsp_type_definitions, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f',
-                 function() vim.lsp.buf.format({async = true}) end, bufopts)
+  wk.register({
+    ['gD'] = {vim.lsp.buf.declaration, "Goto Declaration", buffer = bufnr},
+    ['gd'] = {
+      require('telescope.builtin').lsp_definitions,
+      "Definitions",
+      buffer = bufnr
+    },
+    ['K'] = {vim.lsp.buf.hover, "Hover", buffer = bufnr},
+    ['gi'] = {
+      require('telescope.builtin').lsp_implementations,
+      "Implementations",
+      buffer = bufnr
+    },
+    ['<C-k>'] = {vim.lsp.buf.signature_help, "Signature", buffer = bufnr},
+    ['<space>D'] = {
+      require('telescope.builtin').lsp_type_definitions,
+      "Typedefs",
+      buffer = bufnr
+    },
+    ['<space>rn'] = {vim.lsp.buf.rename, "Rename", buffer = bufnr},
+    ['<space>ca'] = {vim.lsp.buf.code_action, "Code Action", buffer = bufnr},
+    ['gr'] = {vim.lsp.buf.references, "References", buffer = bufnr},
+    ['<space>f'] = {
+      function() vim.lsp.buf.format({async = true}) end,
+      "Format Buffer",
+      buffer = bufnr
+    }
 
-  -- Default maps for workspace manipulation
-  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder,
-  --    bufopts)
-  -- vim.keymap.set('n', '<space>wl', function()
-  --    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, bufopts)
+  })
 end
 
 --- Maps filetypes to their server definitions

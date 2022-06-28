@@ -36,7 +36,7 @@ function M.register(use)
     },
     config = function()
       local actions = require 'telescope.actions'
-      local keybind = require 'lib.keybind'
+      local wk = require('which-key')
 
       require'telescope'.setup {
         defaults = {
@@ -122,27 +122,29 @@ function M.register(use)
       -- load_extension, somewhere after setup function:
       require('telescope').load_extension('fzf')
 
-      keybind.bind_command(keybind.mode.NORMAL, "<C-p>",
-                           ":Telescope find_files find_command=rg,--files,-L,--no-ignore-vcs,--hidden<CR>",
-                           {noremap = true, silent = true})
-      keybind.bind_command(keybind.mode.NORMAL, "<F3>",
-                           ":Telescope buffers show_all_buffers=true<CR>",
-                           {noremap = true, silent = true})
-      keybind.bind_command(keybind.mode.NORMAL, "<leader>tu",
-                           ":lua require('telescope.builtin').resume()<cr>",
-                           {noremap = true, silent = true})
-      keybind.bind_command(keybind.mode.NORMAL, "<leader>th",
-                           ":lua require('telescope.builtin').pickers()<cr>",
-                           {noremap = true, silent = true})
+      wk.register({
+        ["<C-p>"] = {
+          ":Telescope find_files find_command=rg,--files,-L,--no-ignore-vcs,--hidden<CR>",
+          "Find Files"
+        },
+        ["<F3>"] = {
+          ":Telescope buffers show_all_buffers=true<CR>", "Switch Buffer"
+        },
+        ["<leader>t"] = {
+          name = "+Telescope",
+          u = {":lua require('telescope.builtin').resume()<cr>", "Resume"},
+          h = {":lua require('telescope.builtin').pickers()<cr>", "Pickers"}
+        },
+        ["gs"] = {":set opfunc=v:lua.telescope_grep_op<CR>g@", "Grep Operator"}
+      })
 
-      -- Grep operator
-      keybind.bind_command(keybind.mode.NORMAL, "gs",
-                           ":set opfunc=v:lua.telescope_grep_op<CR>g@",
-                           {silent = true})
-      keybind.bind_command(keybind.mode.VISUAL, "gs",
-                           ":<c-u>call v:lua.telescope_grep_op(visualmode())<CR>",
-                           {silent = true})
-
+      wk.register({
+        ["gs"] = {
+          ":<c-u>call v:lua.telescope_grep_op(visualmode())<CR>",
+          "Grep Operator",
+          mode = "v"
+        }
+      })
     end
   })
 

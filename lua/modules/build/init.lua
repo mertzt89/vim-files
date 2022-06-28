@@ -8,31 +8,38 @@ function module.register_plugins(use)
   use({
     "tpope/vim-dispatch",
     config = function()
-      local keybind = require("lib.keybind")
+      local wk = require('which-key')
 
       -- Don't create default key bindings
       vim.g.dispatch_no_maps = 1
-      keybind.bind_command(keybind.mode.NORMAL, "<leader>pc", ":Dispatch<CR>",
-                           {noremap = true}, "Compile")
-      keybind.bind_function(keybind.mode.NORMAL, "<leader>pr", function()
-        local run_cmd = vim.b.c_dispatch_run
-        if run_cmd ~= nil then
-          vim.cmd("Dispatch " .. run_cmd)
-        else
-          print(
-            "No run command configured! (Buffer variable 'c_dispatch_run' missng)")
-        end
-      end, {noremap = true}, "Run")
-      keybind.bind_function(keybind.mode.NORMAL, "<leader>pt", function()
-        local test_cmd = vim.b.c_dispatch_test
-        if test_cmd ~= nil then
-          vim.cmd("Dispatch " .. test_cmd)
-        else
-          print(
-            "No test command configured! (Buffer variable 'c_dispatch_test' missng)")
-        end
-      end, {noremap = true}, "Test")
-
+      wk.register({
+        ["<leader>p"] = {
+          name = "+Project",
+          c = {":Dispatch<CR>", "Compile"},
+          r = {
+            function()
+              local test_cmd = vim.b.c_dispatch_run
+              if test_cmd ~= nil then
+                vim.cmd("Dispatch " .. test_cmd)
+              else
+                print(
+                  "No run command configured! (Buffer variable 'c_dispatch_run' missng)")
+              end
+            end, "Run"
+          },
+          t = {
+            function()
+              local test_cmd = vim.b.c_dispatch_test
+              if test_cmd ~= nil then
+                vim.cmd("Dispatch " .. test_cmd)
+              else
+                print(
+                  "No test command configured! (Buffer variable 'c_dispatch_test' missng)")
+              end
+            end, "Test"
+          }
+        }
+      })
     end
   })
 end

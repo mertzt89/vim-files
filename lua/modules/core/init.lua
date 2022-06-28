@@ -22,13 +22,11 @@ function module.register_plugins(use)
     },
     tag = 'nightly', -- optional, updated every week. (see issue #1193)
     config = function()
-      local keybind = require 'lib.keybind'
-
       require("nvim-tree").setup()
 
-      keybind.bind_command(keybind.mode.NORMAL, "<F6>",
-                           ":NvimTreeFindFileToggle<CR>",
-                           {noremap = true, silent = true})
+      require("which-key").register({
+        ["<F6>"] = {"<cmd>NvimTreeFindFileToggle<cr>", "Toggle Nvim Tree"}
+      })
     end
   }
 
@@ -52,41 +50,71 @@ function module.register_plugins(use)
       require('gitsigns').setup({
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
+          local wk = require('which-key')
 
-          local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-          end
+          wk.register({
+            -- Navigation
+            ["[c"] = {
+              function()
+                if vim.wo.diff then return '[c' end
+                vim.schedule(function() gs.prev_hunk() end)
+                return '<Ignore>'
+              end,
+              "Prev. Chunk",
+              expr = true
+            },
+            ["]c"] = {
+              function()
+                if vim.wo.diff then return ']c' end
+                vim.schedule(function() gs.next_hunk() end)
+                return '<Ignore>'
+              end,
+              "Next Chunk",
+              expr = true
+            },
+            -- Actions
+            ["<leader>h"] = {
+              name = "+Git",
+              s = {'<cmd>Gitsigns stage_hunk<CR>', "Stage Hunk", mode = "n"},
+              r = {'<cmd>Gitsigns reset_hunk<CR>', "Reset Hunk", mode = "n"},
+              --
+              S = {gs.stage_buffer, "Stage Buffer"},
+              u = {gs.undo_stage_hunk, "Undo Stage Hunk"},
+              R = {gs.reset_buffer, "Reset Buffer"},
+              p = {gs.preview_hunk, "Preview Hunk"},
+              b = {function() gs.blame_line {full = true} end, "Blame Line"},
+              B = {gs.toggle_current_line_blame, "Toggle Current Line Blame"},
+              d = {gs.diffthis, "Diff This"},
+              D = {function() gs.diffthis('~') end, "Diff This ~"},
+              x = {gs.toggle_deleted, "Toggle Deleted"}
+            }
 
-          -- Navigation
-          map('n', ']c', function()
-            if vim.wo.diff then return ']c' end
-            vim.schedule(function() gs.next_hunk() end)
-            return '<Ignore>'
-          end, {expr = true})
+          })
 
-          map('n', '[c', function()
-            if vim.wo.diff then return '[c' end
-            vim.schedule(function() gs.prev_hunk() end)
-            return '<Ignore>'
-          end, {expr = true})
+          wk.register({
+            ["<leader>h"] = {
+              s = {'<cmd>Gitsigns stage_hunk<CR>', "Stage Hunk", mode = "v"},
+              r = {'<cmd>Gitsigns reset_hunk<CR>', "Reset Hunk", mode = "v"}
+            }
+          })
 
-          -- Actions
-          map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
-          map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
-          map('n', '<leader>hS', gs.stage_buffer)
-          map('n', '<leader>hu', gs.undo_stage_hunk)
-          map('n', '<leader>hR', gs.reset_buffer)
-          map('n', '<leader>hp', gs.preview_hunk)
-          map('n', '<leader>hb', function() gs.blame_line {full = true} end)
-          map('n', '<leader>tb', gs.toggle_current_line_blame)
-          map('n', '<leader>hd', gs.diffthis)
-          map('n', '<leader>hD', function() gs.diffthis('~') end)
-          map('n', '<leader>td', gs.toggle_deleted)
+          -- Text objects
+          wk.register({
+            ["ih"] = {
+              ':<C-U>Gitsigns select_hunk<CR>',
+              "Select Hunk",
+              mode = "o"
 
-          -- Text object
-          map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+            }
+          })
+          wk.register({
+            ["ih"] = {
+              ':<C-U>Gitsigns select_hunk<CR>',
+              "Select Hunk",
+              mode = "x"
+
+            }
+          })
         end
       })
     end
@@ -97,10 +125,11 @@ function module.register_plugins(use)
   use {
     'liuchengxu/vista.vim',
     config = function()
-      local keybind = require 'lib.keybind'
+      local wk = require('which-key')
+
       vim.g.vista_default_executive = "nvim_lsp"
-      keybind.bind_command(keybind.mode.NORMAL, "<F5>", "<cmd>Vista!!<CR>",
-                           {noremap = true, silent = true})
+
+      wk.register({["<F5>"] = {"<cmd>Vista!!<CR>", "Vista Toggle"}})
     end
   }
 
@@ -113,16 +142,20 @@ function module.register_plugins(use)
   -- Hop (like easymotion)
   use({
     'phaazon/hop.nvim',
-    branch = 'v1', -- optional but strongly recommended
+    branch = 'master', -- optional but strongly recommended
     config = function()
-      local keybind = require 'lib.keybind'
+      local wk = require('which-key')
       -- you can configure Hop the way you like here; see :h hop-config
       -- require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
 
       require'hop'.setup()
 
-      keybind.bind_command(keybind.mode.NORMAL, '<leader>,w',
-                           "<cmd>lua require'hop'.hint_words()<cr>", {})
+      wk.register({
+        ['<leader>,'] = {
+          name = "+Hop",
+          w = {"<cmd>lua require'hop'.hint_words()<cr>", "Hop"}
+        }
+      })
     end
   })
 
@@ -155,7 +188,7 @@ function module.register_plugins(use)
 end
 
 function module.init()
-  local keybind = require 'lib.keybind'
+  local wk = require('which-key')
 
   vim.g.mapleader = ","
 
@@ -201,20 +234,15 @@ function module.init()
   vim.o.clipboard = "unnamedplus"
 
   -- Window navigation key bindings
-  keybind.bind_command(keybind.mode.NORMAL, "<leader>wh", "<C-w>h",
-                       {noremap = true})
-  keybind.bind_command(keybind.mode.NORMAL, "<leader>wj", "<C-w>j",
-                       {noremap = true})
-  keybind.bind_command(keybind.mode.NORMAL, "<leader>wk", "<C-w>k",
-                       {noremap = true})
-  keybind.bind_command(keybind.mode.NORMAL, "<leader>wl", "<C-w>l",
-                       {noremap = true})
-
-  -- Tab navigation key bindings
-  keybind.bind_command(keybind.mode.NORMAL, "th", ":tabprevious<CR>",
-                       {noremap = true, silent = true})
-  keybind.bind_command(keybind.mode.NORMAL, "tl", ":tabnext<CR>",
-                       {noremap = true, silent = true})
+  wk.register({
+    ["<leader>w"] = {
+      name = "+Window",
+      h = {"<C-w>h", "Move Left"},
+      j = {"<C-w>j", "Move Down"},
+      k = {"<C-w>k", "Move Up"},
+      l = {"<C-w>l", "Move Right"}
+    }
+  })
 
   -- Remove trailing whitespace
   vim.api.nvim_create_autocmd("BufWritePre", {
