@@ -52,6 +52,8 @@ function module.register_plugins(use)
       }
     end
   }
+
+  use {'stevearc/dressing.nvim'}
 end
 
 function module.init() end

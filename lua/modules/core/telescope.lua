@@ -133,7 +133,15 @@ function M.register(use)
         ["<leader>t"] = {
           name = "+Telescope",
           u = {":lua require('telescope.builtin').resume()<cr>", "Resume"},
-          h = {":lua require('telescope.builtin').pickers()<cr>", "Pickers"}
+          h = {":lua require('telescope.builtin').pickers()<cr>", "Pickers"},
+          s = {
+            function()
+              vim.ui.input({prompt = " Grep"}, function(s)
+                if not s or s == '' then return end
+                require('telescope.builtin').grep_string({search = s})
+              end)
+            end, " Grep"
+          }
         },
         ["gs"] = {":set opfunc=v:lua.telescope_grep_op<CR>g@", "Grep Operator"}
       })
