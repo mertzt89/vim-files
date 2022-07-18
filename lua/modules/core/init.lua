@@ -22,7 +22,15 @@ function module.register_plugins(use)
     },
     tag = 'nightly', -- optional, updated every week. (see issue #1193)
     config = function()
-      require("nvim-tree").setup()
+      require("nvim-tree").setup({
+        view = {
+          mappings = {
+            list = {
+              {key = "l", action = "edit"}, {key = "h", action = "close_node"}
+            }
+          }
+        }
+      })
 
       require("which-key").register({
         ["<F6>"] = {"<cmd>NvimTreeFindFileToggle<cr>", "Toggle Nvim Tree"}
