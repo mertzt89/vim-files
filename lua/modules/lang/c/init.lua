@@ -12,13 +12,13 @@ function module.init()
   local build = require("modules.build")
   local lspconfig = require("lspconfig")
 
-  lsp.register_server(lspconfig.ccls, {
-    root_dir = lspconfig.util.root_pattern("compile_commands.json"),
-    init_options = {cache = {directory = "/tmp/ccls-cache"}},
-    highlight = {lsRanges = true},
-    capabilities = {
-      textDocument = {completion = {completionItem = {snippetSupport = true}}}
-    }
+  lsp.register_server(lspconfig.clangd, {
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function() vim.lsp.buf.format({async = false}) end
+      })
+    end
   })
 
   -- Ignore common build output directories
@@ -31,4 +31,3 @@ function module.init()
 end
 
 return module
-
