@@ -135,64 +135,6 @@ function module.register_plugins(use)
   })
 end
 
-local function user_stop_all_clients()
-  local clients = vim.lsp.get_active_clients()
-
-  if #clients > 0 then
-    vim.lsp.stop_client(clients)
-    for _, v in pairs(clients) do print("Stopped LSP client " .. v.name) end
-  else
-    print("No LSP clients are running")
-  end
-end
-
-local function user_attach_client()
-  local filetype = vim.bo[0].filetype
-
-  local server = module.filetype_servers[filetype]
-  if server ~= nil then
-    print("Attaching LSP client " .. server.name .. " to buffer")
-    server.manager.try_add()
-  else
-    print("No LSP client registered for filetype " .. filetype)
-  end
-end
-
---- Get the LSP status line part
-function module.status_line_part()
-  local clients = vim.lsp.buf_get_clients()
-  local client_names = {}
-  for _, v in pairs(clients) do table.insert(client_names, v.name) end
-
-  if #client_names > 0 then
-    local sections = {"LSP:", table.concat(client_names, ", ")}
-
-    -- local error_count = vim.lsp.diagnostic.get_count("Error")
-    -- if error_count ~= nil and error_count > 0 then
-    --  table.insert(sections, "E: " .. error_count)
-    -- end
-
-    -- local warn_count = vim.lsp.diagnostic.get_count("Warning")
-    -- if error_count ~= nil and warn_count > 0 then
-    --  table.insert(sections, "W: " .. warn_count)
-    -- end
-
-    -- local info_count = vim.lsp.diagnostic.get_count("Information")
-    -- if error_count ~= nil and info_count > 0 then
-    --  table.insert(sections, "I: " .. info_count)
-    -- end
-
-    -- local hint_count = vim.lsp.diagnostic.get_count("Hint")
-    -- if error_count ~= nil and hint_count > 0 then
-    --  table.insert(sections, "H: " .. hint_count)
-    -- end
-
-    return table.concat(sections, " ")
-  else
-    return ""
-  end
-end
-
 --- Configures vim and plugins for this module
 function module.init()
   -- TODO: Fix this?
@@ -241,14 +183,9 @@ local bind_lsp_keys = function(client, bufnr)
   })
 end
 
---- Maps filetypes to their server definitions
---
--- <br>
--- Eg: `["rust"] = nvim_lsp.rls`
---
--- <br>
--- See `nvim_lsp` for what a server definition looks like
-module.filetype_servers = {}
+function module.current_buf_attached()
+  return (next(vim.lsp.buf_get_clients(0)) ~= nil)
+end
 
 --- Register an LSP server
 --
@@ -276,10 +213,6 @@ function module.register_server(server, config)
                                                                       .make_client_capabilities())
 
   server.setup(config)
-
-  for _, v in pairs(config.filetypes) do
-    module.filetype_servers[v] = {server = server, on_attach = caller_on_attach}
-  end
 end
 
 return module
