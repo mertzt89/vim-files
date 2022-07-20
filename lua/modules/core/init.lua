@@ -150,7 +150,7 @@ function module.register_plugins(use)
   -- Hop (like easymotion)
   use({
     'phaazon/hop.nvim',
-    branch = 'master', -- optional but strongly recommended
+    branch = 'master',
     config = function()
       local wk = require('which-key')
       -- you can configure Hop the way you like here; see :h hop-config
