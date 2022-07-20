@@ -3,6 +3,7 @@ local M = {}
 local function grep_operator(t, ...)
   local regsave = vim.fn.getreg("@")
   local selsave = vim.o.selection
+  local selvalid = true;
 
   vim.o.selection = 'inclusive'
 
@@ -10,20 +11,20 @@ local function grep_operator(t, ...)
     vim.api.nvim_command('silent execute "normal! gvy"')
   elseif t == 'line' then
     vim.api.nvim_command('silent execute "normal! \'[V\']y"')
-  else
+  elseif t == 'char' then
     vim.api.nvim_command('silent execute "normal! `[v`]y"')
+  else
+    require('lib.log').error("Unsupported selection mode!")
+    selvalid = false
   end
 
   vim.o.selection = selsave
-  local query = vim.fn.getreg("@")
+  if selvalid then
+    local query = vim.fn.getreg("@")
+    require'telescope.builtin'.grep_string({search = query})
+  end
 
   vim.fn.setreg("@", regsave)
-  print(query)
-
-  require'telescope.builtin'.grep_string({
-    find_command = "rg,--no-ignore-vcs,--hidden,--no-heading,--vimgrep",
-    search = query
-  })
 end
 
 function M.register(use)
@@ -124,16 +125,21 @@ function M.register(use)
 
       wk.register({
         ["<C-p>"] = {
-          ":Telescope find_files find_command=rg,--files,-L,--no-ignore-vcs,--hidden<CR>",
-          "Find Files"
+          function()
+            require('telescope.builtin').find_files({
+              find_command = {"fd", "-tf", "--no-ignore-vcs", "--hidden"}
+            })
+          end, "Find Files"
         },
         ["<F3>"] = {
-          ":Telescope buffers show_all_buffers=true<CR>", "Switch Buffer"
+          function()
+            require('telescope.builtin').buffers({show_all_buffers = true})
+          end, "Switch Buffer"
         },
         ["<leader>t"] = {
           name = "+Telescope",
-          u = {":lua require('telescope.builtin').resume()<cr>", "Resume"},
-          h = {":lua require('telescope.builtin').pickers()<cr>", "Pickers"},
+          u = {function() require('telescope.builtin').resume() end, "Resume"},
+          h = {function() require('telescope.builtin').pickers() end, "Pickers"},
           s = {
             function()
               vim.ui.input({prompt = " Grep"}, function(s)
@@ -143,14 +149,19 @@ function M.register(use)
             end, " Grep"
           }
         },
-        ["gs"] = {":set opfunc=v:lua.telescope_grep_op<CR>g@", "Grep Operator"}
+        ["gs"] = {
+          function()
+            vim.go.operatorfunc = "v:lua.telescope_grep_op"
+            vim.api.nvim_feedkeys("g@", "n", false)
+          end, "Grep Operator"
+        }
       })
 
       wk.register({
         ["gs"] = {
           ":<c-u>call v:lua.telescope_grep_op(visualmode())<CR>",
           "Grep Operator",
-          mode = "v"
+          mode = "x"
         }
       })
     end
