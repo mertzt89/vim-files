@@ -133,6 +133,11 @@ function module.register_plugins(use)
     requires = "kyazdani42/nvim-web-devicons",
     config = function() require("trouble").setup {} end
   })
+
+  use {
+    "williamboman/mason.nvim",
+    config = function() require("mason").setup() end
+  }
 end
 
 --- Configures vim and plugins for this module
