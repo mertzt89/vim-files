@@ -12,7 +12,19 @@ function module.init()
   local build = require("modules.build")
   local lspconfig = require("lspconfig")
 
-  lsp.register_server(lspconfig.rust_analyzer, {})
+  lsp.register_server(lspconfig.rust_analyzer, {
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          if require('lib.project').config.lsp.format_on_save then
+            vim.lsp.buf.format({async = false})
+          end
+        end
+      })
+    end
+
+  })
 
   -- Ignore cargo output
   file.add_to_wildignore("target")
