@@ -13,10 +13,9 @@ function module.init()
                                         .lua_format)
 
   lsp.register_server(lspconfig.sumneko_lua, {
-    cmd = {'lls'},
-    on_attach = function()
+    on_attach = function(client, bufnr)
       vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*.lua",
+        buffer = bufnr,
         callback = function()
           if require('lib.project').config.lsp.format_on_save then
             vim.lsp.buf.format({async = false})
