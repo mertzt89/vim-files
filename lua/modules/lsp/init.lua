@@ -158,6 +158,7 @@ local bind_lsp_keys = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   wk.register({
+    ['ga'] = {vim.lsp.buf.code_action, "Code Action", buffer = bufnr},
     ['gD'] = {vim.lsp.buf.declaration, "Goto Declaration", buffer = bufnr},
     ['gd'] = {
       require('telescope.builtin').lsp_definitions,
@@ -177,8 +178,11 @@ local bind_lsp_keys = function(client, bufnr)
       buffer = bufnr
     },
     ['<space>rn'] = {vim.lsp.buf.rename, "Rename", buffer = bufnr},
-    ['<space>ca'] = {vim.lsp.buf.code_action, "Code Action", buffer = bufnr},
-    ['gr'] = {vim.lsp.buf.references, "References", buffer = bufnr},
+    ['gr'] = {
+      require('telescope.builtin').lsp_references,
+      "References",
+      buffer = bufnr
+    },
     ['<space>f'] = {
       function() vim.lsp.buf.format({async = true}) end,
       "Format Buffer",
