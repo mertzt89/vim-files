@@ -7,7 +7,7 @@ function module.register_plugins(use)
   use({
     'folke/tokyonight.nvim',
     config = function()
-      vim.g.tokyonight_style = 'night'
+      require("tokyonight").setup({style = "night"})
       if not pcall(vim.api.nvim_command, "colorscheme tokyonight") then
         vim.api.nvim_command("colorscheme elflord")
       end
