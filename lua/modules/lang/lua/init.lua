@@ -9,16 +9,13 @@ function module.init()
   local lsp = require("modules.lsp")
   local lspconfig = require("lspconfig")
 
-  require('null-ls.sources').register(require('null-ls').builtins.formatting
-                                        .lua_format)
-
   lsp.register_server(lspconfig.sumneko_lua, {
     on_attach = function(client, bufnr)
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
         callback = function()
           if require('lib.project').config.lsp.format_on_save then
-            vim.lsp.buf.format({async = false})
+            vim.lsp.buf.format({ async = false })
           end
         end
       })
@@ -33,7 +30,7 @@ function module.init()
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = {'vim'}
+          globals = { 'vim' }
         },
         workspace = {
           -- Make the server aware of Neovim runtime files
@@ -43,7 +40,7 @@ function module.init()
           }
         },
         -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {enable = false}
+        telemetry = { enable = false }
       }
     }
   })
