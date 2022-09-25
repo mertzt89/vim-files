@@ -15,6 +15,7 @@ function module.register_plugins(use)
     config = function()
       -- Setup nvim-cmp.
       local cmp = require 'cmp'
+      local types = require 'cmp.types'
 
       cmp.setup({
         snippet = {
@@ -32,6 +33,11 @@ function module.register_plugins(use)
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
+          ['<C-k>'] = {
+            i = cmp.mapping.select_prev_item({
+              behavior = types.cmp.SelectBehavior.Insert
+            })
+          },
           ['<CR>'] = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
         sources = cmp.config.sources({
@@ -125,7 +131,13 @@ function module.register_plugins(use)
   use({
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
-    config = function() require("trouble").setup {} end
+    config = function()
+      require("trouble").setup {
+        mode = 'document_diagnostics',
+        auto_open = true,
+        auto_close = true
+      }
+    end
   })
 
   use({
@@ -166,6 +178,7 @@ local bind_lsp_keys = function(client, bufnr)
       buffer = bufnr
     },
     ['K'] = {vim.lsp.buf.hover, "Hover", buffer = bufnr},
+    ['gk'] = {vim.diagnostic.open_float, "Diagnotic Info", buffer = bufnr},
     ['gi'] = {
       require('telescope.builtin').lsp_implementations,
       "Implementations",
