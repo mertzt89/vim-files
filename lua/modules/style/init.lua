@@ -3,56 +3,47 @@
 local module = {}
 
 function module.register_plugins(use)
-  -- Tokyo Night colorscheme
-  use({
-    'folke/tokyonight.nvim',
-    config = function()
-      require("tokyonight").setup({style = "night"})
-      if not pcall(vim.api.nvim_command, "colorscheme tokyonight") then
-        vim.api.nvim_command("colorscheme elflord")
-      end
-    end
-  })
+    -- Tokyo Night colorscheme
+    use({
+        'folke/tokyonight.nvim',
+        config = function()
+            require("tokyonight").setup({ style = "night",
+            })
+            if not pcall(vim.api.nvim_command, "colorscheme tokyonight") then
+                vim.api.nvim_command("colorscheme elflord")
+            end
+        end
+    })
 
-  use {
-    "lukas-reineke/indent-blankline.nvim",
-    config = function()
-      require("indent_blankline").setup {
-        show_current_context = true,
-        show_current_context_start = true
-      }
-    end
-  }
+    -- Hightlight word under cursor
+    use({
+        'RRethy/vim-illuminate',
+        config = function()
+            vim.g.Illuminate_delay = 75
+            vim.g.Illuminate_ftblacklist = { "NvimTree" }
+        end
+    })
 
-  -- Hightlight word under cursor
-  use({
-    'RRethy/vim-illuminate',
-    config = function()
-      vim.g.Illuminate_delay = 75
-      vim.g.Illuminate_ftblacklist = {"NvimTree"}
-    end
-  })
-
-  -- Todo Comments (highlight todo/hack/note/etc.)
-  use({
-    'vinnyA3/todo-comments.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-    config = function() require'todo-comments'.setup {} end
-  })
+    -- Todo Comments (highlight todo/hack/note/etc.)
+    use({
+        'vinnyA3/todo-comments.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function() require 'todo-comments'.setup {} end
+    })
 end
 
 function module.init()
-  vim.api.nvim_command("syntax on")
+    vim.api.nvim_command("syntax on")
 
-  -- Line numbers
-  vim.wo.number = true
+    -- Line numbers
+    vim.wo.number = true
 
-  -- Visibile whitespace
-  vim.o.listchars = "tab:>-,space:·"
-  vim.o.list = true
+    -- Visibile whitespace
+    vim.o.listchars = "tab:>-,space:·"
+    vim.o.list = true
 
-  -- No soft wrapping
-  vim.o.wrap = false
+    -- No soft wrapping
+    vim.o.wrap = false
 end
 
 return module
