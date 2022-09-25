@@ -5,30 +5,31 @@ local module = {}
 function module.register_plugins(use)
     -- Tokyo Night colorscheme
     use({
-        'folke/tokyonight.nvim',
+        "folke/tokyonight.nvim",
         config = function()
-            require("tokyonight").setup({ style = "night",
-            })
+            require("tokyonight").setup({ style = "night" })
             if not pcall(vim.api.nvim_command, "colorscheme tokyonight") then
                 vim.api.nvim_command("colorscheme elflord")
             end
-        end
+        end,
     })
 
     -- Hightlight word under cursor
     use({
-        'RRethy/vim-illuminate',
+        "RRethy/vim-illuminate",
         config = function()
             vim.g.Illuminate_delay = 75
             vim.g.Illuminate_ftblacklist = { "NvimTree" }
-        end
+        end,
     })
 
     -- Todo Comments (highlight todo/hack/note/etc.)
     use({
-        'vinnyA3/todo-comments.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-        config = function() require 'todo-comments'.setup {} end
+        "vinnyA3/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            require("todo-comments").setup({})
+        end,
     })
 end
 
