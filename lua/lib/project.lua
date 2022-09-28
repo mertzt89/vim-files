@@ -1,5 +1,5 @@
 local M = {}
-local default_opts = { lsp = { format_on_save = true } }
+local default_opts = { trim_whitespace = true, lsp = { format_on_save = true } }
 
 function M.defaults()
     return vim.deepcopy(default_opts)

@@ -256,7 +256,9 @@ function module.init()
     -- Remove trailing whitespace
     vim.api.nvim_create_autocmd("BufWritePre", {
         callback = function()
-            vim.cmd(":%s/\\s\\+$//e")
+            if require("lib.project").config.trim_whitespace then
+                vim.cmd(":%s/\\s\\+$//e")
+            end
         end,
     })
 
