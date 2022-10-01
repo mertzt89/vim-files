@@ -69,9 +69,6 @@ function module.register_plugins(use)
         end,
     })
 
-    -- Extra filetypes/syntax definitions
-    use({ "sheerun/vim-polyglot" })
-
     -- Hop (like easymotion)
     use({
         "phaazon/hop.nvim",
