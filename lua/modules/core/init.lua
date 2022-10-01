@@ -97,10 +97,6 @@ function module.register_plugins(use)
     --  are saved to the respective files.
     use({ "stefandtw/quickfix-reflector.vim" })
 
-    -- ISwap
-    --  Interactively swap elements using tree-sitter
-    use({ "mizlan/iswap.nvim" })
-
     -- Enhanced diffing
     --  Adds additional diffing algorithms and the ability to
     --  switch between them.
