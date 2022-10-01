@@ -89,9 +89,6 @@ function module.register_plugins(use)
         end,
     })
 
-    -- Fuzzy grepping, file finding, etc..
-    require("modules.core.telescope").register(use)
-
     -- Quickfix reflector
     --  Allows the quickfix window to be modifiable and changes
     --  are saved to the respective files.
@@ -179,7 +176,7 @@ function module.register_plugins(use)
         end,
     })
 
-    use({
+    use {
         "echasnovski/mini.nvim",
         config = function()
             require("mini.align").setup({
@@ -190,7 +187,10 @@ function module.register_plugins(use)
 
             require("mini.pairs").setup()
         end,
-    })
+    }
+
+    -- Fuzzy grepping, file finding, etc..
+    require("modules.core.telescope").register(use)
 
     -- Git integrations
     require('modules.core.git').register(use)
