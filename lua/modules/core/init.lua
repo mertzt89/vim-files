@@ -185,8 +185,12 @@ function module.register_plugins(use)
 
             require("mini.indentscope").setup()
 
-            require("mini.pairs").setup()
         end,
+    }
+
+    -- Auto pairs for (['" etc..
+    use { "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
     }
 
     -- Fuzzy grepping, file finding, etc..
