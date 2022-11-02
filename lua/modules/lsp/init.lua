@@ -134,7 +134,6 @@ function module.register_plugins(use)
         requires = "kyazdani42/nvim-web-devicons",
         config = function()
             require("trouble").setup({
-                mode = "document_diagnostics",
                 auto_open = true,
                 auto_close = true,
             })
