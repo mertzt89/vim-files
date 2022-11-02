@@ -242,7 +242,7 @@ function module.register_server(server, config)
 
     config.on_attach = on_attach
     config = vim.tbl_extend("keep", config, server.document_config.default_config)
-    config.capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    config.capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     server.setup(config)
 end
