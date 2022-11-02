@@ -183,6 +183,11 @@ local bind_lsp_keys = function(client, bufnr)
         },
         ["K"] = { vim.lsp.buf.hover, "Hover", buffer = bufnr },
         ["gk"] = { vim.diagnostic.open_float, "Diagnotic Info", buffer = bufnr },
+        ["gK"] = {
+            require("telescope.builtin").diagnostics,
+            "Diagnostics",
+            buffer = bufnr,
+        },
         ["gi"] = {
             require("telescope.builtin").lsp_implementations,
             "Implementations",
