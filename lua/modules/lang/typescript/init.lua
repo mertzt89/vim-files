@@ -11,6 +11,15 @@ function module.register_plugins(use)
     })
 end
 
+local function organize_imports()
+    local params = {
+        command = "_typescript.organizeImports",
+        arguments = { vim.api.nvim_buf_get_name(0) },
+        title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+end
+
 --- Configures vim and plugins for this module
 function module.init()
     local lsp = require("modules.lsp")
@@ -27,6 +36,12 @@ function module.init()
                 end,
             })
         end,
+        commands = {
+            OrganizeImports = {
+                organize_imports,
+                description = "Organize Imports"
+            }
+        }
     })
 
     lsp.register_server(lspconfig.svelte, {
