@@ -244,6 +244,16 @@ function module.register_server(server, config)
         bind_lsp_keys(client, bufnr)
         navic.attach(client, bufnr)
 
+        -- LSP format on save
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+                if require("lib.project").config.lsp.format_on_save then
+                    vim.lsp.buf.format({ async = false })
+                end
+            end,
+        })
+
         if caller_on_attach ~= nil then
             caller_on_attach(client, bufnr)
         end
