@@ -15,12 +15,21 @@ function module.register_plugins(use)
             wk.register({
                 ["<leader>p"] = {
                     name = "+Project",
-                    c = { ":Dispatch<CR>", "Compile" },
+                    c = {
+                        function()
+                            local build_cmd = vim.b.c_dispatch_build
+                            if build_cmd ~= nil then
+                                vim.cmd("Start " .. build_cmd)
+                            else
+                                print("No build command configured! (Buffer variable 'c_dispatch_run' missng)")
+                            end
+                        end, "Compile"
+                    },
                     r = {
                         function()
-                            local test_cmd = vim.b.c_dispatch_run
-                            if test_cmd ~= nil then
-                                vim.cmd("Dispatch " .. test_cmd)
+                            local run_cmd = vim.b.c_dispatch_run
+                            if run_cmd ~= nil then
+                                vim.cmd("Start " .. run_cmd)
                             else
                                 print("No run command configured! (Buffer variable 'c_dispatch_run' missng)")
                             end
@@ -31,7 +40,7 @@ function module.register_plugins(use)
                         function()
                             local test_cmd = vim.b.c_dispatch_test
                             if test_cmd ~= nil then
-                                vim.cmd("Dispatch " .. test_cmd)
+                                vim.cmd("Start " .. test_cmd)
                             else
                                 print("No test command configured! (Buffer variable 'c_dispatch_test' missng)")
                             end
@@ -88,7 +97,7 @@ local Builder = {
 
                 -- Set the build command
                 -- "b:dispatch" used by vim-dispatch
-                vim.api.nvim_buf_set_var(0, "dispatch", self.build_command)
+                vim.api.nvim_buf_set_var(0, "c_dispatch_build", self.build_command)
 
                 if self.test_command ~= nil then
                     -- Set the test command
