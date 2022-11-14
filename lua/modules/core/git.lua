@@ -95,7 +95,6 @@ function M.register(use)
             })
         end,
     })
-
 end
 
 return M

@@ -23,7 +23,8 @@ function module.register_plugins(use)
                             else
                                 print("No build command configured! (Buffer variable 'c_dispatch_run' missng)")
                             end
-                        end, "Compile"
+                        end,
+                        "Compile",
                     },
                     r = {
                         function()

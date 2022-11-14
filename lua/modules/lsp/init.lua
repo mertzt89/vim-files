@@ -155,14 +155,14 @@ function module.register_plugins(use)
         end,
     })
 
-    use {
+    use({
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
                 automatic_installation = true,
             })
         end,
-    }
+    })
 end
 
 --- Configures vim and plugins for this module

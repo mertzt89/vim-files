@@ -176,7 +176,7 @@ function module.register_plugins(use)
         end,
     })
 
-    use {
+    use({
         "echasnovski/mini.nvim",
         config = function()
             require("mini.align").setup({
@@ -184,20 +184,22 @@ function module.register_plugins(use)
             })
 
             require("mini.indentscope").setup()
-
         end,
-    }
+    })
 
     -- Auto pairs for (['" etc..
-    use { "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
-    }
+    use({
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup({})
+        end,
+    })
 
     -- Fuzzy grepping, file finding, etc..
     require("modules.core.telescope").register(use)
 
     -- Git integrations
-    require('modules.core.git').register(use)
+    require("modules.core.git").register(use)
 end
 
 function module.init()
