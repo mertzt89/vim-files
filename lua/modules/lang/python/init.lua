@@ -9,7 +9,30 @@ function module.init()
     local lsp = require("modules.lsp")
     local lspconfig = require("lspconfig")
 
-    lsp.register_server(lspconfig.pylsp)
+    lsp.register_server(lspconfig.pylsp, {
+        settings = {
+            pylsp = {
+                configurationSources = { "flake8" },
+                plugins = {
+                    autopep8 = {
+                        enabled = false
+                    },
+                    black = {
+                        enabled = true
+                    },
+                    flake8 = {
+                        enabled = true
+                    },
+                    pycodestyle = {
+                        enabled = false
+                    },
+                    yapf = {
+                        enabled = false
+                    }
+                }
+            }
+        }
+    })
 end
 
 return module
