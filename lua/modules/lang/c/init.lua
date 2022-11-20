@@ -21,7 +21,7 @@ function module.init()
     local lspconfig = require("lspconfig")
 
     lsp.register_server(lspconfig.clangd, {
-        cmd = get_clangd_command()
+        cmd = get_clangd_command(),
     })
 
     -- Ignore common build output directories
