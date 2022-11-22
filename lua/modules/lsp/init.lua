@@ -178,6 +178,12 @@ function module.register_plugins(use)
             })
         end,
     })
+
+    use {
+        "j-hui/fidget.nvim", config = function()
+            require("fidget").setup {}
+        end
+    }
 end
 
 --- Configures vim and plugins for this module
