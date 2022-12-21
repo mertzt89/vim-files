@@ -182,8 +182,6 @@ function module.register_plugins(use)
             require("mini.align").setup({
                 mappings = { start = "<leader>a", start_with_preview = "<leader>A" },
             })
-
-            require("mini.indentscope").setup()
         end,
     })
 
