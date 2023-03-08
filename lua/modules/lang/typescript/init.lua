@@ -27,6 +27,7 @@ function module.init()
 
     lsp.register_server(lspconfig.jsonls)
     lsp.register_server(lspconfig.svelte)
+    lsp.register_server(lspconfig.tailwindcss)
     lsp.register_server(lspconfig.tsserver, {
         commands = {
             OrganizeImports = {
