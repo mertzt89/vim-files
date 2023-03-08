@@ -195,6 +195,14 @@ function module.register_plugins(use)
         end,
     })
 
+    use { "akinsho/toggleterm.nvim", tag = '*', config = function()
+        require("toggleterm").setup {
+            auto_scroll = false,
+            open_mapping = [[<c-\>]],
+            direction = 'float'
+        }
+    end }
+
     -- Fuzzy grepping, file finding, etc..
     require("modules.core.telescope").register(use)
 

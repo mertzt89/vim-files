@@ -5,56 +5,52 @@ local module = {}
 
 --- Returns plugins required for this module
 function module.register_plugins(use)
-    use({
-        "tpope/vim-dispatch",
-        config = function()
-            local wk = require("which-key")
-
-            -- Don't create default key bindings
-            vim.g.dispatch_no_maps = 1
-            wk.register({
-                ["<leader>p"] = {
-                    name = "+Project",
-                    c = {
-                        function()
-                            local build_cmd = vim.b.c_dispatch_build
-                            if build_cmd ~= nil then
-                                vim.cmd("Start " .. build_cmd)
-                            else
-                                print("No build command configured! (Buffer variable 'c_dispatch_run' missng)")
-                            end
-                        end,
-                        "Compile",
-                    },
-                    r = {
-                        function()
-                            local run_cmd = vim.b.c_dispatch_run
-                            if run_cmd ~= nil then
-                                vim.cmd("Start " .. run_cmd)
-                            else
-                                print("No run command configured! (Buffer variable 'c_dispatch_run' missng)")
-                            end
-                        end,
-                        "Run",
-                    },
-                    t = {
-                        function()
-                            local test_cmd = vim.b.c_dispatch_test
-                            if test_cmd ~= nil then
-                                vim.cmd("Start " .. test_cmd)
-                            else
-                                print("No test command configured! (Buffer variable 'c_dispatch_test' missng)")
-                            end
-                        end,
-                        "Test",
-                    },
-                },
-            })
-        end,
-    })
 end
 
-function module.init() end
+function module.init()
+    local wk = require("which-key")
+
+    -- Don't create default key bindings
+    vim.g.dispatch_no_maps = 1
+    wk.register({
+        ["<leader>p"] = {
+            name = "+Project",
+            c = {
+                function()
+                    local build_cmd = vim.b.c_dispatch_build
+                    if build_cmd ~= nil then
+                        vim.cmd('TermExec cmd="' .. build_cmd .. '"')
+                    else
+                        print("No build command configured! (Buffer variable 'c_dispatch_run' missng)")
+                    end
+                end,
+                "Compile",
+            },
+            r = {
+                function()
+                    local run_cmd = vim.b.c_dispatch_run
+                    if run_cmd ~= nil then
+                        vim.cmd('TermExec cmd="' .. run_cmd .. '"')
+                    else
+                        print("No run command configured! (Buffer variable 'c_dispatch_run' missng)")
+                    end
+                end,
+                "Run",
+            },
+            t = {
+                function()
+                    local test_cmd = vim.b.c_dispatch_test
+                    if test_cmd ~= nil then
+                        vim.cmd('TermExec cmd="' .. test_cmd .. '"')
+                    else
+                        print("No test command configured! (Buffer variable 'c_dispatch_test' missng)")
+                    end
+                end,
+                "Test",
+            },
+        },
+    })
+end
 
 local Builder = {
     with_filetype = function(self, filetype)
