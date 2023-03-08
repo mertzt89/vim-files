@@ -9,28 +9,25 @@ function module.init()
     local lsp = require("modules.lsp")
     local lspconfig = require("lspconfig")
 
-    lsp.register_server(lspconfig.sumneko_lua, {
+    lsp.register_server(lspconfig.lua_ls, {
         settings = {
             Lua = {
                 runtime = {
                     -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                    version = "LuaJIT",
-                    -- Setup your lua path
-                    path = vim.split(package.path, ";"),
+                    version = 'LuaJIT',
                 },
                 diagnostics = {
                     -- Get the language server to recognize the `vim` global
-                    globals = { "vim" },
+                    globals = { 'vim' },
                 },
                 workspace = {
                     -- Make the server aware of Neovim runtime files
-                    library = {
-                        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                        [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-                    },
+                    library = vim.api.nvim_get_runtime_file("", true),
                 },
                 -- Do not send telemetry data containing a randomized but unique identifier
-                telemetry = { enable = false },
+                telemetry = {
+                    enable = false,
+                },
             },
         },
     })
