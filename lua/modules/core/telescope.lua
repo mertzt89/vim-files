@@ -46,6 +46,7 @@ function M.register(use)
                     vimgrep_arguments = {
                         "rg",
                         "-L",
+                        "--no-ignore-vcs",
                         "--hidden",
                         "--color=never",
                         "--no-heading",
