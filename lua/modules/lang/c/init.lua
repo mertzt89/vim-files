@@ -8,8 +8,9 @@ function module.register_plugins(use) end
 
 local function get_clangd_command()
     local cmd = { "clangd" }
-    if vim.env.OECORE_NATIVE_SYSROOT ~= nil then
-        table.insert(cmd, "--query-driver=" .. vim.env.OECORE_NATIVE_SYSROOT .. "/**/arm-*")
+    local extra = require('lib.project').config.lsp.clangd.extra_args
+    for _, v in pairs(extra) do
+        table.insert(cmd, v)
     end
     return cmd
 end
