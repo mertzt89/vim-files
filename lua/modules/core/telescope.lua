@@ -45,13 +45,14 @@ function M.register(use)
                     cache_picker = { num_pickers = 10 },
                     vimgrep_arguments = {
                         "rg",
+                        "-L",
+                        "--hidden",
                         "--color=never",
                         "--no-heading",
                         "--with-filename",
                         "--line-number",
                         "--column",
                         "--smart-case",
-                        "--no-ignore-vcs",
                     },
                     file_sorter = require("telescope.sorters").get_fuzzy_file,
                     extensions = {
@@ -129,9 +130,9 @@ function M.register(use)
             wk.register({
                 ["<C-p>"] = {
                     function()
-                        require("telescope.builtin").find_files({
-                            find_command = { "fd", "-tf", "--no-ignore-vcs", "--hidden" },
-                        })
+                        require("telescope.builtin").find_files({ find_command = { "fd", "--type", "f",
+                            "--strip-cwd-prefix",
+                            "--hidden", "--follow", "--exclude", ".git" } })
                     end,
                     "Find Files",
                 },
