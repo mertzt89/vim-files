@@ -31,6 +31,9 @@ Plugin.opts = {
     "vimdoc",
     "css",
     "json",
+    "c",
+    "cpp",
+    "python",
   },
 }
 
