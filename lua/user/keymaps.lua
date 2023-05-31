@@ -10,9 +10,6 @@ vim.keymap.set("n", "<leader>a", ":keepjumps normal! ggVG<cr>")
 vim.keymap.set({ "n", "x" }, "cp", '"+y')
 vim.keymap.set({ "n", "x" }, "cv", '"+p')
 
--- Delete text
-vim.keymap.set({ "n", "x" }, "x", '"_x')
-
 -- Commands
 vim.keymap.set("n", "<leader>w", "<cmd>write<cr>")
 vim.keymap.set("n", "<leader>bq", "<cmd>bdelete<cr>")
