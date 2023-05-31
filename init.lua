@@ -3,9 +3,9 @@ local load = function(mod)
   require(mod)
 end
 
-load('user.settings')
-load('user.commands')
-load('user.keymaps')
-load('user.plugins')
+load "user.settings"
+load "user.commands"
+load "user.keymaps"
+load "user.plugins"
 
-pcall(vim.cmd.colorscheme, 'tokyonight')
+pcall(vim.cmd.colorscheme, "tokyonight")

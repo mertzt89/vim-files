@@ -1,7 +1,7 @@
-local Plugin = {'nvim-treesitter/nvim-treesitter'}
+local Plugin = { "nvim-treesitter/nvim-treesitter" }
 
 Plugin.dependencies = {
-  {'nvim-treesitter/nvim-treesitter-textobjects'}
+  { "nvim-treesitter/nvim-treesitter-textobjects" },
 }
 
 -- See :help nvim-treesitter-modules
@@ -15,27 +15,27 @@ Plugin.opts = {
       enable = true,
       lookahead = true,
       keymaps = {
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      }
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
     },
   },
   ensure_installed = {
-    'javascript',
-    'typescript',
-    'tsx',
-    'lua',
-    'vim',
-    'vimdoc',
-    'css',
-    'json'
+    "javascript",
+    "typescript",
+    "tsx",
+    "lua",
+    "vim",
+    "vimdoc",
+    "css",
+    "json",
   },
 }
 
 function Plugin.config(name, opts)
-  require('nvim-treesitter.configs').setup(opts)
+  require("nvim-treesitter.configs").setup(opts)
 end
 
 return Plugin

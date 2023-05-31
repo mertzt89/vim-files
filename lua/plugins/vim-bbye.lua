@@ -1,9 +1,9 @@
-local Plugin = {'moll/vim-bbye'}
+local Plugin = { "moll/vim-bbye" }
 
-Plugin.cmd = 'Bdelete'
+Plugin.cmd = "Bdelete"
 
 function Plugin.init()
-  vim.keymap.set('n', '<leader>bc', '<cmd>Bdelete<CR>')
+  vim.keymap.set("n", "<leader>bc", "<cmd>Bdelete<CR>")
 end
 
 return Plugin

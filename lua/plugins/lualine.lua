@@ -1,19 +1,19 @@
-local Plugin = {'nvim-lualine/lualine.nvim'}
+local Plugin = { "nvim-lualine/lualine.nvim" }
 
-Plugin.name = 'lualine'
+Plugin.name = "lualine"
 
-Plugin.event = 'VeryLazy'
+Plugin.event = "VeryLazy"
 
 -- See :help lualine.txt
 Plugin.opts = {
   options = {
-    theme = 'tokyonight',
+    theme = "tokyonight",
     icons_enabled = true,
-    component_separators = '|',
-    section_separators = '',
+    component_separators = "|",
+    section_separators = "",
     disabled_filetypes = {
-      statusline = {'NvimTree'}
-    }
+      statusline = { "NvimTree" },
+    },
   },
 }
 
