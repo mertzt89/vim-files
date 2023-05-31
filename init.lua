@@ -7,5 +7,4 @@ load "user.settings"
 load "user.commands"
 load "user.keymaps"
 load "user.plugins"
-
-pcall(vim.cmd.colorscheme, "oxocarbon")
+load "user.colorscheme"
