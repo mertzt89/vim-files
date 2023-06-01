@@ -1,6 +1,5 @@
 local Plugin = { "neovim/nvim-lspconfig" }
 local user = {}
-
 Plugin.dependencies = {
   { "hrsh7th/cmp-nvim-lsp" },
   { "williamboman/mason-lspconfig.nvim", lazy = true },
@@ -52,31 +51,17 @@ end
 function Plugin.config()
   local group = vim.api.nvim_create_augroup("lsp_cmds", { clear = true })
 
-  vim.api.nvim_create_autocmd("LspAttach", {
-    group = group,
-    desc = "LSP actions",
-    callback = user.on_attach,
-  })
-
   -- See :help mason-lspconfig-dynamic-server-setup
   require("mason-lspconfig").setup_handlers {
     function(server)
-      -- See :help lspconfig-setup
-      user.setup_lsp(server, {})
-    end,
-    ["tsserver"] = function()
-      user.setup_lsp("tsserver", {
-        settings = {
-          completions = {
-            completeFunctionCalls = true,
-          },
-        },
-      })
-    end,
-    ["lua_ls"] = function()
-      require("plugins.lsp.lua_ls").setup(function(config)
-        user.setup_lsp("lua_ls", config)
-      end)
+      local present, override = pcall(require, "plugins.lsp." .. server)
+      if present then
+        override.setup(function(config)
+          user.setup_lsp(server, config)
+        end)
+      else
+        user.setup_lsp(server, {})
+      end
     end,
   }
 end
@@ -85,6 +70,7 @@ function user.setup_lsp(server, config)
   local lspconfig = require "lspconfig"
   local lsp_defaults = lspconfig.util.default_config
 
+  lsp_defaults.on_attach = Plugin.on_attach
   lsp_defaults.capabilities =
     vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
 
@@ -141,8 +127,7 @@ function user.setup_null_ls()
   }
 end
 
-function user.on_attach(args)
-  local bufnr = args.buf
+function Plugin.on_attach(client, bufnr)
   local bufmap = function(mode, lhs, rhs, desc)
     local opts = { buffer = true, desc = desc }
     vim.keymap.set(mode, lhs, rhs, opts)

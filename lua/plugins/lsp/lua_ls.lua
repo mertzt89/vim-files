@@ -1,35 +1,18 @@
 local M = {}
 
-local function on_attach(args)
-  local client = vim.lsp.get_client_by_id(args.data.client_id)
-  if client.name == "lua_ls" then
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end
+local function on_attach(client, bufnr)
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+  require("plugins.lspconfig").on_attach(client, bufnr)
 end
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = "lsp_cmds",
-  desc = "LSP actions",
-  callback = on_attach,
-})
-
 function M.setup(lsp_setup)
-  local lspconfig = require "lspconfig"
-
   local runtime_path = vim.split(package.path, ";")
   table.insert(runtime_path, "lua/?.lua")
-
   table.insert(runtime_path, "lua/?/init.lua")
-  local capabilities = {
-    textDocument = {
-      documentFormattingProvider = false,
-      documentRangeFormattingProvider = false,
-    },
-  }
 
   lsp_setup {
-    capabilities = capabilities,
+    on_attach = on_attach,
     settings = {
       Lua = {
         runtime = {
