@@ -22,6 +22,10 @@ function Plugin.config()
       section_separators = { left = "", right = "" },
       theme = theme,
       always_divide_middle = false,
+      disabled_filetypes = {
+        statusline = { "NvimTree" },
+        winbar = {},
+      },
     },
     sections = {
       -- these are to remove the defaults
