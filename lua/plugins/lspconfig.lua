@@ -124,7 +124,6 @@ function user.setup_null_ls()
   }
 
   require("null-ls").setup {
-    debug = true,
     sources = sources,
   }
 end
