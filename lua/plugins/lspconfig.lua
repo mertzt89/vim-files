@@ -28,14 +28,16 @@ function Plugin.init()
     })
   end
 
-  sign { name = "DiagnosticSignError", text = "✘" }
-  sign { name = "DiagnosticSignWarn", text = "▲" }
-  sign { name = "DiagnosticSignHint", text = "⚑" }
-  sign { name = "DiagnosticSignInfo", text = "»" }
+  sign { name = "DiagnosticSignError", text = " " }
+  sign { name = "DiagnosticSignWarn", text = " " }
+  sign { name = "DiagnosticSignHint", text = "󰌵" }
+  sign { name = "DiagnosticSignInfo", text = " " }
 
   -- See :help vim.diagnostic.config()
   vim.diagnostic.config {
-    virtual_text = false,
+    virtual_text = {
+      prefix = "",
+    },
     severity_sort = true,
     float = {
       border = "rounded",
