@@ -7,7 +7,7 @@ local Plugins = {
   { "mg979/vim-visual-multi", lazy = false },
 
   -- Themes
-  { "folke/tokyonight.nvim" },
+  { "folke/tokyonight.nvim", opts = { style = "night" } },
   { "joshdick/onedark.vim" },
   { "tanvirtin/monokai.nvim" },
   { "lunarvim/darkplus.nvim" },
