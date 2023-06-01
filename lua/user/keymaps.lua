@@ -23,3 +23,6 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window Right" })
 
 -- Screen refresh
 vim.keymap.set("n", "<leader><C-l>", "<Cmd>nohlsearch|diffupdate|normal! <C-L><CR>", { desc = "Refresh Screen" })
+
+-- Clear hlsearch
+vim.keymap.set("n", "<esc>", "<Cmd>nohlsearch<CR>", { desc = "Clear Search Highlight" })

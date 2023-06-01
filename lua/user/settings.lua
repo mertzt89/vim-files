@@ -10,5 +10,6 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.signcolumn = "yes"
 vim.opt.clipboard = "unnamedplus"
+vim.opt.hlsearch = true
 
 vim.opt.termguicolors = true
