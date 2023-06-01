@@ -4,10 +4,12 @@ local user = {}
 Plugin.dependencies = {
   { "hrsh7th/cmp-nvim-lsp" },
   { "williamboman/mason-lspconfig.nvim", lazy = true },
+  { "jose-elias-alvarez/null-ls.nvim" },
   {
     "williamboman/mason.nvim",
     cmd = { "Mason", "LspInstall", "LspUnInstall" },
     config = function()
+      user.setup_null_ls()
       user.setup_mason()
     end,
   },
@@ -48,13 +50,6 @@ function Plugin.init()
 end
 
 function Plugin.config()
-  -- See :help lspconfig-global-defaults
-  local lspconfig = require "lspconfig"
-  local lsp_defaults = lspconfig.util.default_config
-
-  lsp_defaults.capabilities =
-    vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
-
   local group = vim.api.nvim_create_augroup("lsp_cmds", { clear = true })
 
   vim.api.nvim_create_autocmd("LspAttach", {
@@ -67,27 +62,44 @@ function Plugin.config()
   require("mason-lspconfig").setup_handlers {
     function(server)
       -- See :help lspconfig-setup
-      lspconfig[server].setup {}
+      user.setup_lsp(server, {})
     end,
     ["tsserver"] = function()
-      lspconfig.tsserver.setup {
+      user.setup_lsp("tsserver", {
         settings = {
           completions = {
             completeFunctionCalls = true,
           },
         },
-      }
+      })
     end,
     ["lua_ls"] = function()
-      require "plugins.lsp.lua_ls"
+      require("plugins.lsp.lua_ls").setup(function(config)
+        user.setup_lsp("lua_ls", config)
+      end)
     end,
   }
+end
+
+function user.setup_lsp(server, config)
+  local lspconfig = require "lspconfig"
+  local lsp_defaults = lspconfig.util.default_config
+
+  lsp_defaults.capabilities =
+    vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+  local merged = vim.tbl_deep_extend("force", lsp_defaults, config)
+  lspconfig[server].setup(merged)
 end
 
 function user.setup_mason()
   -- See :help mason-settings
   require("mason").setup {
     ui = { border = "rounded" },
+    ensure_installed = {
+      "stylua",
+      "clang-format",
+    },
   }
 
   -- See :help mason-lspconfig-settings
@@ -98,11 +110,39 @@ function user.setup_mason()
       "html",
       "cssls",
       "lua_ls",
+      "clangd",
+      "pylsp",
     },
   }
 end
 
-function user.on_attach()
+function user.setup_null_ls()
+  local b = require("null-ls").builtins
+  local sources = {
+    -- webdev stuff
+    b.formatting.prettier.with { filetypes = { "html", "markdown", "css" } }, -- so prettier works only on these filetypes
+
+    -- Lua
+    b.formatting.stylua,
+
+    -- cpp
+    b.formatting.clang_format,
+
+    -- YAML
+    b.diagnostics.yamllint,
+
+    -- Python
+    b.formatting.black,
+  }
+
+  require("null-ls").setup {
+    debug = true,
+    sources = sources,
+  }
+end
+
+function user.on_attach(args)
+  local bufnr = args.buf
   local bufmap = function(mode, lhs, rhs, desc)
     local opts = { buffer = true, desc = desc }
     vim.keymap.set(mode, lhs, rhs, opts)
