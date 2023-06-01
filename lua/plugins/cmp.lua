@@ -14,6 +14,10 @@ Plugin.dependencies = {
 
 Plugin.event = "InsertEnter"
 
+local function trim(s)
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
 function Plugin.config()
   vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
@@ -42,16 +46,12 @@ function Plugin.config()
       documentation = cmp.config.window.bordered(),
     },
     formatting = {
-      fields = { "menu", "abbr", "kind" },
-      format = function(entry, item)
-        local menu_icon = {
-          nvim_lsp = "λ",
-          luasnip = "⋗",
-          buffer = "Ω",
-          path = "🖫",
-        }
+      fields = { "kind", "abbr", "menu" },
+      format = function(_, item)
+        item.abbr = trim(item.abbr)
+        item.menu = item.kind
+        item.kind = (require("user.icons").lspkind[item.kind] or "") .. " "
 
-        item.menu = menu_icon[entry.source.name]
         return item
       end,
     },
