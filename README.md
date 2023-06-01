@@ -1,21 +1,8 @@
-# Neovim Starter
+# My Neovim Configuration
 
-Base configuration for Neovim. For those looking to make Neovim their new main editor. Here you'll find a popular combination of plugin to make your experience a little bit better.
+My configuration for neovim.
 
-A few things have been configured to resemble other modern text editors. You'll find a file explorer with tree style view, list open files in tabs, git integration and a terminal easy to toggle.
-
-Autocompletion and "code intellisense" is provided by the LSP client built into Neovim. The following language servers are configured:
-
-* tsserver
-* eslint
-* cssls
-* html
-
-Most of the code in this configuration is explained in this series:
-
-* [Build your first Neovim configuration in lua](https://vonheikemen.github.io/devlog/tools/build-your-first-lua-config-for-neovim/)
-* [Neovim: Plugins to get started](https://vonheikemen.github.io/devlog/tools/neovim-plugins-to-get-started/)
-* [Setup nvim-lspconfig + nvim-cmp](https://vonheikemen.github.io/devlog/tools/setup-nvim-lspconfig-plus-nvim-cmp/)
+This is originally forked from [nvim-starter](https://github.com/VonHeikemen/nvim-starter/tree/05-modular)'s `05-modular` branch
 
 ## Requirements
 
@@ -23,13 +10,9 @@ Most of the code in this configuration is explained in this series:
 * git.
 * A `C` compiler. Can be `gcc`, `tcc` or `zig`.
 * [make](https://www.gnu.org/software/make/), the build tool.
-* [npm cli](https://docs.npmjs.com/cli/v8/commands/npm). Javascript package manager.
-* [nodejs](https://nodejs.org/es/). Javascript runtime. Required by the language servers listed above.
 * (optional) [ripgrep](https://github.com/BurntSushi/ripgrep). Improves project wide search speed.
 * (optional) [fd](https://github.com/sharkdp/fd). Improves file search speed.
 * (optional) A patched font to display icons. I hear [nerdfonts](https://www.nerdfonts.com/) has a good collection.
-
-> Here's the config [compatible with v0.7](https://github.com/VonHeikemen/nvim-starter/tree/4e7ccba7e69182f3dc1ee2f27be66677118c35b6). 
 
 ## Installation
 
@@ -44,16 +27,10 @@ nvim --headless -c 'echo stdpath("config") | quit'
 * Now clone this repository in that location.
 
 ```sh
-git clone https://github.com/VonHeikemen/nvim-starter /tmp/nvim-config-path
+git clone https://github.com/mertzt89/vim-files --branch lazy-migration <path from above>
 ```
 
-> Do not execute this command as is. Replace `/tmp/nvim-config-path` with the correct path from the previous step.
-
-* Move to the configuration folder where you clone the repository. Change branch to `05-modular`.
-
-```sh
-git checkout 05-modular
-```
+> Do not execute this command as is. Replace `<path from above>` with the correct path from the previous step.
 
 * Next time you start Neovim all plugins will be downloaded automatically. After this process is done `nvim-treesitter` will install language parsers for treesitter. And, `mason.nvim` will download language servers listed in the configuration. Use the command `:Mason` to check the download process of language servers. 
 
@@ -87,13 +64,18 @@ Leader key: `Space`.
 | Normal | `go` | Jumps to the definition of the type symbol |
 | Normal | `gr` | Lists all the references. |
 | Normal | `gs` | Displays a function's signature information. |
-| Normal | `<F2>` | Renames all references to the symbol under the cursor. |
-| Normal | `<F3>` | Format code in current buffer. |
-| Normal | `<F4>` | Selects a code action available at the current cursor position. |
-| Visual | `<F4>` | Selects a code action available in the selected text. |
+| Normal | `<leader>rn` | Renames all references to the symbol under the cursor. |
+| Normal | `<leader>bf` | Format code in current buffer. |
+| Normal | `<leader>ca` | Selects a code action available at the current cursor position. |
+| Visual | `<leader>ca` | Selects a code action available in the selected text. |
 | Normal | `gl` | Show diagnostics in a floating window. |
 | Normal | `[d` | Move to the previous diagnostic. |
 | Normal | `]d` | Move to the next diagnostic. |
+| Normal | `<Ctrl-h>` | Move cursor to window left. |
+| Normal | `<Ctrl-j>` | Move cursor to window up. |
+| Normal | `<Ctrl-k>` | Move cursor to window down. |
+| Normal | `<Ctrl-l>` | Move cursor to window right. |
+| Normal | `<leader><Ctrl-l>` | Repaint screen. |
 
 ### Autocomplete keybindings
 
@@ -119,9 +101,6 @@ Leader key: `Space`.
 | --- | --- |
 | [lazy.nvim](https://github.com/folke/lazy.nvim) | Plugin manager. |
 | [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) | Collection of colorscheme for Neovim. |
-| [onedark.vim](https://github.com/joshdick/onedark.vim) | Colorscheme based on Atom's default theme. |
-| [monokai.nvim](https://github.com/tanvirtin/monokai.nvim) | Colorscheme based on Sublime text's default theme. |
-| [darkplus.nvim](https://github.com/lunarvim/darkplus.nvim) | Colorscheme based on VS Code's default theme. |
 | [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) | Helper functions to show icons. |
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | Pretty statusline. |
 | [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Pretty tabline. |
@@ -150,4 +129,7 @@ Leader key: `Space`.
 | [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp) | nvim-cmp source. Show suggestions based on LSP servers queries. |
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine. |
 | [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Collection of snippets. |
-
+| [which-key.nvim](https://github.com/folke/which-key.nvim) | Interactive keybindings reference. |
+| [trouble.nvim](https://github.com/folke/trouble.nvim) | LSP Diagnostics browser. |
+| [vim-visual-multi](https://github.com/mg979/vim-visual-multi) | Mutliple cursor support. |
+| [null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim) | Enables formatting, linting, and diagnstics for languages without native LSP. |
