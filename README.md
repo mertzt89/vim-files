@@ -55,7 +55,7 @@ Leader key: `Space`.
 | Normal | `<leader>fg` | Search pattern in current working directory. Interactive "grep search". |
 | Normal | `<leader>fd` | Search diagnostics in current file. |
 | Normal | `<leader>fs` | Search pattern in current file. |
-| Normal | `<leader>e` | Open file explorer. |
+| Normal | `<leader>e` | Open/Focus file explorer. |
 | Normal | `<Ctrl-g>` | Toggle the builtin terminal. |
 | Normal | `K` | Displays hover information about the symbol under the cursor. |
 | Normal | `gd` | Jump to the definition. |
