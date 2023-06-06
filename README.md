@@ -75,8 +75,8 @@ Leader key: `Space`.
 | Normal | `[d` | Move to the previous diagnostic. |
 | Normal | `]d` | Move to the next diagnostic. |
 | Normal | `<Ctrl-h>` | Move cursor to window left. |
-| Normal | `<Ctrl-j>` | Move cursor to window up. |
-| Normal | `<Ctrl-k>` | Move cursor to window down. |
+| Normal | `<Ctrl-j>` | Move cursor to window down. |
+| Normal | `<Ctrl-k>` | Move cursor to window up. |
 | Normal | `<Ctrl-l>` | Move cursor to window right. |
 | Normal | `<leader><Ctrl-l>` | Repaint screen. |
 | Normal | `gs` | Grep for string under cursor. |
