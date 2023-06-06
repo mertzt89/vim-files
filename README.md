@@ -141,3 +141,4 @@ Leader key: `Space`.
 | [nvim-dap](https://github.com/mfussenegger/nvim-dap) | Debugger (GDB, LLVM, etc.) integration via DAP. |
 | [mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim) | Automated installer for common DAP adapters used by nvim-dap. |
 | [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) | UI for nvim-dap. Stack frame, locals, breakpoint, watch windows, etc. |
+| [dressing.nvim](https://github.com/stevearc/dressing.nvim) | Neovim UI hooks for input and selection. Uses Telescope on the backend. |
