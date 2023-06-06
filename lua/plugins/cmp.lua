@@ -25,7 +25,14 @@ function Plugin.config()
   local cmp = require "cmp"
   local luasnip = require "luasnip"
 
+  -- For friendly-snippets
   require("luasnip.loaders.from_vscode").lazy_load()
+
+  -- For my snippets
+  require("luasnip.loaders.from_snipmate").lazy_load { paths = "./snippets" }
+
+  -- For local snippets (ignored by git)
+  require("luasnip.loaders.from_snipmate").lazy_load { paths = "./snippets.local" }
 
   local select_opts = { behavior = cmp.SelectBehavior.Select }
 
@@ -93,6 +100,8 @@ function Plugin.config()
 
         if cmp.visible() then
           cmp.select_next_item(select_opts)
+        elseif require("luasnip").expand_or_jumpable() then
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
         elseif col == 0 or vim.fn.getline("."):sub(col, col):match "%s" then
           fallback()
         else
@@ -103,6 +112,8 @@ function Plugin.config()
       ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item(select_opts)
+        elseif require("luasnip").jumpable(-1) then
+          luasnip.jump(-1)
         else
           fallback()
         end
