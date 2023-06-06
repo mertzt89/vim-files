@@ -138,3 +138,6 @@ Leader key: `Space`.
 | [trouble.nvim](https://github.com/folke/trouble.nvim) | LSP Diagnostics browser. |
 | [vim-visual-multi](https://github.com/mg979/vim-visual-multi) | Mutliple cursor support. |
 | [null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim) | Enables formatting, linting, and diagnstics for languages without native LSP. |
+| [nvim-dap](https://github.com/mfussenegger/nvim-dap) | Debugger (GDB, LLVM, etc.) integration via DAP. |
+| [mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim) | Automated installer for common DAP adapters used by nvim-dap. |
+| [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) | UI for nvim-dap. Stack frame, locals, breakpoint, watch windows, etc. |
