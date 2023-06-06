@@ -63,7 +63,6 @@ Leader key: `Space`.
 | Normal | `gi` | Lists all the implementations for the symbol under the cursor. |
 | Normal | `go` | Jumps to the definition of the type symbol |
 | Normal | `gr` | Lists all the references. |
-| Normal | `gs` | Displays a function's signature information. |
 | Normal | `<leader>rn` | Renames all references to the symbol under the cursor. |
 | Normal | `<leader>bf` | Format code in current buffer. |
 | Normal | `<leader>ca` | Selects a code action available at the current cursor position. |
@@ -76,6 +75,8 @@ Leader key: `Space`.
 | Normal | `<Ctrl-k>` | Move cursor to window down. |
 | Normal | `<Ctrl-l>` | Move cursor to window right. |
 | Normal | `<leader><Ctrl-l>` | Repaint screen. |
+| Normal | `gs` | Grep for string under cursor. |
+| Normal | `gS` | Grep for string under cursor incl. ignored. |
 
 ### Autocomplete keybindings
 

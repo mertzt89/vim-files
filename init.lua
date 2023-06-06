@@ -5,6 +5,7 @@ end
 
 load "user.settings"
 load "user.commands"
+load "user.grep_operator"
 load "user.keymaps"
 load "user.plugins"
 load "user.colorscheme"
