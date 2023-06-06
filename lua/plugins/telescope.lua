@@ -11,10 +11,29 @@ function Plugin.init()
   -- See :help telescope.builtin
   vim.keymap.set("n", "<leader>?", "<cmd>Telescope oldfiles<cr>")
   vim.keymap.set("n", "<leader><space>", "<cmd>Telescope buffers<cr>")
+  vim.keymap.set("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+
+  -- Fuzzy file search
   vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
+  vim.keymap.set(
+    "n",
+    "<leader>fF",
+    "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>",
+    { desc = "Find all" }
+  )
+
+  -- Live Grep
   vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
+  vim.keymap.set("n", "<leader>fG", function()
+    require("telescope.builtin").live_grep { additional_args = { "--no-ignore-vcs", "--hidden" } }
+  end)
+
+  -- Diagnostics
   vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>")
-  vim.keymap.set("n", "<leader>fs", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+
+  -- Symbols
+  vim.keymap.set("n", "<leader>fs", "<cmd> Telescope lsp_document_symbols <CR>", { desc = "LSP document symbols" })
+  vim.keymap.set("n", "<leader>fS", "<cmd> Telescope lsp_dynamic_workspace_symbols <CR>", { desc = "LSP symbols" })
 end
 
 function Plugin.config(_, opts)

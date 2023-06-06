@@ -50,11 +50,15 @@ Leader key: `Space`.
 | Normal | `<leader>bc` | Close current buffer while preserving the window layout. |
 | Normal | `<leader>bl` | Go to last active buffer. |
 | Normal | `<leader>?` | Search oldfiles history. |
+| Normal | `<leader>/` | Search pattern in current file. |
 | Normal | `<leader><space>` | Search open buffers. |
 | Normal | `<leader>ff` | Find file in current working directory. |
+| Normal | `<leader>fF` | Find file in current working directory incl ignored. |
 | Normal | `<leader>fg` | Search pattern in current working directory. Interactive "grep search". |
+| Normal | `<leader>fG` | Search pattern in current working directory incl ignored. Interactive "grep search". |
 | Normal | `<leader>fd` | Search diagnostics in current file. |
-| Normal | `<leader>fs` | Search pattern in current file. |
+| Normal | `<leader>fs` | Search LSP document symbols. |
+| Normal | `<leader>fS` | Search LSP workspace symbols. |
 | Normal | `<leader>e` | Open/Focus file explorer. |
 | Normal | `<Ctrl-g>` | Toggle the builtin terminal. |
 | Normal | `K` | Displays hover information about the symbol under the cursor. |
