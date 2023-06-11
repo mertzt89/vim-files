@@ -143,3 +143,4 @@ Leader key: `Space`.
 | [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) | UI for nvim-dap. Stack frame, locals, breakpoint, watch windows, etc. |
 | [dressing.nvim](https://github.com/stevearc/dressing.nvim) | Neovim UI hooks for input and selection. Uses Telescope on the backend. |
 | [lsp-progress.nvim](https://github.com/linrongbin16/lsp-progress.nvim) | A performant lsp progress status for Neovim. Integrates with lualine. |
+| [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim) | A tree like view for symbols in Neovim using the Language Server Protocol. Supports all your favourite languages. |
