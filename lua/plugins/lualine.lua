@@ -2,6 +2,8 @@ local Plugin = { "nvim-lualine/lualine.nvim" }
 
 Plugin.name = "lualine"
 
+Plugin.dependencies = { "linrongbin16/lsp-progress.nvim" }
+
 Plugin.event = "VeryLazy"
 
 function Plugin.config()
@@ -54,39 +56,9 @@ function Plugin.config()
           symbols = { added = " ", modified = "󰝤 ", removed = " " },
           padding = { right = 1 },
         },
-        {
-          function()
-            return "%="
-          end,
-        },
-        {
-          -- Lsp server name .
-          function()
-            if not rawget(vim, "lsp") then
-              return ""
-            end
-
-            local Lsp = vim.lsp.util.get_progress_messages()[1]
-
-            if vim.o.columns < 120 or not Lsp then
-              return ""
-            end
-
-            local msg = Lsp.message or ""
-            local percentage = Lsp.percentage or 0
-            local title = Lsp.title or ""
-            local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
-            local ms = vim.loop.hrtime() / 1000000
-            local frame = math.floor(ms / 120) % #spinners
-            local content = string.format(" %%<%s %s %s (%s%%%%) ", spinners[frame + 1], title, msg, percentage)
-
-            return content or ""
-          end,
-          icon = " LSP:",
-          color = { fg = "#ffffff", gui = "bold" },
-        },
       },
       lualine_x = {
+        require("lsp-progress").progress,
         {
           "diagnostics",
           sources = { "nvim_diagnostic" },
@@ -107,7 +79,14 @@ function Plugin.config()
     },
   }
 
+  require("lsp-progress").setup()
   require("lualine").setup(config)
+
+  local group = vim.api.nvim_create_augroup("lualine_cmds", { clear = true })
+  vim.api.nvim_create_autocmd("User LspProgressStatusUpdated", {
+    group = group,
+    callback = require("lualine").refresh,
+  })
 end
 
 function Plugin.init()
