@@ -144,3 +144,4 @@ Leader key: `Space`.
 | [dressing.nvim](https://github.com/stevearc/dressing.nvim) | Neovim UI hooks for input and selection. Uses Telescope on the backend. |
 | [lsp-progress.nvim](https://github.com/linrongbin16/lsp-progress.nvim) | A performant lsp progress status for Neovim. Integrates with lualine. |
 | [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim) | A tree like view for symbols in Neovim using the Language Server Protocol. Supports all your favourite languages. |
+| [dropbar.nvim](https://github.com/Bekaboo/dropbar.nvim) | A polished, IDE-like, highly-customizable winbar for Neovim with drop-down menu support and mutiple backends. (requires Neovim 0.10.0+) |
