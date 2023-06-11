@@ -1,5 +1,7 @@
 local Plugin = { "nvim-telescope/telescope.nvim" }
 
+Plugin.enabled = vim.fn.has "nvim-0.9.0" == 1
+
 Plugin.dependencies = {
   { "nvim-lua/plenary.nvim" },
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },

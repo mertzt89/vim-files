@@ -6,7 +6,7 @@ This is originally forked from [nvim-starter](https://github.com/VonHeikemen/nvi
 
 ## Requirements
 
-* Neovim v0.8 or greater.
+* Neovim v0.9.0 or greater.
 * git.
 * A `C` compiler. Can be `gcc`, `tcc` or `zig`.
 * [make](https://www.gnu.org/software/make/), the build tool.
