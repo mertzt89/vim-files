@@ -23,14 +23,15 @@ Plugin.opts = {
 		},
 	},
 	ensure_installed = {
+		"css",
 		"javascript",
-		"typescript",
-		"tsx",
+		"json",
 		"lua",
+		"tsx",
+		"typescript",
 		"vim",
 		"vimdoc",
-		"css",
-		"json",
+		"markdown",
 	},
 }
 
