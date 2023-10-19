@@ -14,6 +14,7 @@
   "lualine": { "branch": "master", "commit": "7533b0ead663d80452210c0c089e5105089697e5" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "2451adb9bdb0fd32140bf3aa8dbc17ff60050db3" },
   "mason.nvim": { "branch": "main", "commit": "d66c60e17dd6fd8165194b1d14d21f7eb2c1697a" },
+  "mini.surround": { "branch": "main", "commit": "68ce058ef9716d7d955b79363845d2dd003d6500" },
   "monokai.nvim": { "branch": "master", "commit": "b8bd44d5796503173627d7a1fc51f77ec3a08a63" },
   "nvim-cmp": { "branch": "main", "commit": "5dce1b778b85c717f6614e3f4da45e9f19f54435" },
   "nvim-lspconfig": { "branch": "master", "commit": "68b23c06132cb1ef8d5690111c112388fbcf1c30" },
@@ -30,6 +31,5 @@
   "tokyonight.nvim": { "branch": "main", "commit": "e89caa3ad6d8da9d0dd981ec74a82c55adc61ffd" },
   "vim-bbye": { "branch": "master", "commit": "25ef93ac5a87526111f43e5110675032dbcacf56" },
   "vim-fugitive": { "branch": "master", "commit": "99db68d9b3304580bd383da7aaee05c7a954a344" },
-  "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" },
-  "vim-surround": { "branch": "master", "commit": "3d188ed2113431cf8dac77be61b842acb64433d9" }
+  "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" }
 }
