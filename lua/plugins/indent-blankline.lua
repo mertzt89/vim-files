@@ -8,12 +8,18 @@ Plugin.event = { "BufReadPost", "BufNewFile" }
 
 -- See :help ibl.setup()
 Plugin.opts = {
-	enabled = false,
-	scope = {
-		enabled = false,
-	},
 	indent = {
-		char = "▏",
+		char = "│",
+		tab_char = "│",
+	},
+	scope = { enabled = false },
+	exclude = {
+		filetypes = {
+			"help",
+			"NvimTree",
+			"lazy",
+			"mason",
+		},
 	},
 }
 
