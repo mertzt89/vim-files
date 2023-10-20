@@ -3,6 +3,7 @@ return {
 		"stevearc/overseer.nvim",
 		opts = {
 			task_list = {
+				direction = "bottom",
 				bindings = {
 					["<C-l>"] = false,
 					["<C-h>"] = false,
