@@ -10,6 +10,9 @@ Plugin.dependencies = {
 	-- Snippets
 	{ "L3MON4D3/LuaSnip" },
 	{ "rafamadriz/friendly-snippets" },
+
+	-- Icons
+	{ "onsails/lspkind.nvim" },
 }
 
 Plugin.event = "InsertEnter"
@@ -43,16 +46,17 @@ function Plugin.config()
 		},
 		formatting = {
 			fields = { "menu", "abbr", "kind" },
-			format = function(entry, item)
-				local menu_icon = {
-					nvim_lsp = "λ",
-					luasnip = "⋗",
-					buffer = "Ω",
-					path = "🖫",
-				}
-
-				item.menu = menu_icon[entry.source.name]
-				return item
+			format = function(entry, vim_item)
+				vim_item.abbr = vim.trim(vim_item.abbr)
+				if vim.tbl_contains({ "path" }, entry.source.name) then
+					local icon, hl_group = require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
+					if icon then
+						vim_item.kind = icon
+						vim_item.kind_hl_group = hl_group
+						return vim_item
+					end
+				end
+				return require("lspkind").cmp_format({ with_text = true })(entry, vim_item)
 			end,
 		},
 		-- See :help cmp-mapping
