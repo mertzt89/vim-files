@@ -83,10 +83,10 @@ function Plugin.config()
 				})
 			end,
 			["lua_ls"] = function()
-				require("plugins.lsp.lua_ls")
+				require("plugins.code.lsp.config.lua_ls")
 			end,
 			["clangd"] = function()
-				require("plugins.lsp.clangd")
+				require("plugins.code.lsp.config.clangd")
 			end,
 		},
 	})
