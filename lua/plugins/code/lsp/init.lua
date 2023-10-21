@@ -1,5 +1,15 @@
 local Plugin = { "neovim/nvim-lspconfig" }
 local user = {}
+local thisPath = ...
+
+local ensure_installed = {
+	"eslint",
+	"tsserver",
+	"html",
+	"cssls",
+	"lua_ls",
+	"clangd",
+}
 
 Plugin.dependencies = {
 	{ "hrsh7th/cmp-nvim-lsp" },
@@ -41,6 +51,17 @@ function Plugin.init()
 		vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 end
 
+-- import config for lsp or use default
+local function get_config(server)
+	local has_config, config = pcall(require, thisPath .. ".config." .. server)
+
+	if has_config then
+		return config
+	end
+
+	return {}
+end
+
 function Plugin.config()
 	-- See :help lspconfig-global-defaults
 	local lspconfig = require("lspconfig")
@@ -59,34 +80,12 @@ function Plugin.config()
 
 	-- See :help mason-lspconfig-settings
 	require("mason-lspconfig").setup({
-		ensure_installed = {
-			"eslint",
-			"tsserver",
-			"html",
-			"cssls",
-			"lua_ls",
-			"clangd",
-		},
+		ensure_installed = ensure_installed,
 		handlers = {
 			-- See :help mason-lspconfig-dynamic-server-setup
 			function(server)
 				-- See :help lspconfig-setup
-				lspconfig[server].setup({})
-			end,
-			["tsserver"] = function()
-				lspconfig.tsserver.setup({
-					settings = {
-						completions = {
-							completeFunctionCalls = true,
-						},
-					},
-				})
-			end,
-			["lua_ls"] = function()
-				require("plugins.code.lsp.config.lua_ls")
-			end,
-			["clangd"] = function()
-				require("plugins.code.lsp.config.clangd")
+				lspconfig[server].setup(get_config(server))
 			end,
 		},
 	})

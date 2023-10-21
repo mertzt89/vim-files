@@ -1,6 +1,4 @@
-local lspconfig = require("lspconfig")
-
-lspconfig.clangd.setup({
+return {
 	keys = {
 		{ "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
 	},
@@ -34,4 +32,4 @@ lspconfig.clangd.setup({
 		completeUnimported = true,
 		clangdFileStatus = true,
 	},
-})
+}
