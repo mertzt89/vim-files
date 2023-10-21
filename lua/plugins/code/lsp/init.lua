@@ -5,6 +5,7 @@ local thisPath = ...
 Plugin.dependencies = {
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "williamboman/mason-lspconfig.nvim" },
+	{ "folke/neoconf.nvim" },
 }
 
 Plugin.cmd = { "LspInfo", "LspInstall", "LspUnInstall" }
