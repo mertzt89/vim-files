@@ -22,20 +22,9 @@ Plugin.opts = {
 			},
 		},
 	},
-	ensure_installed = {
-		"css",
-		"javascript",
-		"json",
-		"lua",
-		"tsx",
-		"typescript",
-		"vim",
-		"vimdoc",
-		"markdown",
-	},
 }
 
-function Plugin.config(name, opts)
+function Plugin.config(_, opts)
 	require("nvim-treesitter.configs").setup(opts)
 end
 
