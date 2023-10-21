@@ -53,9 +53,6 @@ local Plugins = {
 			style = "night",
 		},
 	},
-	{ "joshdick/onedark.vim" },
-	{ "tanvirtin/monokai.nvim" },
-	{ "lunarvim/darkplus.nvim" },
 }
 
 return Plugins
