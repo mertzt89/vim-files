@@ -2,15 +2,6 @@ local Plugin = { "neovim/nvim-lspconfig" }
 local user = {}
 local thisPath = ...
 
-local ensure_installed = {
-	"eslint",
-	"tsserver",
-	"html",
-	"cssls",
-	"lua_ls",
-	"clangd",
-}
-
 Plugin.dependencies = {
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "williamboman/mason-lspconfig.nvim" },
@@ -51,18 +42,7 @@ function Plugin.init()
 		vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 end
 
--- import config for lsp or use default
-local function get_config(server)
-	local has_config, config = pcall(require, thisPath .. ".config." .. server)
-
-	if has_config then
-		return config
-	end
-
-	return {}
-end
-
-function Plugin.config()
+function Plugin.config(_, opts)
 	-- See :help lspconfig-global-defaults
 	local lspconfig = require("lspconfig")
 	local lsp_defaults = lspconfig.util.default_config
@@ -78,6 +58,16 @@ function Plugin.config()
 		callback = user.on_attach,
 	})
 
+	-- Gather configured servers to install
+	local ensure_installed = {} ---@type string[]
+	for server, server_opts in pairs(opts.servers) do
+		if server_opts then
+			server_opts = server_opts == true and {} or server_opts
+			-- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
+			ensure_installed[#ensure_installed + 1] = server
+		end
+	end
+
 	-- See :help mason-lspconfig-settings
 	require("mason-lspconfig").setup({
 		ensure_installed = ensure_installed,
@@ -85,7 +75,7 @@ function Plugin.config()
 			-- See :help mason-lspconfig-dynamic-server-setup
 			function(server)
 				-- See :help lspconfig-setup
-				lspconfig[server].setup(get_config(server))
+				lspconfig[server].setup(opts.servers[server])
 			end,
 		},
 	})
@@ -130,7 +120,7 @@ function user.on_attach()
 	end
 
 	for _i, binding in ipairs(lsp_keys) do
-		bufmap("n", binding[1], binding[2])
+		bufmap(binding["mode"] or "n", binding[1], binding[2])
 	end
 end
 
