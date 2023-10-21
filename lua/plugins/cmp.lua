@@ -40,10 +40,6 @@ function Plugin.config()
 			{ name = "buffer", keyword_length = 3 },
 			{ name = "luasnip", keyword_length = 2 },
 		},
-		window = {
-			completion = cmp.config.window.bordered(),
-			documentation = cmp.config.window.bordered(),
-		},
 		formatting = {
 			fields = { "menu", "abbr", "kind" },
 			format = function(entry, vim_item)
