@@ -1,26 +1,56 @@
-local Plugin = { "nvim-telescope/telescope.nvim" }
-
-Plugin.branch = "0.1.x"
-
-Plugin.dependencies = {
-	{ "nvim-lua/plenary.nvim" },
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+local find_files_command = {
+	"rg",
+	"--color",
+	"never",
+	"--files",
 }
 
-Plugin.cmd = { "Telescope" }
+return {
+	"nvim-telescope/telescope.nvim",
+	branch = "0.1.x",
+	dependencies = {
+		{ "nvim-lua/plenary.nvim" },
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+	},
+	cmd = { "Telescope" },
+	init = function()
+		local builtins = require("telescope.builtin")
+		-- See :help telescope.builtin
+		vim.keymap.set("n", "<leader>?", function()
+			builtins["oldfiles"]()
+		end, { desc = "Recent Files" })
+		vim.keymap.set("n", "<leader><space>", function()
+			builtins["buffers"]()
+		end, { desc = "Buffers" })
 
-function Plugin.init()
-	-- See :help telescope.builtin
-	vim.keymap.set("n", "<leader>?", "<cmd>Telescope oldfiles<cr>")
-	vim.keymap.set("n", "<leader><space>", "<cmd>Telescope buffers<cr>")
-	vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-	vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
-	vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>")
-	vim.keymap.set("n", "<leader>fs", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
-end
+		-- Find Files
+		vim.keymap.set("n", "<leader>ff", function() -- Don't repect .gitignore
+			local find_command = find_files_command
+			vim.list_extend(find_command, { "--no-ignore-vcs" })
+			builtins["find_files"]({ find_command = find_command })
+		end, { desc = "Find Files (--no-ignore-vcs)" })
+		vim.keymap.set("n", "<leader>fF", function() -- Respect .gitignore
+			builtins["find_files"]()
+		end, { desc = "Find Files" })
+		vim.keymap.set("n", "<leader>fa", function() -- ALL incuding ignored
+			builtins["find_files"]({ hidden = true, no_ignore = true, find_command = find_files_command })
+		end, { desc = "Find Files (ALL)" })
 
-function Plugin.config()
-	require("telescope").load_extension("fzf")
-end
-
-return Plugin
+		-- Grep
+		vim.keymap.set("n", "<leader>fg", function() -- Dont respect .gitignore
+			builtins["live_grep"]({ additional_args = "--no-ignore-vcs" })
+		end, { desc = "Live Grep (--no-ignore-vcs)" })
+		vim.keymap.set("n", "<leader>fG", function() -- Respect .gitignore
+			builtins["live_grep"]()
+		end, { desc = "Live Grep" })
+		vim.keymap.set("n", "<leader>fd", function()
+			builtins["diagnostics"]()
+		end, { desc = "Diagnostics" })
+		vim.keymap.set("n", "<leader>fs", function()
+			builtins["current_buffer_fuzzy_find"]()
+		end, { desc = "Find in Buffer" })
+	end,
+	config = function()
+		require("telescope").load_extension("fzf")
+	end,
+}
