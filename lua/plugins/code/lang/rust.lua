@@ -57,6 +57,7 @@ return {
 	-- LSP
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = { "folke/neoconf.nvim" },
 		opts = {
 			servers = {
 				-- Ensure mason installs the server
@@ -108,7 +109,7 @@ return {
 			},
 			setup = {
 				rust_analyzer = function(_, opts)
-					local rust_tools_opts = require("lazyvim.util").opts("rust-tools.nvim")
+					local rust_tools_opts = require("util").opts("rust-tools.nvim")
 					require("rust-tools").setup(vim.tbl_deep_extend("force", rust_tools_opts or {}, { server = opts }))
 					return true
 				end,
