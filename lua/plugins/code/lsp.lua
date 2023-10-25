@@ -175,19 +175,4 @@ function Plugin.config(_, opts)
 	})
 end
 
--- stylua: ignore
-local lsp_keys = {
-}
-
--- function user.on_attach()
--- 	local bufmap = function(mode, lhs, rhs)
--- 		local opts = { buffer = true }
--- 		vim.keymap.set(mode, lhs, rhs, opts)
--- 	end
---
--- 	for _i, binding in ipairs(lsp_keys) do
--- 		bufmap(binding["mode"] or "n", binding[1], binding[2])
--- 	end
--- end
-
 return Plugin
