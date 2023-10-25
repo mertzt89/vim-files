@@ -48,4 +48,13 @@ return {
 			},
 		},
 	},
+
+	-- DAP
+	require("util.spec").mason_ensure_installed("cpptools"),
+	{
+		"mfussenegger/nvim-dap",
+		config = function()
+			require("dap.ext.vscode").load_launchjs(nil, { cppdbg = { "c", "cpp" } })
+		end,
+	},
 }
