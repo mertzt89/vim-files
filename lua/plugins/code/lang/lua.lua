@@ -3,6 +3,10 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 return {
+	-- Install Stylua via Mason
+	require("util.spec").mason_ensure_installed("stylua"),
+
+	-- LSP
 	{
 		"neovim/nvim-lspconfig",
 		opts = {

@@ -15,4 +15,16 @@ function M.ts_ensure_installed(ensure)
 	}
 end
 
+function M.mason_ensure_installed(ensure)
+	return {
+		"williamboman/mason.nvim",
+		opts = function(_, opts)
+			if type(ensure) == "string" then
+				ensure = { ensure }
+			end
+			opts.ensure_installed = vim.list_extend(opts.ensure_installed or {}, ensure)
+		end,
+	}
+end
+
 return M

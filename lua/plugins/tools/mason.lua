@@ -3,13 +3,7 @@ local Plugin = { "williamboman/mason.nvim" }
 Plugin.lazy = false
 
 -- See :help mason-settings
-Plugin.opts = {
-	ensure_installed = { "stylua" },
-	registries = {
-		"github:mason-org/mason-registry@2023-10-20-alike-store",
-	},
-	ui = { border = "rounded" },
-}
+Plugin.opts = {}
 
 Plugin.config = function(_, opts)
 	require("mason").setup(opts)
