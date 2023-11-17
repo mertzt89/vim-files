@@ -17,18 +17,11 @@ Plugin.dependencies = {
 
 Plugin.event = "InsertEnter"
 
-function Plugin.config()
-	vim.opt.completeopt = { "menu", "menuone", "noselect" }
-
+Plugin.opts = function()
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
-
-	require("luasnip.loaders.from_vscode").lazy_load()
-
 	local select_opts = { behavior = cmp.SelectBehavior.Select }
-
-	-- See :help cmp-config
-	cmp.setup({
+	return {
 		snippet = {
 			expand = function(args)
 				luasnip.lsp_expand(args.body)
@@ -106,7 +99,20 @@ function Plugin.config()
 				end
 			end, { "i", "s" }),
 		},
-	})
+	}
 end
+
+function Plugin.config(_, opts)
+	vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+	local cmp = require("cmp")
+
+	require("luasnip.loaders.from_vscode").lazy_load()
+
+	-- See :help cmp-config
+	cmp.setup(opts)
+end
+
+Plugin.lazy = false
 
 return Plugin

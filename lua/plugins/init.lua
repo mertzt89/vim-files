@@ -25,6 +25,7 @@ return {
 			vim.opt.showmode = false
 		end,
 	},
+	{ import = ... .. ".early" },
 	{ import = ... .. ".code" },
 	{ import = ... .. ".editor" },
 	{ import = ... .. ".themes" },
