@@ -44,7 +44,7 @@ end
 
 local function has(buffer, method)
 	method = method:find("/") and method or "textDocument/" .. method
-	local clients = require("lazyvim.util").lsp.get_clients({ bufnr = buffer })
+	local clients = require("util").lsp_get_clients({ bufnr = buffer })
 	for _, client in ipairs(clients) do
 		if client.supports_method(method) then
 			return true
@@ -85,6 +85,7 @@ end
 
 Plugin.dependencies = {
 	{ "folke/neoconf.nvim" },
+	{ "folke/neodev.nvim", opts = {} },
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "williamboman/mason-lspconfig.nvim" },
 }
@@ -138,13 +139,7 @@ function Plugin.config(_, opts)
 	lsp_defaults.capabilities =
 		vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-	local group = vim.api.nvim_create_augroup("lsp_cmds", { clear = true })
-
-	vim.api.nvim_create_autocmd("LspAttach", {
-		group = group,
-		desc = "LSP actions",
-		callback = on_attach,
-	})
+	require("util").lsp_on_attach(on_attach)
 
 	-- Gather configured servers to install
 	local ensure_installed = {} ---@type string[]
