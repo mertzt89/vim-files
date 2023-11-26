@@ -71,5 +71,11 @@ vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- Lazygit
 vim.keymap.set("n", "<leader>gg", function()
-	require("util.terminal").open({ "lazygit" }, { esc_esc = false, ctrl_hjkl = false })
+	require("util.terminal").open(
+		{ "lazygit" },
+		{ cwd = require("util.root").get({ spec = { ".git" } }), esc_esc = false, ctrl_hjkl = false }
+	)
 end, { desc = "Lazygit" })
+vim.keymap.set("n", "<leader>gG", function()
+	require("util.terminal").open({ "lazygit" }, { cwd = vim.loop.cwd(), esc_esc = false, ctrl_hjkl = false })
+end, { desc = "Lazygit (cwd)" })

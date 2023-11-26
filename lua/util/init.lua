@@ -60,4 +60,12 @@ function M.lsp_get_clients(opts)
 	return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+function M.is_win()
+	return vim.loop.os_uname().sysname:find("Windows") ~= nil
+end
+
+function M.setup()
+	require("util.root").setup()
+end
+
 return M
