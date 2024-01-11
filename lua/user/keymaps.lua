@@ -62,20 +62,18 @@ vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning
 
 -- Terminal Mappings
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-vim.keymap.set("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
-vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
-vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
-vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
 vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
--- Lazygit
-vim.keymap.set("n", "<leader>gg", function()
-  require("util.terminal").open(
-    { "lazygit" },
-    { cwd = require("util.root").get({ spec = { ".git" } }), esc_esc = false, ctrl_hjkl = false }
-  )
-end, { desc = "Lazygit" })
-vim.keymap.set("n", "<leader>gG", function()
-  require("util.terminal").open({ "lazygit" }, { cwd = vim.loop.cwd(), esc_esc = false, ctrl_hjkl = false })
-end, { desc = "Lazygit (cwd)" })
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    -- Skip bindings for lazygit
+    if vim.bo.filetype ~= "lazygit" then
+      vim.notify("Setting maps")
+      vim.keymap.set("t", "<c-h>", "<cmd>wincmd h<cr>", { buffer = true, desc = "go to left window" })
+      vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { buffer = true, desc = "Go to lower window" })
+      vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { buffer = true, desc = "Go to upper window" })
+      vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { buffer = true, desc = "Go to right window" })
+    end
+  end,
+})

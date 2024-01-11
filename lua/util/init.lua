@@ -63,6 +63,16 @@ function M.is_win()
   return vim.loop.os_uname().sysname:find("Windows") ~= nil
 end
 
+function M.nvim_config_path()
+  return vim.env.MYVIMRC
+end
+
+function M.nvim_config_dir()
+  local ret = vim.fs.dirname(M.nvim_config_path()) .. "/"
+  vim.print(ret)
+  return ret
+end
+
 function M.setup()
   require("util.root").setup()
 end
