@@ -28,48 +28,6 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		cmd = { "Telescope" },
-		keys = function()
-			local builtins = require("telescope.builtin")
-			return {
-				-- Buffer
-				{ "<leader><space>", builtins.buffers, { desc = "Buffers" } },
-				{ "<leader>sb", builtins.current_buffer_fuzzy_find, desc = "Find in Buffer" },
-				{ "<leader>fs", builtins.current_buffer_fuzzy_find, { desc = "Find in Buffer" } },
-
-				-- Commands
-				{ "<leader>sa", builtins.autocommands, desc = "Auto Commands" },
-				{ "<leader>sC", builtins.commands, desc = "Commands" },
-				{ "<leader>sc", builtins.command_history, desc = "Command History" },
-
-				-- Diagnostics
-				{ "<leader>fd", builtins.diagnostics, { desc = "Diagnostics" } },
-				{ "<leader>sD", builtins.diagnostics, desc = "Workspace diagnostics" },
-				{
-					"<leader>sd",
-					function()
-						builtins.diagnostics({ bufnr = 0 })
-					end,
-					desc = "Document diagnostics",
-				},
-
-				-- Find Files
-				{ "<leader>?", builtins.oldfiles, { desc = "Recent Files" } },
-				{ "<leader>ff", find_files.no_ignore_vcs, { desc = "Find Files (--no-ignore-vcs)" } },
-				{ "<leader>fF", find_files.default, { desc = "Find Files" } },
-				{ "<leader>fa", find_files.all, { desc = "Find Files (ALL)" } },
-
-				-- Grep
-				{
-					"<leader>fg",
-					"<cmd>Telescope egrepify<cr>",
-					{ desc = "Live Grep (--no-ignore-vcs)" },
-				},
-
-				-- LSP
-				{ "<leader>ss", builtins.lsp_document_symbols, { desc = "Goto Symbol" } },
-				{ "<leader>sS", builtins.lsp_dynamic_workspace_symbols, { desc = "Goto Symbol (Workspace)" } },
-			}
-		end,
 		opts = function()
 			local egrep_actions = require("telescope._extensions.egrepify.actions")
 			return {

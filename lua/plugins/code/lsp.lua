@@ -7,37 +7,48 @@ local function get_keys()
 	if _keys then
 		return _keys
 	end
-    -- stylua: ignore
-    _keys =  {
-      { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
-      { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition",  },
-      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
-      { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
-      { "gi", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
-      { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
-      { "K", vim.lsp.buf.hover, desc = "Hover" },
-      { "gK", vim.lsp.buf.signature_help, desc = "Signature Help" },
-      { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help" },
-      { "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Open Float" },
-      { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev. Diagnostic" },
-      { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next. Diagnostic" },
-      { "<leader>cf", vim.lsp.buf.format, desc = "Code Format", mode = { "n", "v" } },
-      { "<leader>cr", vim.lsp.buf.rename, desc = "Code Rename", mode = { "n", "v" } },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
-      { "<leader>cA",
-        function()
-          vim.lsp.buf.code_action({
-            context = {
-              only = {
-                "source",
-              },
-              diagnostics = {},
-            },
-          })
-        end,
-        desc = "Source Action"
-      },
-    }
+
+	local fzf = function(command, opts)
+		return function()
+			require("fzf-lua")[command](opts)
+		end
+	end
+
+	_keys = {
+		{ "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+		{
+			"gd",
+			fzf("lsp_definitions", { jump_to_single_result = true }),
+			desc = "Goto Definition",
+		},
+		{ "gr", fzf("lsp_references", { jump_to_single_result = true }), desc = "References" },
+		{ "gD", fzf("lsp_declarations", { jump_to_single_result = true }), desc = "Goto Declaration" },
+		{ "gi", fzf("lsp_implementations", { jump_to_single_result = true }), desc = "Goto Implementation" },
+		{ "gy", fzf("lsp_typedefs", { jump_to_single_result = true }), desc = "Goto T[y]pe Definition" },
+		{ "K", vim.lsp.buf.hover, desc = "Hover" },
+		{ "gK", vim.lsp.buf.signature_help, desc = "Signature Help" },
+		{ "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help" },
+		{ "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Open Float" },
+		{ "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev. Diagnostic" },
+		{ "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next. Diagnostic" },
+		{ "<leader>cf", vim.lsp.buf.format, desc = "Code Format", mode = { "n", "v" } },
+		{ "<leader>cr", vim.lsp.buf.rename, desc = "Code Rename", mode = { "n", "v" } },
+		{ "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+		{
+			"<leader>cA",
+			function()
+				vim.lsp.buf.code_action({
+					context = {
+						only = {
+							"source",
+						},
+						diagnostics = {},
+					},
+				})
+			end,
+			desc = "Source Action",
+		},
+	}
 
 	return _keys
 end
