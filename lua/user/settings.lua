@@ -44,25 +44,25 @@ vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.winminwidth = 5 -- Minimum window width
 vim.opt.wrap = false -- Disable line wrap
 vim.opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
-	-- fold = "⸱",
-	fold = " ",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ",
+  foldopen = "",
+  foldclose = "",
+  -- fold = "⸱",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
 }
 
 if vim.fn.has("nvim-0.10") == 1 then
-	vim.opt.smoothscroll = true
+  vim.opt.smoothscroll = true
 end
 
 -- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
 if vim.fn.has("nvim-0.10") == 1 then
-	vim.opt.foldmethod = "expr"
-	vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 else
-	vim.opt.foldmethod = "indent"
+  vim.opt.foldmethod = "indent"
 end
 
 -- default folding to off

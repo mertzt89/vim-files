@@ -31,10 +31,10 @@ vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and 
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
 vim.keymap.set(
-	"n",
-	"<leader>ur",
-	"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-	{ desc = "Redraw / clear hlsearch / diff update" }
+  "n",
+  "<leader>ur",
+  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  { desc = "Redraw / clear hlsearch / diff update" }
 )
 
 -- lazy
@@ -46,11 +46,11 @@ vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next quickfix" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function()
-		go({ severity = severity })
-	end
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    go({ severity = severity })
+  end
 end
 vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -71,11 +71,11 @@ vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- Lazygit
 vim.keymap.set("n", "<leader>gg", function()
-	require("util.terminal").open(
-		{ "lazygit" },
-		{ cwd = require("util.root").get({ spec = { ".git" } }), esc_esc = false, ctrl_hjkl = false }
-	)
+  require("util.terminal").open(
+    { "lazygit" },
+    { cwd = require("util.root").get({ spec = { ".git" } }), esc_esc = false, ctrl_hjkl = false }
+  )
 end, { desc = "Lazygit" })
 vim.keymap.set("n", "<leader>gG", function()
-	require("util.terminal").open({ "lazygit" }, { cwd = vim.loop.cwd(), esc_esc = false, ctrl_hjkl = false })
+  require("util.terminal").open({ "lazygit" }, { cwd = vim.loop.cwd(), esc_esc = false, ctrl_hjkl = false })
 end, { desc = "Lazygit (cwd)" })

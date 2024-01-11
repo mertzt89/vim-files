@@ -8,8 +8,8 @@ Plugin.cmd = { "NvimTreeToggle", "NvimTreeFindFile" }
 Plugin.config = true
 
 function Plugin.init()
-	vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<cr>")
-	vim.keymap.set("n", "<leader>E", "<cmd>NvimTreeToggle<cr>")
+  vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<cr>")
+  vim.keymap.set("n", "<leader>E", "<cmd>NvimTreeToggle<cr>")
 end
 
 return Plugin

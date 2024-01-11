@@ -1,5 +1,5 @@
 require("util").setup()
 
 return {
-	{ import = ... .. ".editor" },
+  { import = ... .. ".editor" },
 }
