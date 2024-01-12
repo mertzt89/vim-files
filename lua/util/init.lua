@@ -117,6 +117,16 @@ function M.grep_operator(callback)
   end
 end
 
+function M.opt_in(key, spec)
+  local enabled_file = M.nvim_config_dir() .. "/.enable-" .. key
+  local file = io.open(enabled_file, "rb")
+  if not file then
+    return {}
+  end
+
+  return spec
+end
+
 function M.setup()
   require("util.root").setup()
 end
