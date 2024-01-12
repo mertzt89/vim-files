@@ -77,7 +77,6 @@ function M.grep_operator(callback)
   local set_opfunc = vim.fn[vim.api.nvim_exec(
     [[
       func s:set_opfunc(val)
-        echo "hllo"
         let &opfunc = a:val
       endfunc
       echon get(function('s:set_opfunc'), 'name')
