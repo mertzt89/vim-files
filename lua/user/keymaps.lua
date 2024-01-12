@@ -69,7 +69,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   callback = function()
     -- Skip bindings for lazygit
     if vim.bo.filetype ~= "lazygit" then
-      vim.notify("Setting maps")
       vim.keymap.set("t", "<c-h>", "<cmd>wincmd h<cr>", { buffer = true, desc = "go to left window" })
       vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { buffer = true, desc = "Go to lower window" })
       vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { buffer = true, desc = "Go to upper window" })
