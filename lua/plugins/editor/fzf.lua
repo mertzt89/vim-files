@@ -22,8 +22,7 @@ local find_files = {
 return {
   {
     "ibhagwan/fzf-lua",
-    -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", { "junegunn/fzf", build = "./install --bin" } },
     keys = function()
       local fzf = require("fzf-lua")
       return {
@@ -54,8 +53,24 @@ return {
         -- Grep
         {
           "<leader>fg",
-          "<cmd>Telescope egrepify<cr>",
-          { desc = "Live Grep (--no-ignore-vcs)" },
+          fzf.live_grep,
+          { desc = "Live Grep" },
+        },
+        {
+          "gS",
+          require("util").grep_operator(function(query)
+            local opts = { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts, search = query }
+            vim.notify(opts.rg_opts)
+            fzf.grep(opts)
+          end),
+          mode = { "n", "x" },
+        },
+        {
+          "gs",
+          require("util").grep_operator(function(query)
+            fzf.grep({ search = query })
+          end),
+          mode = { "n", "x" },
         },
 
         -- LSP
