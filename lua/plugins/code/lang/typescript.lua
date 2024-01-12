@@ -8,7 +8,7 @@ return {
     "typescript",
   }),
 
-  -- LSP
+  -- LSP - tsserver
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -19,6 +19,23 @@ return {
             completions = {
               completeFunctionCalls = true,
             },
+          },
+        },
+      },
+    },
+  },
+
+  -- LSP - eslint
+  {
+    "neovim/nvim-lspconfig",
+    -- other settings removed for brevity
+    opts = {
+      servers = {
+        ---@type lspconfig.options.eslint
+        eslint = {
+          settings = {
+            -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
+            workingDirectory = { mode = "auto" },
           },
         },
       },
