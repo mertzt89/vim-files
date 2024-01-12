@@ -53,9 +53,17 @@ return {
         -- Grep
         {
           "<leader>fg",
+          function()
+            fzf.live_grep({ rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts })
+          end,
+          { desc = "Live Grep" },
+        },
+        {
+          "<leader>fG",
           fzf.live_grep,
           { desc = "Live Grep" },
         },
+
         {
           "gS",
           require("util").grep_operator(function(query)
@@ -76,6 +84,9 @@ return {
         -- LSP
         { "<leader>ss", fzf.lsp_document_symbols, { desc = "Goto Symbol" } },
         { "<leader>sS", fzf.lsp_workspace_symbols, { desc = "Goto Symbol (Workspace)" } },
+
+        -- Misc
+        { "<leader>sr", fzf.resume, { desc = "Resume" } },
       }
     end,
     config = function()
