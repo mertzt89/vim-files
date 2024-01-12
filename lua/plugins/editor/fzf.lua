@@ -63,12 +63,10 @@ return {
           fzf.live_grep,
           { desc = "Live Grep" },
         },
-
         {
           "gS",
           require("util").grep_operator(function(query)
             local opts = { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts, search = query }
-            vim.notify(opts.rg_opts)
             fzf.grep(opts)
           end),
           mode = { "n", "x" },
