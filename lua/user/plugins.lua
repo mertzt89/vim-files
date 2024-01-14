@@ -29,6 +29,19 @@ function lazy.setup(plugins)
 end
 
 lazy.path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-lazy.opts = {}
+lazy.opts = {
+  dev = {
 
-lazy.setup({ { import = "plugins" } })
+    -- directory where you store your local plugin projects
+    path = "~/src/nvim-plugins",
+    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+    patterns = {},
+    fallback = true, -- Fallback to git when local plugin doesn't exist
+  },
+}
+
+lazy.setup({
+  {
+    import = "plugins",
+  },
+})
