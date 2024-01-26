@@ -81,7 +81,7 @@ return {
 
         -- LSP
         { "<leader>ss", fzf.lsp_document_symbols, { desc = "Goto Symbol" } },
-        { "<leader>sS", fzf.lsp_workspace_symbols, { desc = "Goto Symbol (Workspace)" } },
+        { "<leader>sS", fzf.lsp_live_workspace_symbols, { desc = "Goto Symbol (Workspace)" } },
 
         -- Misc
         { "<leader>sr", fzf.resume, { desc = "Resume" } },
