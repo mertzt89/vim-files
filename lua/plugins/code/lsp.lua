@@ -167,7 +167,7 @@ function Plugin.config(_, opts)
     handlers = {
       -- See :help mason-lspconfig-dynamic-server-setup
       function(server)
-        local server_opts = opts.servers[server]
+        local server_opts = opts.servers[server] or {}
         if opts.setup and opts.setup[server] then
           opts.setup[server](server, server_opts)
           return
