@@ -5,10 +5,14 @@ return {
   -- LSP
   {
     "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        phpactor = {},
-      },
-    },
+    opts = function(_, opts)
+      if vim.fn.executable("php") == 1 then
+        vim.tbl_extend("force", opts, {
+          servers = {
+            phpactor = {},
+          },
+        })
+      end
+    end,
   },
 }
