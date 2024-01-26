@@ -6,7 +6,9 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
-        svelte = {},
+        svelte = {
+          plugin = { svelte = { defaultScriptLanguage = "ts" } },
+        },
       },
     },
   },
