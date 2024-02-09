@@ -2,6 +2,7 @@ local Plugin = { "nvim-treesitter/nvim-treesitter" }
 
 Plugin.dependencies = {
   { "nvim-treesitter/nvim-treesitter-textobjects" },
+  { "windwp/nvim-ts-autotag" },
 }
 
 -- See :help nvim-treesitter-modules
@@ -37,6 +38,9 @@ Plugin.opts = {
       scope_incremental = false,
       node_decremental = "<bs>",
     },
+  },
+  autotag = {
+    enable = true,
   },
 }
 
