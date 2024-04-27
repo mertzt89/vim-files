@@ -1,3 +1,5 @@
+local is_win = require("util").is_win()
+
 -- Custom find files command handling
 local find_files_command = function(extra_args, opts)
   extra_args = extra_args or {}
@@ -22,7 +24,10 @@ local find_files = {
 return {
   {
     "ibhagwan/fzf-lua",
-    dependencies = { "nvim-tree/nvim-web-devicons", { "junegunn/fzf", build = "./install --bin" } },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      { "junegunn/fzf", build = is_win and "powershell ./install.ps1" or "./install --bin" },
+    },
     keys = function()
       local fzf = require("fzf-lua")
       return {
