@@ -54,13 +54,13 @@ return {
         {
           "<leader>fg",
           function()
-            fzf.live_grep({ rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts })
+            fzf.live_grep_glob({ rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts })
           end,
           { desc = "Live Grep" },
         },
         {
           "<leader>fG",
-          fzf.live_grep,
+          fzf.live_grep_glob,
           { desc = "Live Grep" },
         },
         {
