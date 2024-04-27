@@ -69,7 +69,6 @@ end
 
 function M.nvim_config_dir()
   local ret = vim.fs.dirname(M.nvim_config_path()) .. "/"
-  vim.print(ret)
   return ret
 end
 
