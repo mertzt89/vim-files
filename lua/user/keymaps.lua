@@ -61,6 +61,17 @@ vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning"
 vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 -- Terminal Mappings
+local util = require("util")
+local term = function()
+  require("util.terminal")(nil, { cwd = require("util.root").get() })
+end
+vim.keymap.set("n", "<leader>ft", term, { desc = "Terminal (root dir)" })
+vim.keymap.set("n", "<leader>fT", function()
+  util.terminal()
+end, { desc = "Terminal (cwd)" })
+vim.keymap.set("n", "<c-/>", term, { desc = "Terminal (root dir)" })
+vim.keymap.set("n", "<c-_>", term, { desc = "which_key_ignore" })
+
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
