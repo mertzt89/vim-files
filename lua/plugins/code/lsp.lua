@@ -168,6 +168,10 @@ function Plugin.config(_, opts)
       -- See :help mason-lspconfig-dynamic-server-setup
       function(server)
         local server_opts = opts.servers[server] or {}
+
+        server_opts.capabilities =
+          vim.tbl_deep_extend("force", {}, lsp_defaults.capabilities, server_opts.capabilities or {})
+
         if opts.setup and opts.setup[server] then
           opts.setup[server](server, server_opts)
           return
