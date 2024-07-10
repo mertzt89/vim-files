@@ -1,4 +1,4 @@
 return {
-  { import = ... .. ".lang" },
-  { import = ... .. ".lsp" },
+  { import = "plugins.code.lang" },
+  { import = "plugins.code.lsp" },
 }

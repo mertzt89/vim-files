@@ -1,7 +1,7 @@
 return {
-  { import = ... .. ".early" },
-  { import = ... .. ".code" },
-  { import = ... .. ".editor" },
-  { import = ... .. ".themes" },
-  { import = ... .. ".tools" },
+  { import = "plugins.early" },
+  { import = "plugins.code" },
+  { import = "plugins.editor" },
+  { import = "plugins.themes" },
+  { import = "plugins.tools" },
 }
