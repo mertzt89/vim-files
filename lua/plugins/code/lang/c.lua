@@ -1,3 +1,18 @@
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "c", "cpp" },
+  callback = function()
+    -- User function to sort function prototypes, works for most
+    -- cases, but the expression may need to be adjusted as less
+    -- common cases are encountered.
+    vim.api.nvim_buf_create_user_command(
+      0,
+      "SortPrototypes",
+      [['<,'>sort /^\(\w\+\s\)\+\*\?/]],
+      { desc = "Sort Prototypes", range = true }
+    )
+  end,
+})
+
 return {
   -- Treesitter
   require("util.spec").ts_ensure_installed({ "c", "cpp" }),
