@@ -27,7 +27,6 @@ return {
       default_map("<leader>c", "+code"),
       default_map("<leader>f", "+file/find"),
       default_map("<leader>g", "+git"),
-      default_map("<leader>gh", "+hunks"),
       default_map("<leader>q", "+quit/session"),
       default_map("<leader>u", "+ui"),
       default_map("<leader>w", "+windows"),
