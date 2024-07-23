@@ -19,24 +19,24 @@ Plugin.keys = function()
   local gs = require("gitsigns")
   return {
     -- Next Hunk
-    { "<leader>gj", gs.next_hunk },
-    { "]g", gs.next_hunk },
+    { "<leader>gj", gs.next_hunk, desc = "Next Hunk" },
+    { "]g", gs.next_hunk, desc = "Next Hunk" },
 
     -- Previous Hunk
-    { "<leader>gk", gs.prev_hunk },
-    { "[g", gs.prev_hunk },
+    { "<leader>gk", gs.prev_hunk, desc = "Previous Hunk" },
+    { "[g", gs.prev_hunk, desc = "Previous Hunk" },
 
     -- Staging/Resetting
-    { "<leader>gs", gs.stage_hunk },
-    { "<leader>gu", gs.undo_stage_hunk },
-    { "<leader>gr", gs.reset_hunk },
-    { "<leader>gR", gs.reset_buffer },
-    { "<leader>gS", gs.stage_buffer },
-    { "<leader>gp", gs.preview_hunk },
+    { "<leader>gs", gs.stage_hunk, desc = "Stage Hunk" },
+    { "<leader>gu", gs.undo_stage_hunk, desc = "Undo Stage Hunk" },
+    { "<leader>gr", gs.reset_hunk, desc = "Reset Hunk" },
+    { "<leader>gR", gs.reset_buffer, desc = "Reset Buffer" },
+    { "<leader>gS", gs.stage_buffer, desc = "Stage Buffer" },
+    { "<leader>gp", gs.preview_hunk, desc = "Preview Hunk" },
 
     -- Blame
-    { "<leader>gb", gs.blame_line },
-    { "<leader>gB", gs.toggle_current_line_blame },
+    { "<leader>gb", gs.blame_line, desc = "Blame Line" },
+    { "<leader>gB", gs.toggle_current_line_blame, desc = "Toggle Blame Line" },
   }
 end
 
