@@ -1,6 +1,12 @@
 local is_win = require("util").is_win()
 
-local cword = ""
+local cword_w = ""
+local cword_a = ""
+
+local feedkeys_escaped = function(keys)
+  local escaped = require("fzf-lua.utils").rg_escape(vim.api.nvim_replace_termcodes(keys, true, true, true))
+  return vim.api.nvim_feedkeys(escaped, "n", true)
+end
 
 -- FZF command wrapper that merges common configurations
 local fzf_cmd = function(fzf_command, opts)
@@ -17,10 +23,12 @@ local fzf_cmd = function(fzf_command, opts)
             local char = vim.fn.getchar() -- get character code
 
             if char == 23 then -- <C-w>
-              vim.fn.feedkeys(cword)
+              feedkeys_escaped(cword_w)
+            elseif char == 1 then -- <C-a>
+              feedkeys_escaped(cword_a)
             else
               local key = vim.fn.nr2char(char) -- convert to key
-              vim.fn.feedkeys(vim.fn.getreg(key))
+              feedkeys_escaped(vim.fn.getreg(key))
             end
           end)
         end, { buffer = b, expr = true })
@@ -29,7 +37,8 @@ local fzf_cmd = function(fzf_command, opts)
   })
 
   return function()
-    cword = vim.fn.expand("<cword>")
+    cword_w = vim.fn.expand("<cword>")
+    cword_a = vim.fn.expand("<cWORD>")
     require("fzf-lua")[fzf_command](opts)
   end
 end
