@@ -14,11 +14,12 @@ local fzf_cmd = function(fzf_command, opts)
         -- Access vim registers from FZF prompt
         vim.keymap.set("t", "<C-r>", function()
           vim.schedule(function()
-            local char = vim.fn.getchar()
-            local key = vim.fn.nr2char(char)
-            if key == "" then -- <C-w>
+            local char = vim.fn.getchar() -- get character code
+
+            if char == 23 then -- <C-w>
               vim.fn.feedkeys(cword)
             else
+              local key = vim.fn.nr2char(char) -- convert to key
               vim.fn.feedkeys(vim.fn.getreg(key))
             end
           end)
