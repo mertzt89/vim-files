@@ -114,6 +114,4 @@ function Plugin.config(_, opts)
   cmp.setup(opts)
 end
 
-Plugin.lazy = false
-
 return Plugin

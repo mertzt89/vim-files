@@ -103,7 +103,7 @@ Plugin.dependencies = {
 
 Plugin.cmd = { "LspInfo", "LspInstall", "LspUnInstall" }
 
-Plugin.event = { "BufReadPre", "BufNewFile" }
+Plugin.event = { "LazyFile" }
 
 function Plugin.init()
   local sign = function(opts)

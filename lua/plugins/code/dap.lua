@@ -113,10 +113,6 @@ return {
           { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
         )
       end
-
-      -- Load VSCode tasks.json
-      --require("dap.ext.vscode").load_launchjs(nil, { cppdbg = { "c", "cpp" } })
-      require("dap.ext.vscode").load_launchjs(nil, { cppdbg = { "c", "cpp" } })
     end,
   },
 }

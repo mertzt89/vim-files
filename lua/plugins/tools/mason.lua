@@ -1,6 +1,6 @@
 local Plugin = { "williamboman/mason.nvim" }
 
-Plugin.lazy = false
+Plugin.cmd = "Mason"
 
 -- See :help mason-settings
 Plugin.opts = {}

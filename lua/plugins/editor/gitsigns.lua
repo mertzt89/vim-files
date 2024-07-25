@@ -2,7 +2,7 @@ local Plugin = { "lewis6991/gitsigns.nvim" }
 
 Plugin.name = "gitsigns"
 
-Plugin.event = { "BufReadPre", "BufNewFile" }
+Plugin.event = "LazyFile"
 
 -- See :help gitsigns-usage
 Plugin.opts = {
@@ -15,29 +15,36 @@ Plugin.opts = {
   },
 }
 
-Plugin.keys = function()
-  local gs = require("gitsigns")
+local keymap = function(key, cmd, desc)
   return {
-    -- Next Hunk
-    { "<leader>gj", gs.next_hunk, desc = "Next Hunk" },
-    { "]g", gs.next_hunk, desc = "Next Hunk" },
-
-    -- Previous Hunk
-    { "<leader>gk", gs.prev_hunk, desc = "Previous Hunk" },
-    { "[g", gs.prev_hunk, desc = "Previous Hunk" },
-
-    -- Staging/Resetting
-    { "<leader>gs", gs.stage_hunk, desc = "Stage Hunk" },
-    { "<leader>gu", gs.undo_stage_hunk, desc = "Undo Stage Hunk" },
-    { "<leader>gr", gs.reset_hunk, desc = "Reset Hunk" },
-    { "<leader>gR", gs.reset_buffer, desc = "Reset Buffer" },
-    { "<leader>gS", gs.stage_buffer, desc = "Stage Buffer" },
-    { "<leader>gp", gs.preview_hunk, desc = "Preview Hunk" },
-
-    -- Blame
-    { "<leader>gb", gs.blame_line, desc = "Blame Line" },
-    { "<leader>gB", gs.toggle_current_line_blame, desc = "Toggle Blame Line" },
+    key,
+    function()
+      require("gitsigns")[cmd]()
+    end,
+    desc,
   }
 end
+
+Plugin.keys = {
+  -- Next Hunk
+  keymap("<leader>gj", "next_hunk", "Next Hunk"),
+  keymap("]g", "next_hunk", "Next Hunk"),
+
+  -- Previous Hunk
+  keymap("<leader>gk", "prev_hunk", "Previous Hunk"),
+  keymap("[g", "prev_hunk", "Previous Hunk"),
+
+  -- Staging/Resetting
+  keymap("<leader>gs", "stage_hunk", "Stage Hunk"),
+  keymap("<leader>gu", "undo_stage_hunk", "Undo Stage Hunk"),
+  keymap("<leader>gr", "reset_hunk", "Reset Hunk"),
+  keymap("<leader>gR", "reset_buffer", "Reset Buffer"),
+  keymap("<leader>gS", "stage_buffer", "Stage Buffer"),
+  keymap("<leader>gp", "preview_hunk", "Preview Hunk"),
+
+  -- Blame
+  keymap("<leader>gb", "blame_line", "Blame Line"),
+  keymap("<leader>gB", "toggle_current_line_blame", "Toggle Blame Line"),
+}
 
 return Plugin
