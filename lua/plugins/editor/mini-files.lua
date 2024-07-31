@@ -20,9 +20,16 @@ return {
     {
       "<leader>fm",
       function()
-        require("mini.files").open()
+        require("mini.files").open(vim.api.nvim_buf_get_name(0))
       end,
       desc = "Mini Files",
+    },
+    {
+      "<leader>fM",
+      function()
+        require("mini.files").open()
+      end,
+      desc = "Mini Files (root)",
     },
   },
   opts = {},
