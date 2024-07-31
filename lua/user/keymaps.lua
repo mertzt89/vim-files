@@ -13,10 +13,11 @@ vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window 
 vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
--- Buffer switching
-vim.keymap.set("n", "<S-l>", "<cmd>bn<cr>")
-vim.keymap.set("n", "<S-h>", "<cmd>bp<cr>")
-vim.keymap.set("n", "<leader>bl", "<cmd>buffer #<cr>")
+-- Buffer manipulation
+vim.keymap.set("n", "<S-l>", "<cmd>bn<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-h>", "<cmd>bp<cr>", { desc = "Previous Buffer" })
+vim.keymap.set("n", "<leader>bl", "<cmd>buffer #<cr>", { desc = "Last Buffer" })
+vim.keymap.set("n", "<leader>bo", '<cmd>%bdelete|edit #|bdelete #|normal`"<cr>', { desc = "Close Other Buffers" })
 
 -- Commands vim.keymap.set("n", "<leader>w", "<cmd>write<cr>")
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>")
