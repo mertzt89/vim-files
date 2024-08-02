@@ -1,3 +1,8 @@
+---@type rustaceanvim.Opts
+vim.g.rustaceanvim = {
+  server = { load_vscode_settings = true },
+}
+
 return {
   {
     "Saecki/crates.nvim",
