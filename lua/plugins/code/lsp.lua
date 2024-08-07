@@ -24,6 +24,7 @@ local function get_keys()
     { "gr", fzf("lsp_references", { jump_to_single_result = true }), desc = "References" },
     { "gD", fzf("lsp_declarations", { jump_to_single_result = true }), desc = "Goto Declaration" },
     { "gi", fzf("lsp_implementations", { jump_to_single_result = true }), desc = "Goto Implementation" },
+    { "gI", fzf("lsp_incoming_calls", { jump_to_single_result = true }), desc = "Incoming Calls" },
     { "gy", fzf("lsp_typedefs", { jump_to_single_result = true }), desc = "Goto T[y]pe Definition" },
     { "K", vim.lsp.buf.hover, desc = "Hover" },
     { "gK", vim.lsp.buf.signature_help, desc = "Signature Help" },
