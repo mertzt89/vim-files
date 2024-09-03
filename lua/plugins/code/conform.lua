@@ -60,7 +60,8 @@ return {
     },
     config = function(_, opts)
       local config = require("neoconf").get("conform", defaults)
-      vim.print(config)
+
+      -- Merge config from neoconf
       opts = vim.tbl_extend("force", opts, config)
 
       require("conform").setup(opts)
