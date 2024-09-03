@@ -20,6 +20,8 @@ return {
         graphql = { "prettier" },
         handlebs = { "prettier" },
         svelte = { "prettier" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
         -- ["yaml"] = { "prettier" },
 
         -- stylua
@@ -31,8 +33,19 @@ return {
         timeout_ms = 1000,
       },
     },
+    keys = {
+      {
+        "<leader>cf",
+        function()
+          require("conform").format()
+        end,
+        desc = "Code Format",
+        mode = { "n", "v" },
+      },
+    },
   },
 
+  require("util.spec").mason_ensure_installed("clang-format"),
   require("util.spec").mason_ensure_installed("prettier"),
   require("util.spec").mason_ensure_installed("stylua"),
 }

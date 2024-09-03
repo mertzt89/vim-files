@@ -32,7 +32,6 @@ local function get_keys()
     { "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Open Float" },
     { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev. Diagnostic" },
     { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next. Diagnostic" },
-    { "<leader>cf", vim.lsp.buf.format, desc = "Code Format", mode = { "n", "v" } },
     { "<leader>cr", vim.lsp.buf.rename, desc = "Code Rename", mode = { "n", "v" } },
     { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
     {
