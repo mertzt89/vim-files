@@ -1,3 +1,18 @@
+local defaults = {
+  formatters = {
+    ["clang-format"] = {
+      command = "clang-format",
+    },
+  },
+}
+
+require("neoconf.plugins").register({
+  name = "Conform",
+  on_schema = function(schema)
+    schema:import("conform", defaults)
+  end,
+})
+
 return {
   {
     "stevearc/conform.nvim",
@@ -43,6 +58,13 @@ return {
         mode = { "n", "v" },
       },
     },
+    config = function(_, opts)
+      local config = require("neoconf").get("conform", defaults)
+      vim.print(config)
+      opts = vim.tbl_extend("force", opts, config)
+
+      require("conform").setup(opts)
+    end,
   },
 
   require("util.spec").mason_ensure_installed("clang-format"),
