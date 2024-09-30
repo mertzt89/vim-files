@@ -9,6 +9,9 @@ Plugin.dependencies = {
 Plugin.opts = {
   highlight = {
     enable = true,
+    disable = function(_lang, bufnr)
+      return vim.api.nvim_buf_line_count(bufnr) > 50000
+    end
   },
   -- :help nvim-treesitter-textobjects-modules
   textobjects = {
