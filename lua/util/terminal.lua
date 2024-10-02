@@ -1,5 +1,5 @@
 ---@class util.terminal
----@overload fun(cmd: string|string[], opts: LazyTermOpts): LazyFloat
+---@overload fun(cmd: string|string[]|nil, opts: LazyTermOpts): LazyFloat
 local M = setmetatable({}, {
   __call = function(m, ...)
     return m.open(...)
@@ -15,7 +15,7 @@ local terminals = {}
 ---@field ctrl_hjkl? boolean
 
 -- Opens a floating terminal (interactive by default)
----@param cmd? string[]|string
+---@param cmd? string[]|string|nil
 ---@param opts? LazyTermOpts
 function M.open(cmd, opts)
   opts = vim.tbl_deep_extend("force", {

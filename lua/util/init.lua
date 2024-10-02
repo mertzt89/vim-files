@@ -187,7 +187,7 @@ end
 
 function M.setup()
   M.lazy_file()
-  require("util.root").setup()
+  require("util.dirs").setup()
 end
 
 return M

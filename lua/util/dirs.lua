@@ -1,6 +1,6 @@
 local util = require("util")
 
----@class util.root
+---@class util.dirs
 ---@overload fun(): string
 local M = setmetatable({}, {
   __call = function(m)
@@ -143,7 +143,7 @@ M.cache = {}
 
 function M.setup()
   vim.api.nvim_create_user_command("RootDirs", function()
-    require("util.root").info()
+    require("util.dirs").info()
   end, { desc = "Root dirs for the current buffer" })
 
   vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost" }, {
@@ -161,7 +161,7 @@ end
 -- * root pattern of cwd
 ---@param opts? {spec?: RootDirSpec, normalize?:boolean}
 ---@return string
-function M.get(opts)
+function M.root(opts)
   opts = opts or {}
   local buf = vim.api.nvim_get_current_buf()
   local ret = M.cache[buf]
