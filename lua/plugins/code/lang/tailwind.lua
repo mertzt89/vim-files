@@ -14,7 +14,7 @@ return {
       },
       setup = {
         tailwindcss = function(server, opts)
-          local tw = require("lspconfig.server_configurations.tailwindcss")
+          local tw = require("lspconfig")["tailwindcss"].config_def
           opts.filetypes = opts.filetypes or {}
 
           -- Add default filetypes
