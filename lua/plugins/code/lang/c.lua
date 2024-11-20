@@ -13,6 +13,25 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+local function get_clangd_command()
+    local cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy=false",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=none"
+          }
+
+    -- Auto detect query-driver for OE toolchains
+    if vim.env.OECORE_NATIVE_SYSROOT ~= nil and vim.env.OECORE_TARGET_ARCH ~= nil then
+        table.insert(cmd, "--query-driver=" .. vim.env.OECORE_NATIVE_SYSROOT .. "/**/" .. vim.env.OECORE_TARGET_ARCH .. "*")
+    end
+
+    return cmd
+end
+
 return {
   -- Treesitter
   require("util.spec").ts_ensure_installed({ "c", "cpp" }),
@@ -45,15 +64,7 @@ return {
           capabilities = {
             offsetEncoding = { "utf-16" },
           },
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy=false",
-            "--header-insertion=iwyu",
-            "--completion-style=detailed",
-            "--function-arg-placeholders",
-            "--fallback-style=none",
-          },
+          cmd = get_clangd_command(),
           init_options = {
             usePlaceholders = true,
             completeUnimported = true,
