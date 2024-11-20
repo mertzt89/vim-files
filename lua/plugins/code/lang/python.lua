@@ -8,7 +8,7 @@ return {
     opts = {
       servers = {
         pyright = {},
-        ruff_lsp = {
+        ruff = {
           keys = {
             {
               "<leader>co",
