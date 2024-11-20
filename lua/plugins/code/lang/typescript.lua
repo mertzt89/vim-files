@@ -14,7 +14,7 @@ return {
     opts = {
       servers = {
         -- Ensure mason installs the server
-        tsserver = {
+        ts_ls = {
           settings = {
             completions = {
               completeFunctionCalls = true,
