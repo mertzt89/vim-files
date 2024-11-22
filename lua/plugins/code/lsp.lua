@@ -100,7 +100,7 @@ Plugin.dependencies = {
   { "williamboman/mason-lspconfig.nvim", config = function() end },
 }
 
-Plugin.cmd = { "LspInfo", "LspInstall", "LspUnInstall" }
+Plugin.cmd = { "LspInfo", "LspInstall", "LspUninstall" }
 
 Plugin.event = { "LazyFile" }
 
