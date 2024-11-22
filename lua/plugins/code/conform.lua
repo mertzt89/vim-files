@@ -48,6 +48,8 @@ return {
         timeout_ms = 1000,
       },
     },
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
     keys = {
       {
         "<leader>cf",
