@@ -6,48 +6,52 @@ local defaults = {
   },
 }
 
-require("neoconf.plugins").register({
-  name = "Conform",
-  on_schema = function(schema)
-    schema:import("conform", defaults)
-  end,
-})
-
 return {
+  -- Neoconf
+  require("util.spec").neoconf_plugin({
+    name = "Conform",
+    on_schema = function(schema)
+      schema:import("conform", defaults)
+    end,
+  }),
+
   {
     "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        -- prettier
-        javascript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
-        vue = { "prettier" },
-        css = { "prettier" },
-        scss = { "prettier" },
-        less = { "prettier" },
-        html = { "prettier" },
-        json = { "prettier" },
-        jsonc = { "prettier" },
-        markdown = { "prettier" },
-        ["markdown.mdx"] = { "prettier" },
-        graphql = { "prettier" },
-        handlebs = { "prettier" },
-        svelte = { "prettier" },
-        c = { "clang-format" },
-        cpp = { "clang-format" },
-        -- ["yaml"] = { "prettier" },
+    dependencies = { "foke/neoconf.nvim" },
+    opts = function()
+      return {
+        formatters_by_ft = {
+          -- prettier
+          javascript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescript = { "prettier" },
+          typescriptreact = { "prettier" },
+          vue = { "prettier" },
+          css = { "prettier" },
+          scss = { "prettier" },
+          less = { "prettier" },
+          html = { "prettier" },
+          json = { "prettier" },
+          jsonc = { "prettier" },
+          markdown = { "prettier" },
+          ["markdown.mdx"] = { "prettier" },
+          graphql = { "prettier" },
+          handlebs = { "prettier" },
+          svelte = { "prettier" },
+          c = { "clang-format" },
+          cpp = { "clang-format" },
+          -- ["yaml"] = { "prettier" },
 
-        -- stylua
-        ["lua"] = { "stylua" },
-      },
-      format_on_save = {
-        -- I recommend these options. See :help conform.format for details.
-        lsp_fallback = true,
-        timeout_ms = 1000,
-      },
-    },
+          -- stylua
+          ["lua"] = { "stylua" },
+        },
+        format_on_save = {
+          -- I recommend these options. See :help conform.format for details.
+          lsp_fallback = true,
+          timeout_ms = 1000,
+        },
+      }
+    end,
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {

@@ -27,4 +27,15 @@ function M.mason_ensure_installed(ensure)
   }
 end
 
+---@param plugin SettingsPlugin
+function M.neoconf_plugin(plugin)
+  return {
+    "folke/neoconf.nvim",
+    opts = function(_, opts)
+      require("neoconf.plugins").register(plugin)
+      return opts
+    end,
+  }
+end
+
 return M

@@ -95,10 +95,9 @@ local function on_attach(_, buffer)
 end
 
 Plugin.dependencies = {
-  { "folke/neoconf.nvim" },
   { "folke/neodev.nvim", opts = {} },
   { "hrsh7th/cmp-nvim-lsp" },
-  { "williamboman/mason-lspconfig.nvim" },
+  { "williamboman/mason-lspconfig.nvim", config = function() end },
 }
 
 Plugin.cmd = { "LspInfo", "LspInstall", "LspUnInstall" }
