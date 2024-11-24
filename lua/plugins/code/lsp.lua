@@ -104,6 +104,19 @@ Plugin.cmd = { "LspInfo", "LspInstall", "LspUninstall" }
 
 Plugin.event = { "LazyFile" }
 
+Plugin.keys = {
+  { "<leader>cli", mode = { "n" }, "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+  { "<leader>cll", mode = { "n" }, "<cmd>LspLog<cr>", desc = "Lsp Log" },
+  {
+    "<leader>clL",
+    mode = { "n" },
+    function()
+      os.remove(vim.lsp.log.get_filename())
+    end,
+    desc = "Delete Lsp Log",
+  },
+}
+
 function Plugin.init()
   local sign = function(opts)
     -- See :help sign_define()
