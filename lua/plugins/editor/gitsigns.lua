@@ -21,7 +21,7 @@ local keymap = function(key, cmd, desc)
     function()
       require("gitsigns")[cmd]()
     end,
-    desc,
+    desc = desc,
   }
 end
 
@@ -41,10 +41,6 @@ Plugin.keys = {
   keymap("<leader>gR", "reset_buffer", "Reset Buffer"),
   keymap("<leader>gS", "stage_buffer", "Stage Buffer"),
   keymap("<leader>gp", "preview_hunk", "Preview Hunk"),
-
-  -- Blame
-  keymap("<leader>gb", "blame_line", "Blame Line"),
-  keymap("<leader>gB", "toggle_current_line_blame", "Toggle Blame Line"),
 }
 
 return Plugin

@@ -85,15 +85,3 @@ vim.keymap.set("t", "<esc>l", function()
   vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-l>", true, false, true), "n")
   vim.o.scrollback = current_scrollback
 end, { desc = "Clear Scrollback" })
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  callback = function()
-    -- Skip bindings for lazygit
-    if vim.bo.filetype ~= "lazygit" then
-      vim.keymap.set("t", "<c-h>", "<cmd>wincmd h<cr>", { buffer = true, desc = "go to left window" })
-      vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { buffer = true, desc = "Go to lower window" })
-      vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { buffer = true, desc = "Go to upper window" })
-      vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { buffer = true, desc = "Go to right window" })
-    end
-  end,
-})
