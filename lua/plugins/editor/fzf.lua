@@ -73,8 +73,6 @@ return {
       return {
         -- Buffer
         { "<leader><space>", fzf_cmd("buffers"), { desc = "Buffers" } },
-        { "<leader>sb", fzf_cmd("blines"), desc = "Find in Buffer" },
-        { "<leader>fs", fzf_cmd("blines"), { desc = "Find in Buffer" } },
 
         -- Commands
         { "<leader>sa", fzf_cmd("autocmds"), desc = "Auto Commands" },
@@ -94,6 +92,7 @@ return {
         },
         { "<leader>fF", find_files.default, { desc = "Find Files" } },
         { "<leader>fa", find_files.all, { desc = "Find Files (ALL)" } },
+        { "<leader>fs", fzf_cmd("lgrep_curbuf"), { desc = "Find in Buffer" } },
 
         -- Grep
         {
