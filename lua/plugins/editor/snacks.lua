@@ -62,9 +62,16 @@ return {
     {
       "<leader>gg",
       function()
-        Snacks.lazygit(lazygit_config)
+        Snacks.lazygit(lazygit_config({ cwd = vim.fn.expand("%:p:h") }))
       end,
       desc = "Lazygit",
+    },
+    {
+      "<leader>gG",
+      function()
+        Snacks.lazygit(lazygit_config())
+      end,
+      desc = "Lazygit (cwd)",
     },
     {
       "<leader>gb",
@@ -83,14 +90,21 @@ return {
     {
       "<leader>gf",
       function()
-        Snacks.lazygit.log_file(lazygit_config)
+        Snacks.lazygit.log_file(lazygit_config())
       end,
       desc = "Lazygit Current File History",
     },
     {
       "<leader>gl",
       function()
-        Snacks.lazygit.log(lazygit_config)
+        Snacks.lazygit.log(lazygit_config({ cwd = vim.fn.expand("%:p:h") }))
+      end,
+      desc = "Lazygit Log",
+    },
+    {
+      "<leader>gL",
+      function()
+        Snacks.lazygit.log(lazygit_config())
       end,
       desc = "Lazygit Log (cwd)",
     },
