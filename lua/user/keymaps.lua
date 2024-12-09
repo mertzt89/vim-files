@@ -7,6 +7,9 @@ vim.keymap.set({ "n", "x", "o" }, "<C-j>", "<C-w>j")
 vim.keymap.set({ "n", "x", "o" }, "<C-k>", "<C-w>k")
 vim.keymap.set({ "n", "x", "o" }, "<C-l>", "<C-w>l")
 
+-- Other window keybinds
+vim.keymap.set("n", "<leader>wq", "<C-w>q", { desc = "Close window" })
+
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
