@@ -1,11 +1,17 @@
---- @class snacks.lazygit.Config
-local lazygit_config = {
-  config = {
-    os = {
-      editPreset = "nvim",
+--- @class LazygitOpts
+--- @param opts? LazygitOpts
+--- @return snacks.lazygit.Config
+local function lazygit_config(opts)
+  opts = opts or {}
+  return {
+    config = {
+      os = {
+        editPreset = "nvim-remote",
+      },
     },
-  },
-}
+    cwd = opts.cwd,
+  }
+end
 
 local function terminal()
   Snacks.terminal(nil, {
