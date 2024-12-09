@@ -60,6 +60,8 @@ end
 -- register all text objects with which-key
 ---@param opts table
 function M.ai_whichkey(opts)
+  local wk = require("which-key")
+
   local objects = {
     { " ", desc = "whitespace" },
     { '"', desc = '" string' },
@@ -90,7 +92,6 @@ function M.ai_whichkey(opts)
     { "}", desc = "{} with ws" },
   }
 
-  local ret = { mode = { "o", "x" } }
   ---@type table<string, string>
   local mappings = vim.tbl_extend("force", {}, {
     around = "a",
@@ -99,22 +100,46 @@ function M.ai_whichkey(opts)
     inside_next = "in",
     around_last = "al",
     inside_last = "il",
+    goto_left = "g[",
+    goto_right = "g]",
   }, opts.mappings or {})
-  mappings.goto_left = nil
-  mappings.goto_right = nil
 
+  -- Generate mappings for "o" and "x" modes
+  local ret = { mode = { "o", "x" } }
   for name, prefix in pairs(mappings) do
-    name = name:gsub("^around_", ""):gsub("^inside_", "")
-    ret[#ret + 1] = { prefix, group = name }
-    for _, obj in ipairs(objects) do
-      local desc = obj.desc
-      if prefix:sub(1, 1) == "i" then
-        desc = desc:gsub(" with ws", "")
+    if name:gmatch("around_")() ~= nil or name:gmatch("inside_")() ~= nil then
+      name = name:gsub("around_", ""):gsub("inside_", "")
+      ret[#ret + 1] = { prefix, group = name }
+      for _, obj in ipairs(objects) do
+        local desc = obj.desc
+        if prefix:sub(1, 1) == "i" then
+          desc = desc:gsub(" with ws", "")
+        end
+        --- @class wk.Spec
+        local mapping = { prefix .. obj[1], desc = obj.desc }
+        ret[#ret + 1] = mapping
       end
-      ret[#ret + 1] = { prefix .. obj[1], desc = obj.desc }
     end
   end
-  require("which-key").add(ret, { notify = false })
+  wk.add(ret, { notify = false })
+
+  -- Generate mappings for "n" mode
+  ret = { mode = "n" }
+  for name, prefix in pairs(mappings) do
+    if name:gmatch("goto_")() ~= nil then
+      name = name:gsub("goto_", "")
+      ret[#ret + 1] = { prefix, group = name }
+      for _, obj in ipairs(objects) do
+        local desc = obj.desc
+        desc = desc:gsub(" with ws", "")
+
+        --- @class wk.Spec
+        local mapping = { prefix .. obj[1], mode = "n", desc = desc }
+        ret[#ret + 1] = mapping
+      end
+    end
+  end
+  wk.add(ret, { notify = false })
 end
 
 return {
