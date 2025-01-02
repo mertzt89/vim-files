@@ -2,7 +2,10 @@ return {
   {
     "SmiteshP/nvim-navic",
     lazy = true,
-    dependencies = {},
+    dependencies = {
+      -- Icons
+      { "onsails/lspkind.nvim" },
+    },
     init = function()
       vim.g.navic_silence = true
       require("util").lsp_on_attach(function(client, buffer)
