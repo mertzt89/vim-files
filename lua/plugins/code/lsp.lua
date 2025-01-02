@@ -96,7 +96,6 @@ end
 
 Plugin.dependencies = {
   { "folke/neodev.nvim", opts = {} },
-  { "hrsh7th/cmp-nvim-lsp" },
   { "williamboman/mason-lspconfig.nvim", config = function() end },
 }
 
@@ -158,8 +157,7 @@ function Plugin.config(_, opts)
   local lspconfig = require("lspconfig")
   local lsp_defaults = lspconfig.util.default_config
 
-  lsp_defaults.capabilities =
-    vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
+  lsp_defaults.capabilities = require("blink.cmp").get_lsp_capabilities(lsp_defaults.capabilities)
 
   require("util").lsp_on_attach(on_attach)
 
