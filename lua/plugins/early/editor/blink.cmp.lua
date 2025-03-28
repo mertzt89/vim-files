@@ -44,6 +44,11 @@ return {
         default = { "lsp", "path", "snippets", "buffer" },
       },
 
+      -- Disable completion for cmdline mode
+      cmdline = {
+        enabled = false,
+      },
+
       -- experimental signature help support
       signature = { enabled = true },
     },
