@@ -1,3 +1,7 @@
+local DISABLED_FTS = {
+  "DressingInput",
+}
+
 return {
   {
     "saghen/blink.cmp",
@@ -43,6 +47,11 @@ return {
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
       },
+
+      -- Disable completion for specific filetypes
+      enabled = function()
+        return not vim.tbl_contains(DISABLED_FTS, vim.bo.filetype)
+      end,
 
       -- Disable completion for cmdline mode
       cmdline = {
