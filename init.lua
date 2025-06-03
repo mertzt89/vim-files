@@ -1,5 +1,5 @@
 -- Bootstrap mini.deps (package manager)
-require("utils.bootstrap")
+require("util.bootstrap")
 
 -- Colorscheme
 require("editor.colorscheme")
