@@ -1,0 +1,19 @@
+local M = {}
+
+--- Lists server names that are configured in <config>/lsp
+function M.list()
+  local lsp_path = vim.fn.stdpath("config") .. "/lsp"
+  local names = vim.fn.readdir(lsp_path, [[v:val =~ '\.lua$']])
+  local servers = {}
+  for _, name in ipairs(names) do
+    if name:sub(-4) == ".lua" then
+      local server_name = name:sub(1, -5)
+      table.insert(servers, server_name)
+    end
+  end
+  return servers
+end
+
+vim.print(M.list())
+
+return M
