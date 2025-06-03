@@ -6,3 +6,5 @@ require("editor.colorscheme")
 
 -- Status line
 require("editor.statusline")
+
+require("editor.plugins")
