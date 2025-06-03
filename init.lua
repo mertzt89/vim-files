@@ -1,10 +1,11 @@
 -- Bootstrap mini.deps (package manager)
 require("util.bootstrap")
 
--- Colorscheme
-require("editor.colorscheme")
+-- Space as leader key
+vim.g.mapleader = " "
 
--- Status line
-require("editor.statusline")
+-- Early initialization
+require("early")
 
-require("editor.plugins")
+require("editor")
+require("code")

@@ -17,7 +17,7 @@ local function default_map(key, desc, mode)
 end
 
 add({
-  source = "folke/which-key.nvim"
+  source = "folke/which-key.nvim",
 })
 
 require("which-key").setup({
@@ -36,4 +36,3 @@ require("which-key").setup({
     default_map("<leader>x", "+diagnostics/quickfix"),
   },
 })
-
