@@ -1,1 +1,1 @@
-require(... .. ".which-key")
+require("util.deps").auto(... .. ".auto")
