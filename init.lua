@@ -4,3 +4,5 @@ require("utils.bootstrap")
 -- Colorscheme
 require("editor.colorscheme")
 
+-- Status line
+require("editor.statusline")
