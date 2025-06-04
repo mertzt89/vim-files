@@ -21,7 +21,7 @@ vim.o.exrc = true
 vim.g.mapleader = " "
 
 -- Early initialization
-require("early")
+auto("early")
 
-require("editor")
+auto("editor")
 auto("code")
