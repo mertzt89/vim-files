@@ -1,5 +1,7 @@
 local add = MiniDeps.add
 
+add({source = "neovim/nvim-lspconfig"})
+
 add({
   source = "williamboman/mason-lspconfig.nvim",
   depends = { "williamboman/mason.nvim" },

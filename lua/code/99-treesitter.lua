@@ -8,6 +8,7 @@ add({
 })
 
 require("nvim-treesitter.configs").setup({
+  ensure_installed = require("util.treesitter").get_ensure(),
   highlight = {
     enable = true,
     disable = function(_lang, bufnr)
