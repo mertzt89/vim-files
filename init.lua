@@ -10,7 +10,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "help", "man" },
   group = group,
   callback = function()
-    vim.print("hello!")
     vim.keymap.set("n", "q", "<cmd>quit<cr>", { silent = true, buffer = true })
   end,
 })
