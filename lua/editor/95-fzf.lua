@@ -1,7 +1,5 @@
 local add = MiniDeps.add
 
-local is_win = require("util").is_win()
-
 local cword_w = ""
 local cword_a = ""
 
@@ -67,7 +65,7 @@ add({
   source = "junegunn/fzf",
   hooks = {
     post_checkout = function()
-      local cmd = is_win and "powershell ./install.ps1" or "./install --bin"
+      local cmd = require("util").is_win() and "powershell ./install.ps1" or "./install --bin"
       vim.fn.system(cmd)
     end,
   },
@@ -80,11 +78,12 @@ add({
   },
 })
 
+-- Setup
 local fzf = require("fzf-lua")
-
 fzf.setup({})
 
-local keys = {
+-- Key mappings
+require("util.keys").map({
   -- Buffer
   { "<leader><space>", fzf_cmd("buffers"), { desc = "Buffers" } },
 
@@ -141,9 +140,25 @@ local keys = {
 
   -- Misc
   { "<leader>sr", fzf_cmd("resume"), { desc = "Resume" } },
-}
+})
 
-for _, key in ipairs(keys) do
-  local mode = key.mode or "n"
-  vim.keymap.set(mode, key[1], key[2], { desc = key.desc, noremap = true, silent = true })
-end
+-- LSP key mappings
+require("util.lsp").on_attach(function(_, _)
+  local f = function(command, opts)
+    return function()
+      require("fzf-lua")[command](opts)
+    end
+  end
+  require("util.keys").map({
+    {
+      "gd",
+      fzf_cmd("lsp_definitions", { jump1 = true }),
+      { desc = "Goto Definition", buffer = 0 },
+    },
+    { "gr", f("lsp_references", { jump1 = true }), { desc = "References", buffer = 0 } },
+    { "gD", f("lsp_declarations", { jump1 = true }), { desc = "Goto Declaration", buffer = 0 } },
+    { "gi", f("lsp_implementations", { jump1 = true }), { desc = "Goto Implementation", buffer = 0 } },
+    { "gI", f("lsp_incoming_calls", { jump1 = true }), { desc = "Incoming Calls", buffer = 0 } },
+    { "gy", f("lsp_typedefs", { jump1 = true }), { desc = "Goto T[y]pe Definition", buffer = 0 } },
+  })
+end)
