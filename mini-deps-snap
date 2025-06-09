@@ -1,6 +1,0 @@
-return {
-  ["lualine.nvim"] = "0c6cca9f2c63dadeb9225c45bc92bb95a151d4af",
-  ["mini.nvim"] = "5a10dfb3ab49b3ee2425bc2c215b5067ccce1c79",
-  ["tokyonight.nvim"] = "057ef5d260c1931f1dffd0f052c685dcd14100a3",
-  ["which-key.nvim"] = "370ec46f710e058c9c1646273e6b225acf47cbed"
-}

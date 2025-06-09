@@ -40,4 +40,17 @@ function M.parent(module)
   return table.concat(parts, ".")
 end
 
+function M.self()
+  return M.resolve_path(debug.getinfo(1, "S").source:sub(2))
+end
+
+---@param mod string | string[]
+function M.relative(mod)
+  if type(mod) == "table" then
+    mod = table.concat(mod, ".")
+  end
+
+  return M.parent(M.resolve_path(debug.getinfo(2, "S").source:sub(2))) .. "." .. mod
+end
+
 return M

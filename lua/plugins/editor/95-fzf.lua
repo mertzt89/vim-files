@@ -1,4 +1,6 @@
-local add = MiniDeps.add
+------------------------------------------------------------
+-- Plugin: FZF / FZF-Lua
+------------------------------------------------------------
 
 local cword_w = ""
 local cword_a = ""
@@ -61,88 +63,7 @@ local find_files = {
   all = find_files_command({ "-uu" }),
 }
 
-add({
-  source = "junegunn/fzf",
-  hooks = {
-    post_checkout = function()
-      local cmd = require("util").is_win() and "powershell ./install.ps1" or "./install --bin"
-      vim.fn.system(cmd)
-    end,
-  },
-})
-
-add({
-  source = "ibhagwan/fzf-lua",
-  depends = {
-    "nvim-tree/nvim-web-devicons",
-  },
-})
-
--- Setup
-local fzf = require("fzf-lua")
-fzf.setup({})
-
--- Key mappings
-require("util.keys").map({
-  -- Buffer
-  { "<leader><space>", fzf_cmd("buffers"), { desc = "Buffers" } },
-
-  -- Commands
-  { "<leader>sa", fzf_cmd("autocmds"), desc = "Auto Commands" },
-  { "<leader>sC", fzf_cmd("commands"), desc = "Commands" },
-  { "<leader>sc", fzf_cmd("command_history"), desc = "Command History" },
-
-  -- Diagnostics
-  { "<leader>sD", fzf_cmd("diagnostics_workspace"), desc = "Workspace diagnostics" },
-  { "<leader>sd", fzf_cmd("diagnostics_document"), { desc = "Diagnostics" } },
-
-  -- Find Files
-  { "<leader>?", fzf_cmd("oldfiles"), { desc = "Recent Files" } },
-  {
-    "<leader>ff",
-    find_files.no_ignore_vcs,
-    { desc = "Find Files (--no-ignore-vcs)" },
-  },
-  { "<leader>fF", find_files.default, { desc = "Find Files" } },
-  { "<leader>fa", find_files.all, { desc = "Find Files (ALL)" } },
-  { "<leader>fs", fzf_cmd("lgrep_curbuf"), { desc = "Find in Buffer" } },
-
-  -- Grep
-  {
-    "<leader>fg",
-    fzf_cmd("live_grep_glob", { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts }),
-    { desc = "Live Grep" },
-  },
-  {
-    "<leader>fG",
-    fzf_cmd("live_grep_glob"),
-    { desc = "Live Grep" },
-  },
-  {
-    "gS",
-    require("util").grep_operator(function(query)
-      local opts = { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts, search = query }
-      fzf_cmd("grep", opts)()
-    end),
-    mode = { "n", "x" },
-  },
-  {
-    "gs",
-    require("util").grep_operator(function(query)
-      fzf_cmd("grep", { search = query })()
-    end),
-    mode = { "n", "x" },
-  },
-
-  -- LSP
-  { "<leader>ss", fzf_cmd("lsp_document_symbols"), { desc = "Goto Symbol" } },
-  { "<leader>sS", fzf_cmd("lsp_live_workspace_symbols"), { desc = "Goto Symbol (Workspace)" } },
-
-  -- Misc
-  { "<leader>sr", fzf_cmd("resume"), { desc = "Resume" } },
-})
-
--- LSP key mappings
+-- -- LSP key mappings
 require("util.lsp").on_attach(function(_, _)
   local f = function(command, opts)
     return function()
@@ -162,3 +83,80 @@ require("util.lsp").on_attach(function(_, _)
     { "gy", f("lsp_typedefs", { jump1 = true }), { desc = "Goto T[y]pe Definition", buffer = 0 } },
   })
 end)
+
+return {
+  "ibhagwan/fzf-lua",
+  dependencies = {
+    { "nvim-tree/nvim-web-devicons" },
+    {
+      "junegunn/fzf",
+      build = function()
+        local cmd = require("util").is_win() and "powershell ./install.ps1" or "./install --bin"
+        vim.fn.system(cmd)
+      end,
+    },
+  },
+  opts = {},
+  keys = function()
+    local fzf = require("fzf-lua")
+    return {
+      -- Buffer
+      { "<leader><space>", fzf_cmd("buffers"), { desc = "Buffers" } },
+
+      -- Commands
+      { "<leader>sa", fzf_cmd("autocmds"), desc = "Auto Commands" },
+      { "<leader>sC", fzf_cmd("commands"), desc = "Commands" },
+      { "<leader>sc", fzf_cmd("command_history"), desc = "Command History" },
+
+      -- Diagnostics
+      { "<leader>sD", fzf_cmd("diagnostics_workspace"), desc = "Workspace diagnostics" },
+      { "<leader>sd", fzf_cmd("diagnostics_document"), { desc = "Diagnostics" } },
+
+      -- Find Files
+      { "<leader>?", fzf_cmd("oldfiles"), { desc = "Recent Files" } },
+      {
+        "<leader>ff",
+        find_files.no_ignore_vcs,
+        { desc = "Find Files (--no-ignore-vcs)" },
+      },
+      { "<leader>fF", find_files.default, { desc = "Find Files" } },
+      { "<leader>fa", find_files.all, { desc = "Find Files (ALL)" } },
+      { "<leader>fs", fzf_cmd("lgrep_curbuf"), { desc = "Find in Buffer" } },
+
+      -- Grep
+      {
+        "<leader>fg",
+        fzf_cmd("live_grep_glob", { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts }),
+        { desc = "Live Grep" },
+      },
+      {
+        "<leader>fG",
+        fzf_cmd("live_grep_glob"),
+        { desc = "Live Grep" },
+      },
+      {
+        "gS",
+        require("util").grep_operator(function(query)
+          local opts = { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts, search = query }
+          fzf_cmd("grep", opts)()
+        end),
+        mode = { "n", "x" },
+      },
+      {
+        "gs",
+        require("util").grep_operator(function(query)
+          fzf_cmd("grep", { search = query })()
+        end),
+        mode = { "n", "x" },
+      },
+
+      -- LSP
+      { "<leader>ss", fzf_cmd("lsp_document_symbols"), { desc = "Goto Symbol" } },
+      { "<leader>sS", fzf_cmd("lsp_live_workspace_symbols"), { desc = "Goto Symbol (Workspace)" } },
+
+      -- Misc
+      { "<leader>sr", fzf_cmd("resume"), { desc = "Resume" } },
+    }
+  end,
+}
+
