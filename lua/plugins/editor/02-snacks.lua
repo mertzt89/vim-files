@@ -35,6 +35,28 @@ end
 
 return {
   "folke/snacks.nvim",
+  lazy = false,
+  ---@type snacks.Config
+  opts = {
+    bigfile = { enabled = true },
+    -- dashboard = { enabled = true },
+    input = {
+      enabled = true,
+    },
+    notifier = {
+      enabled = true,
+      timeout = 3000,
+    },
+    quickfile = { enabled = true },
+    statuscolumn = { enabled = true },
+    words = { enabled = true },
+    styles = {
+      notification = {
+        wo = { wrap = true }, -- Wrap notifications
+      },
+    },
+  },
+
   keys = {
     {
       "<leader>un",
@@ -43,8 +65,6 @@ return {
       end,
       { desc = "Dismiss All Notifications" },
     },
-    -- vim.keymap.set("n",
-    --   )
     {
       "<leader>bd",
       function()
@@ -52,14 +72,12 @@ return {
       end,
       { desc = "Delete Buffer" },
     },
-
     {
       "<leader>nh",
       function()
         Snacks.notifier.show_history()
       end,
     },
-
     {
       "<leader>gg",
       function()
@@ -67,7 +85,6 @@ return {
       end,
       { desc = "Lazygit" },
     },
-
     {
       "<leader>gG",
       function()
@@ -75,7 +92,6 @@ return {
       end,
       { desc = "Lazygit (cwd)" },
     },
-
     {
       "<leader>gb",
       function()
@@ -83,7 +99,6 @@ return {
       end,
       { desc = "Git Blame Line" },
     },
-
     {
       "<leader>gB",
       function()
@@ -91,7 +106,6 @@ return {
       end,
       { desc = "Git Browse" },
     },
-
     {
       "<leader>gf",
       function()
@@ -99,7 +113,6 @@ return {
       end,
       { desc = "Lazygit Current File History" },
     },
-
     {
       "<leader>gl",
       function()
@@ -107,7 +120,6 @@ return {
       end,
       { desc = "Lazygit Log" },
     },
-
     {
       "<leader>gL",
       function()
@@ -115,7 +127,6 @@ return {
       end,
       { desc = "Lazygit Log (cwd)" },
     },
-
     {
       "<leader>cR",
       function()
@@ -123,7 +134,6 @@ return {
       end,
       { desc = "Rename File" },
     },
-
     { "<c-/>", terminal, { desc = "Toggle Terminal" } },
     { "<c-_>", terminal, { desc = "which_key_ignore" } },
     {
@@ -133,7 +143,6 @@ return {
       end,
       { desc = "Next Reference" },
     },
-
     {
       "[r",
       function()
@@ -141,7 +150,6 @@ return {
       end,
       { desc = "Prev Reference" },
     },
-
     {
       "<leader>N",
       function()
@@ -159,24 +167,6 @@ return {
         })
       end,
       { desc = "Neovim News" },
-    },
-  },
-
-  ---@type snacks.Config
-  opts = {
-    bigfile = { enabled = true },
-    -- dashboard = { enabled = true },
-    notifier = {
-      enabled = true,
-      timeout = 3000,
-    },
-    quickfile = { enabled = true },
-    statuscolumn = { enabled = true },
-    words = { enabled = true },
-    styles = {
-      notification = {
-        wo = { wrap = true }, -- Wrap notifications
-      },
     },
   },
 

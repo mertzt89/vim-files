@@ -1,4 +1,4 @@
--- Bootstrap lazy.nvim (package manager)
+-- Bootstrap lazy.nvim (package manager) and utilities
 require("util.bootstrap")
 
 -- Make sure to setup `mapleader` and `maplocalleader` before
@@ -14,9 +14,6 @@ require("lazy").setup({
     -- import your plugins
     { import = "plugins" },
   },
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
 })

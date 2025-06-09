@@ -47,4 +47,8 @@ function M.grep_operator(callback)
   end
 end
 
+function M.setup()
+  require("util.events").setup()
+end
+
 return M
