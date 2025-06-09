@@ -1,12 +1,8 @@
 -- Bootstrap lazy.nvim (package manager) and utilities
 require("util.bootstrap")
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
-vim.o.exrc = true
+-- Load settings
+require("settings")
 
 -- Setup lazy.nvim
 require("lazy").setup({
