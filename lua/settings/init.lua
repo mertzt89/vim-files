@@ -84,3 +84,6 @@ end
 if vim.g.neovide then
   vim.opt.guifont = "Hack Nerd Font:h9"
 end
+
+-- Perform keymaps
+require("settings.keymaps")
