@@ -87,3 +87,6 @@ end
 
 -- Perform keymaps
 require("settings.keymaps")
+
+-- Generic LSP settings
+require("settings.lsp")
