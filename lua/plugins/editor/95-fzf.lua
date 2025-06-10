@@ -24,6 +24,10 @@ local fzf_cmd = function(fzf_command, opts)
           vim.schedule(function()
             local char = vim.fn.getchar() -- get character code
 
+            if type(char) ~= "number" then
+              return
+            end
+
             if char == 23 then -- <C-w>
               feedkeys_escaped(cword_w)
             elseif char == 1 then -- <C-a>

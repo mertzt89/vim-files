@@ -158,7 +158,7 @@ return {
       table.insert(opts.sections.lualine_x, 2, {
         function()
           local icon = " "
-          local status = require("copilot.api").status.data
+          local status = require("copilot.status").data
           return icon .. (status.message or "")
         end,
         cond = function()
@@ -175,7 +175,7 @@ return {
           if not package.loaded["copilot"] then
             return
           end
-          local status = require("copilot.api").status.data
+          local status = require("copilot.status").data
           return colors[status.status] or colors[""]
         end,
       })

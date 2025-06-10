@@ -13,7 +13,7 @@ return {
       ensure_installed = require("util.treesitter").get_ensure(),
       highlight = {
         enable = true,
-        disable = function(_lang, bufnr)
+        disable = function(_, bufnr)
           return vim.api.nvim_buf_line_count(bufnr) > 50000
         end,
       },

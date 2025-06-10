@@ -2,25 +2,27 @@
 -- Plugin: Snacks
 ------------------------------------------------------------
 
---- @class LazygitOpts
+--- @class LazygitOpts: snacks.lazygit.Config
 --- @param opts? LazygitOpts
 --- @return snacks.lazygit.Config
 local function lazygit_config(opts)
-  opts = opts or {}
-  return {
+  ---@type snacks.lazygit.Config
+  ---@diagnostic disable-next-line: missing-fields
+  local defaults = {
     config = {
       os = {
         editPreset = "nvim-remote",
       },
     },
-    cwd = opts.cwd,
   }
+
+  return vim.tbl_deep_extend("force", defaults, opts or {})
 end
 
 local function terminal()
   Snacks.terminal(nil, {
     win = {
-      on_buf = function(_self)
+      on_buf = function(_)
         vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { buffer = true, desc = "Enter Normal Mode" })
         vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { buffer = true, desc = "Hide Terminal" })
         vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { buffer = true, desc = "which_key_ignore" })
@@ -54,6 +56,7 @@ return {
     statuscolumn = { enabled = true },
     words = { enabled = true },
     styles = {
+      ---@diagnostic disable-next-line: missing-fields
       notification = {
         wo = { wrap = true }, -- Wrap notifications
       },
@@ -84,6 +87,7 @@ return {
     {
       "<leader>gg",
       function()
+        ---@diagnostic disable-next-line: missing-fields
         Snacks.lazygit(lazygit_config({ cwd = vim.fn.expand("%:p:h") }))
       end,
       { desc = "Lazygit" },
@@ -119,6 +123,7 @@ return {
     {
       "<leader>gl",
       function()
+        ---@diagnostic disable-next-line: missing-fields
         Snacks.lazygit.log(lazygit_config({ cwd = vim.fn.expand("%:p:h") }))
       end,
       { desc = "Lazygit Log" },
