@@ -1,11 +1,9 @@
-local DISABLED_FTS = {
-  "DressingInput",
-}
+local DISABLED_FTS = {}
 
 return {
   {
     "saghen/blink.cmp",
-    lazy = false, -- lazy loading handled internally
+    event = "InsertEnter",
     -- optional: provides snippets for the snippet source
     dependencies = {
       { "L3MON4D3/LuaSnip", version = "v2.*" },

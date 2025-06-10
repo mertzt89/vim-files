@@ -8,6 +8,7 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
+    event = "LazyFile",
     opts = {
       ensure_installed = require("util.treesitter").get_ensure(),
       highlight = {
