@@ -8,6 +8,7 @@
   "bufferline": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "conform.nvim": { "branch": "master", "commit": "8132ec733eed3bf415b97b76797ca41b59f51d7d" },
   "copilot.lua": { "branch": "master", "commit": "c1bb86abbed1a52a11ab3944ef00c8410520543d" },
+  "fidget.nvim": { "branch": "main", "commit": "d9ba6b7bfe29b3119a610892af67602641da778e" },
   "fzf": { "branch": "master", "commit": "3b68dcdd81394f1ac9f743e1f74ff754f95eef9e" },
   "fzf-lua": { "branch": "main", "commit": "1977a7648a264fabf453ee082e2398e38cc3b588" },
   "gitsigns": { "branch": "main", "commit": "d0f90ef51d4be86b824b012ec52ed715b5622e51" },
