@@ -7,6 +7,7 @@ return {
     -- optional: provides snippets for the snippet source
     dependencies = {
       { "L3MON4D3/LuaSnip", version = "v2.*" },
+      { "onsails/lspkind.nvim" }
     },
 
     -- use a release tag to download pre-built binaries
@@ -33,6 +34,7 @@ return {
         -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = "mono",
+        kind_icons = require("lspkind").symbol_map
       },
 
       snippets = {
