@@ -88,5 +88,8 @@ end
 -- Perform keymaps
 require("settings.keymaps")
 
+-- Set up autocommands
+require("settings.autocommands")
+
 -- Generic LSP settings
 require("settings.lsp")
