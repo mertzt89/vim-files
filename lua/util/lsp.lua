@@ -31,6 +31,7 @@ function M.get_clients(opts)
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+---@param on_attach fun(client: vim.lsp.Client, bufnr: number)
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
