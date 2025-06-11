@@ -2,9 +2,15 @@
 -- Vim language support
 ------------------------------------------------------------
 
-------------------------------------------------------------
--- Treesitter
-------------------------------------------------------------
-require("util.treesitter").ensure({ "vim", "vimdoc" })
-
-return {}
+return {
+  -- Treesitter: Vim/Vimdoc support
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim",
+        "vimdoc",
+      },
+    },
+  },
+}

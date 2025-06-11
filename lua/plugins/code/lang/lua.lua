@@ -3,20 +3,8 @@
 ------------------------------------------------------------
 
 ------------------------------------------------------------
--- Treesitter
-------------------------------------------------------------
-require("util.treesitter").ensure({
-  "lua",
-  "luadoc",
-})
-
-------------------------------------------------------------
 -- LSP
 ------------------------------------------------------------
-require("util.mason").ensure({
-  "lua_ls",
-})
-
 local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -48,4 +36,20 @@ vim.lsp.config("lua_ls", {
   },
 })
 
-return {}
+return {
+  -- Mason: Install lua_ls
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = { "lua_ls" },
+    },
+  },
+
+  -- Treesitter: Lua/Luadoc support
+  { "nvim-treesitter/nvim-treesitter", opts = {
+    ensure_installed = {
+      "lua",
+      "luadoc",
+    },
+  } },
+}

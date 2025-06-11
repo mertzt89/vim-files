@@ -5,6 +5,11 @@
 ------------------------------------------------------------
 -- Treesitter
 ------------------------------------------------------------
-require("util.treesitter").ensure("markdown")
-
-return {}
+return {
+  -- Treesitter: Markdown support
+  { "nvim-treesitter/nvim-treesitter", opts = {
+    ensure_installed = {
+      "markdown",
+    },
+  } },
+}

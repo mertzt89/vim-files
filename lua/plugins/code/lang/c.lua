@@ -3,15 +3,8 @@
 ------------------------------------------------------------
 
 ------------------------------------------------------------
--- Treesitter
-------------------------------------------------------------
-require("util.treesitter").ensure({ "c", "cpp" })
-
-------------------------------------------------------------
 -- LSP
 ------------------------------------------------------------
-require("util.mason").ensure("clangd")
-
 local function get_clangd_command()
   local cmd = {
     "clangd",
@@ -63,4 +56,17 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-return {}
+return {
+  -- Mason: Install clangd
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = { "clangd" },
+    },
+  },
+
+  -- Treesitter: C/C++ support
+  { "nvim-treesitter/nvim-treesitter", opts = {
+    ensure_installed = { "c", "cpp" },
+  } },
+}

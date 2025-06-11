@@ -91,3 +91,44 @@ vim.keymap.set("t", "<esc>l", function()
   vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-l>", true, false, true), "n")
   vim.o.scrollback = current_scrollback
 end, { desc = "Clear Scrollback" })
+
+-- LSP keymaps
+require("util.lsp").on_attach(function(_, _)
+  require("util.keys").map({
+    { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+    {
+      "K",
+      function()
+        vim.lsp.buf.hover({ border = "rounded" })
+      end,
+      desc = "Hover",
+    },
+    {
+      "gK",
+      function()
+        vim.lsp.buf.signature_help({ border = "rounded" })
+      end,
+      desc = "Signature Help",
+    },
+    { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help" },
+    { "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Open Float" },
+    { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev. Diagnostic" },
+    { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next. Diagnostic" },
+    { "<leader>cr", vim.lsp.buf.rename, desc = "Code Rename", mode = { "n", "v" } },
+    { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+    {
+      "<leader>cA",
+      function()
+        vim.lsp.buf.code_action({
+          context = {
+            only = {
+              "source",
+            },
+            diagnostics = {},
+          },
+        })
+      end,
+      desc = "Source Action",
+    },
+  })
+end)

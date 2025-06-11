@@ -10,7 +10,7 @@ return {
     },
     event = "LazyFile",
     opts = {
-      ensure_installed = require("util.treesitter").get_ensure(),
+      ensure_installed = {},
       highlight = {
         enable = true,
         disable = function(_, bufnr)
@@ -47,6 +47,7 @@ return {
         },
       },
     },
+    opts_extend = { "ensure_installed" },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,

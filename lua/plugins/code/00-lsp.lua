@@ -7,7 +7,10 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim", lazy = true },
-    lazy = true,
+    dependencies = { "williamboman/mason.nvim", config = true },
+    opts = {
+      ensure_installed = {},
+    },
+    opts_extend = { "ensure_installed" }
   },
 }
