@@ -1,6 +1,7 @@
 return {
   "SmiteshP/nvim-navic",
   dependencies = { "neovim/nvim-lspconfig", "onsails/lspkind.nvim" },
+  event = "LazyFile",
   ---@module "nvim-navic"
   ---@type Options
   opts = {
@@ -14,6 +15,12 @@ return {
     lsp = { auto_attach = true },
   },
   init = function()
-    vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+    -- Start with blank winbar
+    vim.o.winbar = " "
+
+    -- Set up autocommand to update winbar navic is loaded
+    require("util.module").on_load("nvim-navic", function()
+      vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+    end)
   end,
 }

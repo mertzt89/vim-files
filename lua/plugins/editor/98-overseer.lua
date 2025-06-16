@@ -42,24 +42,25 @@ return {
       { "<leader>ob", "<cmd>OverseerBuild<cr>", desc = "Task Builder" },
     },
     init = function()
-      vim.api.nvim_create_user_command("OverseerRestartLast", function()
-        local overseer = require("overseer")
-        local tasks = overseer.list_tasks({ recent_first = true })
-        if vim.tbl_isempty(tasks) then
-          vim.notify("No tasks found", vim.log.levels.WARN)
-        else
-          overseer.run_action(tasks[1], "restart")
-        end
-      end, {})
+      require("util.module").on_load("overseer.nvim", function()
+        vim.api.nvim_create_user_command("OverseerRestartLast", function()
+          local overseer = require("overseer")
+          local tasks = overseer.list_tasks({ recent_first = true })
+          if vim.tbl_isempty(tasks) then
+            vim.notify("No tasks found", vim.log.levels.WARN)
+          else
+            overseer.run_action(tasks[1], "restart")
+          end
+        end, {})
+      end)
     end,
   },
 
   -- Add Overseer component to lualine config
   {
     "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
     opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, { "overseer" })
+      table.insert(opts.sections.lualine_x, { "overseer", cond = function() return require("util.module").is_loaded("overseer.nvim") ~= nil end })
     end,
   },
 }

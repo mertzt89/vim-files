@@ -102,7 +102,6 @@ return {
   },
   opts = {},
   keys = function()
-    local fzf = require("fzf-lua")
     return {
       -- Buffer
       { "<leader><space>", fzf_cmd("buffers"), { desc = "Buffers" } },
@@ -130,7 +129,10 @@ return {
       -- Grep
       {
         "<leader>fg",
-        fzf_cmd("live_grep_glob", { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts }),
+        function()
+          local fzf = require("fzf-lua")
+          fzf_cmd("live_grep_glob", { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts })()
+        end,
         { desc = "Live Grep" },
       },
       {
@@ -141,6 +143,7 @@ return {
       {
         "gS",
         require("util").grep_operator(function(query)
+          local fzf = require("fzf-lua")
           local opts = { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts, search = query }
           fzf_cmd("grep", opts)()
         end),
@@ -163,4 +166,3 @@ return {
     }
   end,
 }
-
