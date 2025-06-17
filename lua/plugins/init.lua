@@ -1,7 +1,6 @@
+local relative = require("util.module").relative
 return {
-  { import = "plugins.early" },
-  { import = "plugins.code" },
-  { import = "plugins.editor" },
-  { import = "plugins.themes" },
-  { import = "plugins.tools" },
+	{ import = relative("early") },
+	{ import = relative("code") },
+	{ import = relative("editor") },
 }

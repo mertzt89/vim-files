@@ -1,11 +1,15 @@
-local load = function(mod)
-  package.loaded[mod] = nil
-  require(mod)
-end
+-- Bootstrap lazy.nvim (package manager) and utilities
+require("util.bootstrap")
 
-load("user.settings")
-load("user.commands")
-load("user.keymaps")
-require("user.plugins")
+-- Load settings
+require("settings")
 
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = {
+    -- import your plugins
+    { import = "plugins" },
+  },
+  -- automatically check for plugin updates
+  checker = { enabled = true },
+})
