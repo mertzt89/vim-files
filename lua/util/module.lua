@@ -35,7 +35,7 @@ end
 ---@param name string
 function M.is_loaded(name)
   local Config = require("lazy.core.config")
-  return Config.plugins[name] and Config.plugins[name]._.loaded
+  return Config.plugins[name] and Config.plugins[name]._.loaded ~= nil
 end
 
 --- Register a callback to be called when a plugin is loaded, if the 

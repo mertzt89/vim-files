@@ -60,7 +60,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, { "overseer", cond = function() return require("util.module").is_loaded("overseer.nvim") ~= nil end })
+      table.insert(opts.sections.lualine_x, { "overseer", cond = function() return require("util.module").is_loaded("overseer.nvim") end })
     end,
   },
 }
