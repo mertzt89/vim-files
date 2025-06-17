@@ -4,6 +4,7 @@
 
 return {
   "stevearc/conform.nvim",
+  event = "BufWritePre",
   keys = {
     {
       "<leader>cf",
