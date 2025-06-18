@@ -6,7 +6,7 @@ return {
   },
   cmd = {
     "YankyRingHistory",
-    "YankyClearHistory"
+    "YankyClearHistory",
   },
   keys = {
     {
@@ -37,4 +37,3 @@ return {
     { "=P", "<Plug>(YankyPutBeforeFilter)", desc = "Put Before Applying a Filter" },
   },
 }
-

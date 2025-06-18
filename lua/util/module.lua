@@ -38,7 +38,7 @@ function M.is_loaded(name)
   return Config.plugins[name] and Config.plugins[name]._.loaded ~= nil
 end
 
---- Register a callback to be called when a plugin is loaded, if the 
+--- Register a callback to be called when a plugin is loaded, if the
 --- plugin is already loaded, it will call the function immediately.
 ---@param name string
 ---@param fn fun(name:string)
