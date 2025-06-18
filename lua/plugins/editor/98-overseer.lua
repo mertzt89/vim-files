@@ -42,7 +42,7 @@ return {
       { "<leader>ob", "<cmd>OverseerBuild<cr>", desc = "Task Builder" },
     },
     init = function()
-      require("util.module").on_load("overseer.nvim", function()
+      Util.module.on_load("overseer.nvim", function()
         vim.api.nvim_create_user_command("OverseerRestartLast", function()
           local overseer = require("overseer")
           local tasks = overseer.list_tasks({ recent_first = true })
@@ -60,7 +60,12 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, { "overseer", cond = function() return require("util.module").is_loaded("overseer.nvim") end })
+      table.insert(opts.sections.lualine_x, {
+        "overseer",
+        cond = function()
+          return Util.module.is_loaded("overseer.nvim")
+        end,
+      })
     end,
   },
 }

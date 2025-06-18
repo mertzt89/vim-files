@@ -70,7 +70,7 @@ end
 vim.opt.foldenable = false
 
 -- Windows options
-if require("util").is_win() then
+if Util.is_win() then
   -- Use powershell for terminal
   vim.opt.shell = "powershell.exe"
   vim.opt.shellxquote = ""

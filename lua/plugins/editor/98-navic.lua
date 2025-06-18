@@ -19,7 +19,7 @@ return {
     vim.o.winbar = " "
 
     -- Set up autocommand to update winbar navic is loaded
-    require("util.module").on_load("nvim-navic", function()
+    Util.module.on_load("nvim-navic", function()
       vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
     end)
   end,

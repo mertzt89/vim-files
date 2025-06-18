@@ -2,5 +2,5 @@
 -- Language support
 ------------------------------------------------------------
 return {
-  import = require("util.module").relative("lang"),
+  import = Util.module.relative("lang"),
 }

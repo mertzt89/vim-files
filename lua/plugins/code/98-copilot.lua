@@ -148,12 +148,11 @@ return {
     optional = true,
     event = "VeryLazy",
     opts = function(_, opts)
-      local fg = require("util.color").fg
       local colors = {
-        [""] = fg("Special"),
-        ["Normal"] = fg("Special"),
-        ["Warning"] = fg("DiagnosticError"),
-        ["InProgress"] = fg("DiagnosticWarn"),
+        [""] = Util.color.fg("Special"),
+        ["Normal"] = Util.color.fg("Special"),
+        ["Warning"] = Util.color.fg("DiagnosticError"),
+        ["InProgress"] = Util.color.fg("DiagnosticWarn"),
       }
       table.insert(opts.sections.lualine_x, 2, {
         function()
@@ -165,7 +164,7 @@ return {
           if not package.loaded["copilot"] then
             return
           end
-          local ok, clients = pcall(require("util.lsp").get_clients, { name = "copilot", bufnr = 0 })
+          local ok, clients = pcall(Util.lsp.get_clients, { name = "copilot", bufnr = 0 })
           if not ok then
             return false
           end

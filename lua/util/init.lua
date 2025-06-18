@@ -1,4 +1,11 @@
-local M = {}
+local M = {
+  bootstrap = require("util.bootstrap"),
+  color = require("util.color"),
+  events = require("util.events"),
+  keys = require("util.keys"),
+  lsp = require("util.lsp"),
+  module = require("util.module"),
+}
 
 function M.is_win()
   return vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
@@ -48,7 +55,7 @@ function M.grep_operator(callback)
 end
 
 function M.setup()
-  require("util.events").setup()
+  M.events.setup()
 end
 
 return M

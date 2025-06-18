@@ -80,8 +80,8 @@ vim.keymap.set("t", "<esc>l", function()
 end, { desc = "Clear Scrollback" })
 
 -- LSP keymaps
-require("util.lsp").on_attach(function(_, _)
-  require("util.keys").map({
+Util.lsp.on_attach(function(_, _)
+  Util.keys.map({
     { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
     {
       "K",

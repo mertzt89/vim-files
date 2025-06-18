@@ -170,7 +170,7 @@ return {
   end,
   config = function(_, opts)
     require("mini.ai").setup(opts)
-    require("util.module").on_load("which-key.nvim", function()
+    Util.module.on_load("which-key.nvim", function()
       M.map_keys(opts)
     end)
   end,

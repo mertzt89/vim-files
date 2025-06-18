@@ -30,13 +30,13 @@ local find_files = {
 }
 
 -- -- LSP key mappings
-require("util.lsp").on_attach(function(_, _)
+Util.lsp.on_attach(function(_, _)
   local f = function(command, opts)
     return function()
       require("fzf-lua")[command](opts)
     end
   end
-  require("util.keys").map({
+  Util.keys.map({
     {
       "gd",
       fzf_cmd("lsp_definitions", { jump1 = true }),
@@ -57,7 +57,7 @@ return {
     {
       "junegunn/fzf",
       build = function()
-        local cmd = require("util").is_win() and "powershell ./install.ps1" or "./install --bin"
+        local cmd = Util.is_win() and "powershell ./install.ps1" or "./install --bin"
         vim.fn.system(cmd)
       end,
     },
@@ -104,7 +104,7 @@ return {
       },
       {
         "gS",
-        require("util").grep_operator(function(query)
+        Util.grep_operator(function(query)
           local fzf = require("fzf-lua")
           local opts = { rg_opts = "--no-ignore-vcs " .. fzf.defaults.grep.rg_opts, search = query }
           fzf_cmd("grep", opts)()
@@ -113,7 +113,7 @@ return {
       },
       {
         "gs",
-        require("util").grep_operator(function(query)
+        Util.grep_operator(function(query)
           fzf_cmd("grep", { search = query })()
         end),
         mode = { "n", "x" },

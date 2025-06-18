@@ -1,5 +1,10 @@
+_G.Util = require("util")
+
 -- Bootstrap lazy.nvim (package manager) and utilities
-require("util.bootstrap")
+Util.bootstrap()
+
+-- Set up utilities
+Util.setup()
 
 -- Load settings
 require("settings")
@@ -18,6 +23,7 @@ require("lazy").setup({
       -- Open lazygit log for a plugin
       ["gL"] = {
         function(plugin)
+          ---@module "snacks"
           Snacks.terminal.open({ "lazygit", "log" }, {
             cwd = plugin.dir,
           })
