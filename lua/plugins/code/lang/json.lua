@@ -1,23 +1,17 @@
 -- Autocommand to configure JSON LSP client with Schemastore schemas
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "json" },
-  callback = function()
-    vim.lsp.config("jsonls", {
-      on_init = function(client, _) ---@param client vim.lsp.Client
-        client.settings.json["schemas"] = client.settings.json.schemas or {}
-        vim.list_extend(client.settings.json.schemas, require("schemastore").json.schemas())
-      end,
-      settings = {
-        json = {
-          format = {
-            enable = true,
-          },
-          schemas = require("schemastore").json.schemas(),
-          validate = { enable = true },
-        },
-      },
-    })
+vim.lsp.config("jsonls", {
+  before_init = function(_, new_config)
+    new_config.settings.json.schemas =
+      vim.tbl_deep_extend("force", new_config.settings.json.schemas or {}, require("schemastore").json.schemas())
   end,
+  settings = {
+    json = {
+      format = {
+        enable = true,
+      },
+      validate = { enable = true },
+    },
+  },
 })
 
 return {
