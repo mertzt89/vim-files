@@ -3,6 +3,7 @@ local M = {}
 --- Lists server names that are configured in <config>/lsp
 function M.list()
   local lsp_path = vim.fn.stdpath("config") .. "/lsp"
+  ---@diagnostic disable-next-line: param-type-mismatch
   local names = vim.fn.readdir(lsp_path, [[v:val =~ '\.lua$']])
   local servers = {}
   for _, name in ipairs(names) do
@@ -37,6 +38,11 @@ function M.on_attach(on_attach)
     callback = function(args)
       local buffer = args.buf ---@type number
       local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+      if not client then
+        return
+      end
+
       on_attach(client, buffer)
     end,
   })

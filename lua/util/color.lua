@@ -1,5 +1,6 @@
 local M = {}
 
+---@param name string Name of defined highlight
 function M.fg(name)
   ---@type {foreground?:number}?
   ---@diagnostic disable-next-line: deprecated

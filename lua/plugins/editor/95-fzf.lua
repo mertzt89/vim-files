@@ -2,49 +2,11 @@
 -- Plugin: FZF / FZF-Lua
 ------------------------------------------------------------
 
-local cword_w = ""
-local cword_a = ""
-
-local feedkeys_escaped = function(keys)
-  local escaped = require("fzf-lua.utils").rg_escape(vim.api.nvim_replace_termcodes(keys, true, true, true))
-  return vim.api.nvim_feedkeys(escaped, "n", true)
-end
-
 -- FZF command wrapper that merges common configurations
 local fzf_cmd = function(fzf_command, opts)
   opts = opts or {}
 
-  opts = vim.tbl_deep_extend("keep", opts, {
-    winopts = {
-      on_create = function()
-        local b = vim.api.nvim_get_current_buf()
-
-        -- Access vim registers from FZF prompt
-        vim.keymap.set("t", "<C-r>", function()
-          vim.schedule(function()
-            local char = vim.fn.getchar() -- get character code
-
-            if type(char) ~= "number" then
-              return
-            end
-
-            if char == 23 then -- <C-w>
-              feedkeys_escaped(cword_w)
-            elseif char == 1 then -- <C-a>
-              feedkeys_escaped(cword_a)
-            else
-              local key = vim.fn.nr2char(char) -- convert to key
-              feedkeys_escaped(vim.fn.getreg(key))
-            end
-          end)
-        end, { buffer = b, expr = true })
-      end,
-    },
-  })
-
   return function()
-    cword_w = vim.fn.expand("<cword>")
-    cword_a = vim.fn.expand("<cWORD>")
     require("fzf-lua")[fzf_command](opts)
   end
 end
