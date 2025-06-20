@@ -36,6 +36,8 @@ vim.lsp.config("clangd", {
   },
 })
 
+vim.lsp.enable("clangd")
+
 ------------------------------------------------------------
 -- Autocommands
 ------------------------------------------------------------
@@ -59,7 +61,7 @@ vim.api.nvim_create_autocmd("FileType", {
 return {
   -- Mason: Install clangd
   {
-    "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason.nvim",
     opts = {
       ensure_installed = { "clangd" },
     },

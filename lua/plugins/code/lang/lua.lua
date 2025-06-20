@@ -36,12 +36,13 @@ vim.lsp.config("lua_ls", {
   },
 })
 
+vim.lsp.enable("lua_ls")
+
 return {
-  -- Mason: Install lua_ls
   {
-    "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason.nvim",
     opts = {
-      ensure_installed = { "lua_ls" },
+      ensure_installed = { "lua-language-server" },
     },
   },
 

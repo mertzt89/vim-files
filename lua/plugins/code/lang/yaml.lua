@@ -18,6 +18,8 @@ vim.lsp.config("yamlls", {
   },
 })
 
+vim.lsp.enable("yamlls")
+
 return {
   {
     "b0o/SchemaStore.nvim",
@@ -27,9 +29,9 @@ return {
 
   -- Mason: Install yamlls
   {
-    "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason.nvim",
     opts = {
-      ensure_installed = { "yamlls" },
+      ensure_installed = { "yaml-language-server" },
     },
   },
 

@@ -14,6 +14,8 @@ vim.lsp.config("jsonls", {
   },
 })
 
+vim.lsp.enable("jsonls")
+
 return {
   {
     "b0o/SchemaStore.nvim",
@@ -23,9 +25,9 @@ return {
 
   -- Mason: Install jsonls
   {
-    "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason.nvim",
     opts = {
-      ensure_installed = { "jsonls" },
+      ensure_installed = { "json-lsp" },
     },
   },
 
