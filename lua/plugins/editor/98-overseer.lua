@@ -4,34 +4,38 @@
 -- this is more or less the same implementation, but with lazy loading taken in
 -- to consideration
 local component = require("lualine.component"):extend()
-local utils = require("lualine.utils.utils")
 
 function component:init(options)
   self.super.init(self, options)
   self.highlight_groups = {}
   self.symbols = {}
   self._overseer_loaded = false
+  self._colors_updated = false
 end
 
 function component:overseer_loaded()
-  local constants = require("overseer.constants")
-  local STATUS = constants.STATUS
-  local default_icons = {
-    [STATUS.FAILURE] = "󰅚 ",
-    [STATUS.CANCELED] = " ",
-    [STATUS.SUCCESS] = "󰄴 ",
-    [STATUS.RUNNING] = "󰑮 ",
-  }
-  self.symbols = default_icons
-  self._overseer_loaded = true
+  if not self._overseer_loaded and Util.module.is_loaded("overseer.nvim") then
+    local constants = require("overseer.constants")
+    local STATUS = constants.STATUS
+    local default_icons = {
+      [STATUS.FAILURE] = "󰅚 ",
+      [STATUS.CANCELED] = " ",
+      [STATUS.SUCCESS] = "󰄴 ",
+      [STATUS.RUNNING] = "󰑮 ",
+    }
+    self.symbols = default_icons
+
+    self._overseer_loaded = true
+
+    -- Update colors now that overseer is loaded
+    component.update_colors(self)
+  end
+
+  return self._overseer_loaded
 end
 
 function component:update_colors()
-  if not self._overseer_loaded and Util.module.is_loaded("overseer.nvim") then
-    component.overseer_loaded(self)
-  end
-
-  if not self._overseer_loaded then
+  if not component.overseer_loaded(self) or self._colors_updated then
     return
   end
 
@@ -44,15 +48,12 @@ function component:update_colors()
     local color = Util.color.fg(hl)
     self.highlight_groups[status] = self:create_hl(color, status)
   end
+
+  self._colors_updated = true
 end
 
 function component:update_status()
-  if not self._overseer_loaded and Util.module.is_loaded("overseer.nvim") then
-    component.overseer_loaded(self)
-    component.update_colors(self)
-  end
-
-  if not self._overseer_loaded then
+  if not component.overseer_loaded(self) then
     return
   end
 
@@ -81,6 +82,8 @@ function component:update_status()
   end
 end
 
+---@module "lazy"
+---@type LazySpec
 return {
   {
     "stevearc/overseer.nvim",
