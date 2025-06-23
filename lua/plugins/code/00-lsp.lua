@@ -56,12 +56,23 @@ local function mason_ensure(pkgs)
   end)
 end
 
+---@module "lazy"
+---@type LazySpec
 return {
   {
     "neovim/nvim-lspconfig",
   },
   {
     "williamboman/mason.nvim",
+    event = "VeryLazy",
+    cmd = {
+      "Mason",
+      "MasonInstall",
+      "MasonLog",
+      "MasonUninstall",
+      "MasonUninstallAll",
+      "MasonUpdate",
+    },
     opts = {
       -- Custom extension to ensure specific LSP servers are installed,
       -- config() will read the `ensure_installed` option and
