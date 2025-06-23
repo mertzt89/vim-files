@@ -41,7 +41,7 @@ require("lazy").setup({
       },
 
       -- Open plugin directory in terminal
-      ["gt"] = {
+      ["gtt"] = {
         function(plugin)
           local lazy_win = require("lazy.view").view.win
 
@@ -58,6 +58,24 @@ require("lazy").setup({
           end
         end,
         desc = "Open terminal in plugin dir",
+      },
+      ["gtT"] = {
+        function(plugin)
+          Util.tmux.open(nil, { cwd = plugin.dir })
+        end,
+        desc = "Open TMUX in plugin dir",
+      },
+      ["gth"] = {
+        function(plugin)
+          Util.tmux.open(nil, { cwd = plugin.dir, mode = "hsplit" })
+        end,
+        desc = "Open TMUX in plugin dir (hsplit)",
+      },
+      ["gtv"] = {
+        function(plugin)
+          Util.tmux.open(nil, { cwd = plugin.dir, mode = "vsplit" })
+        end,
+        desc = "Open TMUX in plugin dir (vsplit)",
       },
     },
   },

@@ -5,6 +5,7 @@ local M = {
   keys = require("util.keys"),
   lsp = require("util.lsp"),
   module = require("util.module"),
+  tmux = require("util.tmux"),
 }
 
 function M.is_win()
