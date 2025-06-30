@@ -22,11 +22,6 @@ vim.lsp.config("lua_ls", {
         globals = { "vim" },
       },
       workspace = {
-        library = {
-          -- Make the server aware of Neovim runtime files
-          vim.fn.expand("$VIMRUNTIME/lua"),
-          vim.fn.stdpath("config") .. "/lua",
-        },
         checkThirdParty = false,
       },
       telemetry = {
