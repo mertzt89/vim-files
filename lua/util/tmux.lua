@@ -1,3 +1,4 @@
+---@class util.tmux
 local M = {}
 
 ---@class TmuxOpts

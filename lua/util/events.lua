@@ -1,3 +1,4 @@
+---@class util.events
 local M = {}
 
 local function setup_lazy_file()

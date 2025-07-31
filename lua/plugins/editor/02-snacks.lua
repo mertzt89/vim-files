@@ -35,6 +35,27 @@ local function terminal()
   })
 end
 
+local function pick(source, opts)
+  local DEFAULT_OPTS = {
+    ignored = true,
+    exclude = require("util").ignore.get_exclude(),
+    include = require("util").ignore.get_include(),
+  }
+
+  opts = opts or {}
+  opts = vim.tbl_deep_extend("force", DEFAULT_OPTS, opts)
+
+  Snacks.picker.pick(source, opts)
+end
+
+local function grep(opts)
+  pick("grep", opts)
+end
+
+local function files(opts)
+  pick("files", opts)
+end
+
 local function set_indent_hl()
   -- create custom HL groups for indent scope
   vim.api.nvim_set_hl(0, "MySnacksIndentScope", { link = "LineNr" })
@@ -199,9 +220,23 @@ return {
     {
       "<leader>/",
       function()
-        Snacks.picker.grep()
+        grep()
       end,
       desc = "Grep",
+    },
+    {
+      "gS",
+      require("util").grep_operator(function(query)
+        grep({ search = query, include = {}, exclude = {} })
+      end),
+      mode = { "n", "x" },
+    },
+    {
+      "gs",
+      require("util").grep_operator(function(query)
+        grep({ search = query })
+      end),
+      mode = { "n", "x" },
     },
     {
       "<leader>:",
@@ -220,7 +255,16 @@ return {
     {
       "<leader>e",
       function()
-        Snacks.explorer()
+        ---@diagnostic disable-next-line: missing-fields
+        pick("explorer")
+      end,
+      desc = "File Explorer",
+    },
+    {
+      "<leader>E",
+      function()
+        ---@diagnostic disable-next-line: missing-fields
+        pick("explorer", { include = {}, exclude = {} })
       end,
       desc = "File Explorer",
     },
@@ -235,21 +279,21 @@ return {
     {
       "<leader>fc",
       function()
-        Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+        files({ cwd = vim.fn.stdpath("config") })
       end,
       desc = "Find Config File",
     },
     {
       "<leader>ff",
       function()
-        Snacks.picker.files()
+        files()
       end,
       desc = "Find Files",
     },
     {
       "<leader>fF",
       function()
-        Snacks.picker.files({ args = { "--no-ignore-vcs" } })
+        files({ exclude = {}, include = {} })
       end,
       desc = "Find Files",
     },
