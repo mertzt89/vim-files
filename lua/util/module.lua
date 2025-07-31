@@ -1,3 +1,4 @@
+---@class util.module
 local M = {}
 
 --- Convert lua module name to file path within config directory

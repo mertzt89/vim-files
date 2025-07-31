@@ -33,7 +33,7 @@ return {
       graphql = { "prettier" },
       handlebs = { "prettier" },
       svelte = { "prettier" },
-      c = { "clang-format" },
+      c = { "garmin-clang-format" },
       cpp = { "clang-format" },
       -- ["yaml"] = { "prettier" },
 

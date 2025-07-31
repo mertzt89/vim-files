@@ -1,12 +1,38 @@
-local M = {
-  bootstrap = require("util.bootstrap"),
-  color = require("util.color"),
-  events = require("util.events"),
-  keys = require("util.keys"),
-  lsp = require("util.lsp"),
-  module = require("util.module"),
-  tmux = require("util.tmux"),
-}
+---@class util
+---@field bootstrap util.bootstrap
+---@field color util.color
+---@field command util.command
+---@field events util.events
+---@field ignore util.ignore
+---@field keys util.keys
+---@field lsp util.lsp
+---@field module util.module
+---@field tmux util.tmux
+local M = {}
+
+setmetatable(M, {
+  __index = function(t, k)
+    ---@diagnostic disable-next-line: no-unknown
+    t[k] = require("util." .. k)
+    return rawget(t, k)
+  end,
+})
+
+--- Split a string by a separator and return a table of substrings.
+---@param str string The string to split
+---@param sep? string The separator to split by, defaults to whitespace
+function M.split(str, sep)
+  if not sep then
+    sep = "%s" -- Default to whitespace if no separator is provided
+  end
+
+  local t = {} -- Create an empty table to store the results
+  local pattern = "([^" .. sep .. "]+)" -- Create a pattern to match characters not in the separator
+  for match in string.gmatch(str, pattern) do
+    table.insert(t, match) -- Insert each matched substring into the table
+  end
+  return t -- Return the table containing the substrings
+end
 
 function M.is_win()
   return vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
@@ -57,6 +83,7 @@ end
 
 function M.setup()
   M.events.setup()
+  M.ignore.setup()
 end
 
 return M

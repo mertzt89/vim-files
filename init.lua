@@ -9,15 +9,34 @@ Util.setup()
 -- Load settings
 require("settings")
 
--- Setup lazy.nvim
-require("lazy").setup({
+local dev_path = vim.fs.joinpath(vim.env.HOME, "nvim-dev")
+
+---@type LazyConfig
+local lazy_config = {
+  dev = { path = dev_path },
   spec = {
     -- import your plugins
     { import = "plugins" },
   },
-
   ui = {
     custom_keys = {
+      ["gD"] = {
+        function(plugin)
+          vim.fn.jobstart({
+            "git",
+            "clone",
+            plugin.url,
+            vim.fs.joinpath(vim.env.HOME, "nvim-dev", plugin.name),
+          }, {
+            on_exit = function()
+              vim.notify("Cloned " .. plugin.name .. " to dev directory", vim.log.levels.INFO, {
+                title = "Plugin Cloned",
+              })
+            end,
+          })
+        end,
+        desc = "Clone in to dev",
+      },
       -- Open lazygit log for a plugin
       ["gL"] = {
         function(plugin)
@@ -79,4 +98,7 @@ require("lazy").setup({
       },
     },
   },
-})
+}
+
+-- Setup lazy.nvim
+require("lazy").setup(lazy_config)

@@ -1,3 +1,4 @@
+---@class util.lsp
 local M = {}
 
 --- Lists server names that are configured in <config>/lsp

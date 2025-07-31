@@ -1,3 +1,4 @@
+---@class util.color
 local M = {}
 
 -- local function resolve(hl)

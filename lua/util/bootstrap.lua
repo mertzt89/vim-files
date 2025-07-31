@@ -1,3 +1,4 @@
+---@class util.bootstrap
 return function()
   -- Bootstrap lazy.nvim
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
