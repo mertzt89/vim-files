@@ -11,7 +11,7 @@ local M = {}
 ---@class Keymap
 ---@field [1] string lhs
 ---@field [2] string | function rhs
----@field opts KeymapOpts?
+---@field [3] KeymapOpts?
 
 ---@param keymap Keymap | Keymap[]
 function M.map(keymap)
@@ -27,12 +27,13 @@ function M.map(keymap)
   end
 
   for _, key in ipairs(keys) do
-    local mode = key.opts and key.opts.mode or "n"
+    local keyOpts = key[3] or {}
+    local mode = keyOpts.mode or "n"
     local opts = {
-      noremap = key.opts and key.opts.noremap ~= false,
-      silent = key.opts and key.opts.silent ~= false,
-      desc = key.opts and key.opts.desc or nil,
-      buffer = key.opts and key.opts.buffer or nil,
+      noremap = keyOpts.noremap ~= false,
+      silent = keyOpts.silent ~= false,
+      desc = keyOpts.desc or nil,
+      buffer = keyOpts.buffer or nil,
     }
 
     vim.keymap.set(mode, key[1], key[2], opts)

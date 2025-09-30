@@ -82,27 +82,27 @@ end, { desc = "Clear Scrollback" })
 -- LSP keymaps
 Util.lsp.on_attach(function(_, _)
   Util.keys.map({
-    { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+    { "<leader>cl", "<cmd>LspInfo<cr>", { desc = "Lsp Info" } },
     {
       "K",
       function()
         vim.lsp.buf.hover({ border = "rounded" })
       end,
-      desc = "Hover",
+      { desc = "Hover" },
     },
     {
       "gK",
       function()
         vim.lsp.buf.signature_help({ border = "rounded" })
       end,
-      desc = "Signature Help",
+      { desc = "Signature Help" },
     },
-    { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help" },
-    { "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Open Float" },
-    { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev. Diagnostic" },
-    { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next. Diagnostic" },
-    { "<leader>cr", vim.lsp.buf.rename, desc = "Code Rename", mode = { "n", "v" } },
-    { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+    { "<c-k>", vim.lsp.buf.signature_help, { mode = "i", desc = "Signature Help" } },
+    { "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Open Float" } },
+    { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Prev. Diagnostic" } },
+    { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Next. Diagnostic" } },
+    { "<leader>cr", vim.lsp.buf.rename, desc = "Code Rename", { mode = { "n", "v" } } },
+    { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", { mode = { "n", "v" } } },
     {
       "<leader>cA",
       function()
@@ -115,7 +115,7 @@ Util.lsp.on_attach(function(_, _)
           },
         })
       end,
-      desc = "Source Action",
+      { desc = "Source Action" },
     },
   })
 end)
