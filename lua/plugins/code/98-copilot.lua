@@ -1,3 +1,56 @@
+local copilotState = {}
+
+local native_copilot = vim.lsp.inline_completion ~= nil
+if native_copilot then
+  ---@alias copilot_status_notification_data { status: ''|'Normal'|'InProgress'|'Warning', message: string }
+
+  ---@param result copilot_status_notification_data
+  local function copilotStatusNotificationHandler(_, result, _)
+    copilotState = result
+  end
+
+  vim.lsp.inline_completion.enable()
+  vim.lsp.config("copilot", {
+    handlers = {
+      statusNotification = copilotStatusNotificationHandler,
+    },
+  })
+  vim.lsp.enable("copilot")
+
+  -- Keymaps for copilot
+  Util.lsp.on_attach(function(client, bufnr)
+    if client.name ~= "copilot" then
+      return
+    end
+
+    Util.keys.map({
+      {
+        "<M-]>",
+        function()
+          vim.lsp.inline_completion.select({ count = 1 })
+        end,
+        { mode = { "n", "i" }, desc = "Next Copilot Suggestion", buffer = bufnr },
+      },
+      {
+        "<M-[>",
+        function()
+          vim.lsp.inline_completion.select({ count = -1 })
+        end,
+        { mode = { "n", "i" }, desc = "Previous Copilot Suggestion", buffer = bufnr },
+      },
+      {
+        "<M-l>",
+        function()
+          return vim.lsp.inline_completion.get()
+        end,
+        { mode = { "n", "i" }, desc = "Accept Copilot Suggestion", buffer = bufnr },
+      },
+    })
+  end)
+else
+  vim.notify("LSP Inline Completion not available (available on nightly)", vim.log.levels.WARN)
+end
+
 ---@param kind string
 local function pick(kind)
   return function()
@@ -12,6 +65,14 @@ local function pick(kind)
 end
 
 return {
+  -- Mason: Install copilot-language-server
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = { "copilot-language-server" },
+    },
+  },
+
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
@@ -85,46 +146,7 @@ return {
     end,
   },
 
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "main",
-    dependencies = {
-      {
-        "zbirenbaum/copilot.lua",
-
-        cmd = "Copilot",
-        build = ":Copilot auth",
-        event = "InsertEnter",
-        opts = {
-          suggestion = {
-            enabled = true,
-            auto_trigger = false,
-            debounce = 75,
-            keymap = {
-              accept = "<M-l>",
-              accept_word = false,
-              accept_line = false,
-              next = "<M-]>",
-              prev = "<M-[>",
-              dismiss = "<C-]>",
-            },
-          },
-          panel = { enabled = false },
-          filetypes = {
-            markdown = true,
-            help = true,
-          },
-        },
-      }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    opts = {
-      debug = true, -- Enable debugging
-      -- See Configuration section for rest
-    },
-    -- See Commands section for default commands if you want to lazy load on them
-  },
-
+  -- Blink CMP source for Copilot
   {
     "saghen/blink.cmp",
     optional = true,
@@ -143,6 +165,8 @@ return {
       },
     },
   },
+
+  -- Add copilot status to lualine
   {
     "nvim-lualine/lualine.nvim",
     optional = true,
@@ -156,14 +180,9 @@ return {
       }
       table.insert(opts.sections.lualine_x, 2, {
         function()
-          local icon = " "
-          local status = require("copilot.status").data
-          return icon .. (status.message or "")
+          return " "
         end,
         cond = function()
-          if not package.loaded["copilot"] then
-            return
-          end
           local ok, clients = pcall(Util.lsp.get_clients, { name = "copilot", bufnr = 0 })
           if not ok then
             return false
@@ -171,11 +190,11 @@ return {
           return ok and #clients > 0
         end,
         color = function()
-          if not package.loaded["copilot"] then
-            return
+          if copilotState and colors[copilotState.status] then
+            return colors[copilotState.status]
           end
-          local status = require("copilot.status").data
-          return colors[status.status] or colors[""]
+
+          return colors[""]
         end,
       })
     end,

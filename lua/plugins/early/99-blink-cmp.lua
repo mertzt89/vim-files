@@ -44,7 +44,9 @@ return {
       -- default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, via `opts_extend`
       sources = {
+        per_filetype = {},
         default = { "lsp", "path", "snippets", "buffer" },
+        providers = {},
       },
 
       -- Disable completion for specific filetypes
@@ -63,10 +65,17 @@ return {
     -- allows extending the providers array elsewhere in your config
     -- without having to redefine it
     opts_extend = {
+      "sources",
       "sources.completion.enabled_providers",
       "sources.compat",
       "sources.default",
       "sources.providers",
+      "sources.per_filetype",
     },
+    config = function(_, opts)
+      local blink = require("blink.cmp")
+      vim.print(opts)
+      blink.setup(opts)
+    end,
   },
 }
