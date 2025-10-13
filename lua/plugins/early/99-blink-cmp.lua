@@ -73,9 +73,7 @@ return {
       "sources.per_filetype",
     },
     config = function(_, opts)
-      local blink = require("blink.cmp")
-      vim.print(opts)
-      blink.setup(opts)
+      require("blink.cmp").setup(opts)
     end,
   },
 }
