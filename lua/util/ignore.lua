@@ -15,6 +15,10 @@ local function try_watch(file)
   if vim.fn.filereadable(file) == 1 then
     if not watchers[file] then
       watchers[file] = require("util.file").watch(file, function(_, changed_file, ev)
+        if not watchers or not watchers[changed_file] then
+          return
+        end
+
         watchers[changed_file]:stop()
         watchers[changed_file] = nil
         try_watch(changed_file)
