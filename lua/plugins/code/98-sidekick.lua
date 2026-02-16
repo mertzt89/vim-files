@@ -1,7 +1,9 @@
 return {
   "folke/sidekick.nvim",
   opts = {
-    -- default configuration
+    nes = {
+      enabled = false,
+    },
   },
   keys = {
     {
