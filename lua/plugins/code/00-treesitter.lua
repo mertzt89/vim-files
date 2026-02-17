@@ -5,9 +5,11 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
+    -- dependencies = {
+    --   "nvim-treesitter/nvim-treesitter-textobjects",
+    -- },
+    -- lazy = false,
+    build = "cargo install --locked tree-sitter-cli",
     event = "LazyFile",
     opts = {
       ensure_installed = {},
@@ -48,8 +50,8 @@ return {
       },
     },
     opts_extend = { "ensure_installed" },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
-    end,
+    --   config = function(_, opts)
+    --     require("nvim-treesitter.configs").setup(opts)
+    --   end,
   },
 }
