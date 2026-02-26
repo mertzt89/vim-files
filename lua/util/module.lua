@@ -5,16 +5,16 @@ local M = {}
 function M.resolve_module(path)
   local config_path = vim.fn.stdpath("config")
   if path:sub(1, 1) == "." then
-    path = config_path .. path:sub(2)
+    path = vim.fs.joinpath(config_path, path:sub(2))
   elseif path:sub(1, 1) ~= "/" then
-    path = config_path .. "/lua/" .. path:gsub("%.", "/")
+    path = vim.fs.joinpath(config_path, "/lua/", path:gsub("%.", "/"))
   end
   return path
 end
 
 --- Convert file path to lua module name
 function M.resolve_path(path)
-  local config_path = vim.fn.stdpath("config") .. "/lua/"
+  local config_path = vim.fs.joinpath(vim.fn.stdpath("config"), "/lua/")
   if path:sub(1, #config_path) == config_path then
     path = path:sub(#config_path + 1)
   end
