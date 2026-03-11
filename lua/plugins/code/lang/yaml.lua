@@ -20,6 +20,13 @@ vim.lsp.config("yamlls", {
 
 vim.lsp.enable("yamlls")
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "yaml" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
 return {
   {
     "b0o/SchemaStore.nvim",
@@ -36,7 +43,10 @@ return {
   },
 
   -- Treesitter: YAML support
-  { "nvim-treesitter/nvim-treesitter", opts = {
-    ensure_installed = { "yaml" },
-  } },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "yaml" },
+    },
+  },
 }

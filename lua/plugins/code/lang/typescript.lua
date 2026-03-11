@@ -10,6 +10,13 @@ vim.lsp.config("ts_ls", {
 
 vim.lsp.enable("ts_ls")
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "typescript", "javascript", "tsx" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
 return {
   -- Mason: Install svelte
   {
@@ -29,7 +36,7 @@ return {
         "tsx",
         "typescript",
       },
-    }
+    },
   },
 }
 -- return {

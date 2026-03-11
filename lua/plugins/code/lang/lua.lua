@@ -56,6 +56,13 @@ vim.lsp.config("lua_ls", {
 
 vim.lsp.enable("lua_ls")
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "lua" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
 return {
   {
     "williamboman/mason.nvim",
@@ -65,10 +72,13 @@ return {
   },
 
   -- Treesitter: Lua/Luadoc support
-  { "nvim-treesitter/nvim-treesitter", opts = {
-    ensure_installed = {
-      "lua",
-      "luadoc",
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "lua",
+        "luadoc",
+      },
     },
-  } },
+  },
 }

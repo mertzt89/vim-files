@@ -55,6 +55,8 @@ vim.api.nvim_create_autocmd("FileType", {
       [['<,'>sort /^\(\w\+\s\)\+\*\?/]],
       { desc = "Sort Prototypes", range = true }
     )
+
+    vim.treesitter.start()
   end,
 })
 
@@ -68,7 +70,10 @@ return {
   },
 
   -- Treesitter: C/C++ support
-  { "nvim-treesitter/nvim-treesitter", opts = {
-    ensure_installed = { "c", "cpp" },
-  } },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "c", "cpp" },
+    },
+  },
 }

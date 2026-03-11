@@ -5,15 +5,26 @@
 ------------------------------------------------------------
 -- Treesitter
 ------------------------------------------------------------
+---
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
 ---@module "lazy"
 ---@type LazySpec
 return {
   -- Treesitter: Markdown support
-  { "nvim-treesitter/nvim-treesitter", opts = {
-    ensure_installed = {
-      "markdown",
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "markdown",
+      },
     },
-  } },
+  },
 
   {
     "MeanderingProgrammer/render-markdown.nvim",

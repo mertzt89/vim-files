@@ -3,7 +3,10 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "svelte",
   callback = function()
     vim.b.match_words =
-    [[<!--:-->,<:>,<\@<=[ou]l\>[^>]*\%(>\|$\):<\@<=li\>:<\@<=/[ou]l>,<\@<=dl\>[^>]*\%(>\|$\):<\@<=d[td]\>:<\@<=/dl>,<\@<=\([^/!][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\([^/!][^ \t>]*\)>,(:),{:},\[:\],<:>,\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>]]
+      [[<!--:-->,<:>,<\@<=[ou]l\>[^>]*\%(>\|$\):<\@<=li\>:<\@<=/[ou]l>,<\@<=dl\>[^>]*\%(>\|$\):<\@<=d[td]\>:<\@<=/dl>,<\@<=\([^/!][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\([^/!][^ \t>]*\)>,(:),{:},\[:\],<:>,\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>]]
+
+    --
+    vim.treesitter.start()
   end,
 })
 
@@ -46,6 +49,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = { "svelte" },
-    }
+    },
   },
 }

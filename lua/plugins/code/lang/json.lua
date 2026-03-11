@@ -16,6 +16,13 @@ vim.lsp.config("jsonls", {
 
 vim.lsp.enable("jsonls")
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "json" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
 return {
   {
     "b0o/SchemaStore.nvim",
@@ -32,7 +39,10 @@ return {
   },
 
   -- Treesitter: JSON support
-  { "nvim-treesitter/nvim-treesitter", opts = {
-    ensure_installed = { "json", "json5", "jsonc" },
-  } },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "json", "json5" },
+    },
+  },
 }
