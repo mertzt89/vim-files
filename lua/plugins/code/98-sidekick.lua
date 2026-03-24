@@ -1,8 +1,22 @@
 return {
   "folke/sidekick.nvim",
   opts = {
-    nes = {
-      enabled = false,
+    -- nes = {
+    --   enabled = false,
+    -- },
+    cli = {
+      win = {
+        keys = {
+          unfocus = {
+            "<c-y>",
+            function()
+              require("sidekick.cli").focus()
+            end,
+            mode = "t",
+            desc = "Unfocus CLI Window",
+          },
+        },
+      },
     },
   },
   keys = {
@@ -24,6 +38,12 @@ return {
       end,
       desc = "Sidekick Toggle",
       mode = { "n", "t", "i", "x" },
+    },
+    {
+      "<c-y>",
+      function()
+        require("sidekick.cli").focus()
+      end,
     },
     {
       "<leader>aa",
