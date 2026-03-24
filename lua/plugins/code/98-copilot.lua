@@ -54,14 +54,12 @@ end
 
 return {
   -- Mason: Install copilot-language-server
-  enableCopilotLSP
-      and {
-        "williamboman/mason.nvim",
-        opts = {
-          ensure_installed = { "copilot-language-server" },
-        },
-      }
-    or nil,
+  enableCopilotLSP and {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = { "copilot-language-server" },
+    },
+  } or nil,
 
   -- Blink CMP source for Copilot
   {
