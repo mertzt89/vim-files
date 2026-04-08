@@ -3,19 +3,13 @@ local DISABLED_FTS = {}
 return {
   {
     "saghen/blink.cmp",
+    version = "1.*",
     event = "InsertEnter",
     -- optional: provides snippets for the snippet source
     dependencies = {
-      { "L3MON4D3/LuaSnip", version = "v2.*" },
+      { "L3MON4D3/LuaSnip",    version = "v2.*" },
       { "onsails/lspkind.nvim" },
     },
-
-    -- use a release tag to download pre-built binaries
-    version = "v0.*",
-    -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    -- build = 'cargo build --release',
-    -- If you use nix, you can build from source using latest nightly rust with:
-    -- build = 'nix run .#build-plugin',
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -34,7 +28,7 @@ return {
         -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = "mono",
-        kind_icons = require("lspkind").symbol_map,
+        -- kind_icons = require("lspkind").symbol_map,
       },
 
       snippets = {
@@ -44,9 +38,7 @@ return {
       -- default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, via `opts_extend`
       sources = {
-        per_filetype = {},
         default = { "lsp", "path", "snippets", "buffer" },
-        providers = {},
       },
 
       -- Disable completion for specific filetypes
@@ -65,15 +57,7 @@ return {
     -- allows extending the providers array elsewhere in your config
     -- without having to redefine it
     opts_extend = {
-      "sources",
-      "sources.completion.enabled_providers",
-      "sources.compat",
       "sources.default",
-      "sources.providers",
-      "sources.per_filetype",
     },
-    config = function(_, opts)
-      require("blink.cmp").setup(opts)
-    end,
   },
 }
