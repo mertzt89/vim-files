@@ -25,6 +25,7 @@ local function get_clangd_command()
 end
 
 vim.lsp.config("clangd", {
+  root_markers = { ".clangd", "compile_commands.json" },
   capabilities = {
     offsetEncoding = { "utf-16" },
   },
