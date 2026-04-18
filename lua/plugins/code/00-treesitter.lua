@@ -9,8 +9,7 @@ vim.api.nvim_create_autocmd("FileType", {
     local lang = vim.treesitter.language.get_lang(ft)
 
     if not vim.treesitter.language.add(lang) then
-      local available = vim.g.ts_available
-          or require("nvim-treesitter").get_available()
+      local available = vim.g.ts_available or require("nvim-treesitter").get_available()
       if not vim.g.ts_available then
         vim.g.ts_available = available
       end
@@ -30,9 +29,19 @@ vim.api.nvim_create_autocmd("FileType", {
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     -- dependencies = {
     --   "nvim-treesitter/nvim-treesitter-textobjects",
     -- },
+    dependencies = {
+      -- Mason: Install copilot-language-server
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ensure_installed = { "tree-sitter-cli" },
+        },
+      }
+    },
     event = "LazyFile",
     opts = {
       ensure_installed = {},
