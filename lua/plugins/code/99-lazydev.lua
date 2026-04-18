@@ -15,7 +15,7 @@ return {
     opts = {
       sources = {
         -- add lazydev to your completion providers
-        per_filetype = { inherit_defaults = true, "lazydev" },
+        default = { "lazydev" },
         providers = {
           lazydev = {
             name = "LazyDev",
